@@ -41,9 +41,9 @@ export const yayArgs = {
     [() => $`yay -Y --devel --save`, "enable dev packages updates"],
     [
       () =>
-        $`sudo reflector --latest 20 --protocol https --sort rate --country Brazil --save /etc/pacman.d/mirrorlist`,
+        $`sudo reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist`,
       "get best mirror list",
     ],
-    [() => $`-Syu --noconfirm`, "update package data"],
+    [() => $`yay -Syu --noconfirm`, "update package data"],
   ],
 } satisfies YayArgs;

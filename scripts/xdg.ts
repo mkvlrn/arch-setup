@@ -21,7 +21,7 @@ export async function xdg({ homeDir, mkdir, rmrf, xdgCmd }: XdgArgs): ResultAsyn
     return errResult(remove.error);
   }
 
-  const update = await runShellCommand(xdgCmd, "xdgCmd");
+  const update = await runShellCommand(xdgCmd, "xdg dirs update");
   if (update.isError) {
     return errResult(update.error);
   }

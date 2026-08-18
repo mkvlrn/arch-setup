@@ -2,13 +2,13 @@
 
 set -eu
 
-REPO="https://github.com/mkvlrn/arch-setup.git"
+REPO="https://github.com/mkvlrn/arch-setup"
 DEST="$HOME/repos/arch-setup"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
 sudo -v
-sudo pacman -S --noconfirm --needed git curl
+sudo pacman -S --noconfirm --needed git curl base-devel reflector stow
 
 mkdir -p "$HOME/repos"
 git clone "$REPO" "$DEST"

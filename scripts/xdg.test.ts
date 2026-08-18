@@ -85,7 +85,7 @@ test("break xdgCommand", async () => {
   assert(result.isError);
   expect(result.error).toBeInstanceOf(Error);
   expect(result.error).toMatchObject({
-    message: "could not run xdgCmd",
+    message: "could not run xdg dirs update",
     cause: error,
   });
   expect(xdgCommand).toHaveBeenCalled();

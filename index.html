@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -eu
+
+REPO="https://github.com/mkvlrn/arch-setup.git"
+DEST="$HOME/repos/arch-setup"
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+
+sudo -v
+sudo pacman -S --noconfirm --needed git curl
+
+mkdir -p "$HOME/repos"
+git clone "$REPO" "$DEST"
+
+export BUN_INSTALL="$tmp/bun"
+curl -fsSL https://bun.sh/install | BUN_INSTALL="$BUN_INSTALL" bash
+"$BUN_INSTALL/bin/bun" upgrade --canary
+
+"$BUN_INSTALL/bin/bun" "$DEST/main.ts"

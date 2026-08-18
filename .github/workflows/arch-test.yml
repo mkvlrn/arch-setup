@@ -51,12 +51,10 @@ jobs:
           exit 1
 
       - name: Run arch-setup
-        env:
-          ARCH_SETUP_AGE_IDENTITY: ${{ secrets.ARCH_SETUP_AGE_IDENTITY }}
         run: |
           sshpass -p arch ssh \
             -p 2222 \
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             arch@127.0.0.1 \
-            "ARCH_SETUP_AGE_IDENTITY='$ARCH_SETUP_AGE_IDENTITY' curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh"
+            curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh"

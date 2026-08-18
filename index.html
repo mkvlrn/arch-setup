@@ -28,4 +28,5 @@ export BUN_INSTALL="$tmp/bun"
 curl -fsSL https://bun.sh/install |
   BUN_INSTALL="$BUN_INSTALL" bash >/dev/null 2>&1
 "$BUN_INSTALL/bin/bun" upgrade --canary >/dev/null 2>&1
+"$BUN_INSTALL/bin/bun" install --cwd "$DEST"
 "$BUN_INSTALL/bin/bun" "$DEST/main.ts"

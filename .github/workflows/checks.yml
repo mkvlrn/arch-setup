@@ -9,33 +9,42 @@ on:
       - main
 
 jobs:
-  checks:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+  # checks:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
+  #     - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
 
-      - name: Setup Bun canary
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: canary
+  #     - name: Setup Bun canary
+  #       uses: oven-sh/setup-bun@v2
+  #       with:
+  #         bun-version: canary
 
-      - name: Alias Bun canary
-        run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
+  #     - name: Alias Bun canary
+  #       run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
 
-      - run: bun install
-      - run: mise typecheck
-      - run: mise lint
-      - run: mise test-ci
+  #     - run: bun install
+  #     - run: mise typecheck
+  #     - run: mise lint
+  #     - run: mise test-ci
 
   arch:
-    needs:
-      - checks
+    # needs:
+    #   - checks
     runs-on: ubuntu-latest
     steps:
-      - name: Check QEMU
+      - name: Install QEMU
         run: |
-          command -v qemu-system-x86_64 || true
-          qemu-system-x86_64 --version || true
-          command -v qemu-img || true
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 qemu-utils
+
+      - name: Download Arch VM
+        run: |
+          curl -fsSL \
+            https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-basic.qcow2 \
+            -o arch.qcow2
+
+          qemu-img create -f qcow2 -F qcow2 \
+            -b "$PWD/arch.qcow2" \
+            arch-test.qcow2

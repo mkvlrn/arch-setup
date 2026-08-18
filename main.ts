@@ -4,6 +4,8 @@ import { updateConfArgs, xdgArgs, yayArgs } from "./main-data";
 import { updateConfs } from "./scripts/update-confs";
 import { xdg } from "./scripts/xdg";
 import { yay } from "./scripts/yay";
+import { formatError } from "./utils/format-error";
+import { createSpinner } from "./utils/spinner";
 
 await $`sudo -v`;
 
@@ -21,13 +23,17 @@ const scripts = [
 try {
   for await (const [index, script] of scripts.entries()) {
     const [label, cmd] = script;
-    console.info(`[${index + 1}/${scripts.length}] - ${label}`);
+    const spinner = createSpinner(`[${index + 1}/${scripts.length}] ${label}`);
     const result = await cmd();
     if (result.isError) {
-      console.error(result.error);
+      spinner.failure();
+      console.error(formatError(result.error));
       process.exit(1);
     }
+
+    spinner.success();
   }
 } finally {
+  console.info("Done.");
   keepalive.kill();
 }

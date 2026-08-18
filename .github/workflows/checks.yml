@@ -76,3 +76,14 @@ jobs:
 
           cat qemu.log
           exit 1
+
+      - name: Test Arch SSH
+        run: |
+          sudo apt-get install -y sshpass
+
+          sshpass -p arch ssh \
+            -p 2222 \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            arch@127.0.0.1 \
+            'uname -a && cat /etc/arch-release'

@@ -50,7 +50,7 @@ jobs:
           cat qemu.log
           exit 1
 
-      - name: Run arch-setup
+      - name: Wait for SSH
         run: |
           for i in $(seq 1 30); do
             if sshpass -p arch ssh \
@@ -59,7 +59,7 @@ jobs:
               -o UserKnownHostsFile=/dev/null \
               -o ConnectTimeout=2 \
               arch@127.0.0.1 \
-              'curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh'
+              'true'
             then
               exit 0
             fi
@@ -68,3 +68,12 @@ jobs:
           done
 
           exit 1
+
+      - name: Run arch-setup
+        run: |
+          sshpass -p arch ssh \
+            -p 2222 \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            arch@127.0.0.1 \
+            'curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh'

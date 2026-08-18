@@ -8,7 +8,7 @@ tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
 sudo -v
-sudo pacman -Syu --noconfirm --needed git curl base-devel reflector stow
+sudo pacman -Syu --noconfirm --needed git curl base-devel reflector stow unzip
 
 mkdir -p "$HOME/repos"
 git clone "$REPO" "$DEST"

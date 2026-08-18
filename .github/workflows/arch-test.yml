@@ -57,4 +57,4 @@ jobs:
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             arch@127.0.0.1 \
-            curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh"
+            'curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh'

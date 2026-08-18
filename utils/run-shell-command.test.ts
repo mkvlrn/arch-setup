@@ -1,26 +1,22 @@
-import { expect, mock, test } from "bun:test";
+import { expect, test } from "bun:test";
 import assert from "node:assert/strict";
+import { $ } from "bun";
 import { runShellCommand } from "./run-shell-command";
 
 test("success", async () => {
-  const cmd = mock<() => Promise<unknown>>(() => Promise.resolve());
-
-  const result = await runShellCommand(cmd, "cmd");
+  const result = await runShellCommand(() => $`true`, "cmd");
+  const resultQuiet = await runShellCommand(() => $`true`, "quietCmd", true);
 
   assert(!result.isError);
+  assert(!resultQuiet.isError);
   expect(result.value).toBeTrue();
+  expect(resultQuiet.value).toBeTrue();
 });
 
 test("failure", async () => {
-  const error = new Error("nope");
-  const cmd = mock<() => Promise<unknown>>(() => Promise.reject(error));
-
-  const result = await runShellCommand(cmd, "cmd");
+  const result = await runShellCommand(() => $`false`, "cmd");
 
   assert(result.isError);
   expect(result.error).toBeInstanceOf(Error);
-  expect(result.error).toMatchObject({
-    message: "could not run cmd",
-    cause: error,
-  });
+  expect(result.error).toMatchObject({ message: "could not run cmd" });
 });

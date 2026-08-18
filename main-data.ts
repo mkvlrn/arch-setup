@@ -1,4 +1,3 @@
-import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { $ } from "bun";
@@ -31,12 +30,9 @@ export const updateConfArgs = {
 
 export const yayArgs = {
   yayCmds: [
-    [() => $`git clone https://aur.archlinux.org/yay-bin`, "clone yay-bin"],
+    [() => $`git clone https://aur.archlinux.org/yay-bin`.cwd(os.homedir()), "clone yay-bin"],
     [() => $`makepkg -si`.cwd(path.join(os.homedir(), "yay-bin")), "make yay"],
-    [
-      () => fs.rm(path.join(os.homedir(), "yay-bin"), { recursive: true, force: true }),
-      "remove yay-bin src dir",
-    ],
+    [() => $`rm -rf ${path.join(os.homedir(), "yay-bin")}`, "remove yay-bin src dir"],
     [() => $`yay -Y --gendb`, "track git packages"],
     [() => $`yay -Y --devel --save`, "enable dev packages updates"],
     [
@@ -45,5 +41,6 @@ export const yayArgs = {
       "get best mirror list",
     ],
     [() => $`yay -Syu --noconfirm`, "update package data"],
+    [() => $`yay -Qq | grep -- '-debug$' | xargs -r yay -Rnsu`, "remove *-debug packages"],
   ],
 } satisfies YayArgs;

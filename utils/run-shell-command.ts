@@ -1,11 +1,17 @@
 import { errResult, okResult, type ResultAsync } from "@mkvlrn/result";
+import type { $ } from "bun";
 
 export async function runShellCommand(
-  cmd: () => Promise<unknown>,
+  cmd: () => $.ShellPromise,
   name: string,
+  quiet = false,
 ): ResultAsync<true, Error> {
   try {
-    await cmd();
+    if (quiet) {
+      await cmd().quiet();
+    } else {
+      await cmd();
+    }
 
     return okResult(true);
   } catch (cause) {

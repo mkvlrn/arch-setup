@@ -1,13 +1,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { errResult, okResult, type ResultAsync } from "@mkvlrn/result";
+import type { $ } from "bun";
 import { runShellCommand } from "../utils/run-shell-command";
 
 export interface XdgArgs {
   homeDir: string;
   mkdir: string[];
   rmrf: string[];
-  xdgCmd: () => Promise<unknown>;
+  xdgCmd: () => $.ShellPromise;
 }
 
 export async function xdg({ homeDir, mkdir, rmrf, xdgCmd }: XdgArgs): ResultAsync<true, Error> {
@@ -21,7 +22,7 @@ export async function xdg({ homeDir, mkdir, rmrf, xdgCmd }: XdgArgs): ResultAsyn
     return errResult(remove.error);
   }
 
-  const update = await runShellCommand(xdgCmd, "xdg dirs update");
+  const update = await runShellCommand(xdgCmd, "xdg dirs update", true);
   if (update.isError) {
     return errResult(update.error);
   }

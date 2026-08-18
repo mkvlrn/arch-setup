@@ -50,13 +50,13 @@ jobs:
           cat qemu.log
           exit 1
 
-      - name: Test Arch SSH
+      - name: Run arch-setup
+        env:
+          ARCH_SETUP_AGE_IDENTITY: ${{ secrets.ARCH_SETUP_AGE_IDENTITY }}
         run: |
-          sudo apt-get install -y sshpass
-
           sshpass -p arch ssh \
             -p 2222 \
             -o StrictHostKeyChecking=no \
             -o UserKnownHostsFile=/dev/null \
             arch@127.0.0.1 \
-            'uname -a && cat /etc/arch-release'
+            "ARCH_SETUP_AGE_IDENTITY='$ARCH_SETUP_AGE_IDENTITY' curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh"

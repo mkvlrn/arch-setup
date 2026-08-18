@@ -1,5 +1,14 @@
 import process from "node:process";
 export function createSpinner(text: string) {
+  if (!process.stdout.isTTY) {
+    console.log(text);
+
+    return {
+      success() {},
+      failure() {},
+    };
+  }
+
   const frames = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
   let index = 0;
 

@@ -1,0 +1,22 @@
+{
+  "name": "arch-setup-dev",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "devEngines": {
+    "runtime": {
+      "name": "bun",
+      "version": "1.3.14"
+    },
+    "packageManager": {
+      "name": "bun",
+      "version": "1.3.14"
+    }
+  },
+  "devDependencies": {
+    "@mkvlrn/config": "0.4.7",
+    "@types/bun": "1.3.14",
+    "typescript": "7.0.2"
+  }
+}

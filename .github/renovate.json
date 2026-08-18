@@ -1,0 +1,10 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>mkvlrn/ts-tools//packages/config/src/renovate"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["^@mkvlrn", "^npm:@jsr/mkvlrn"],
+      "minimumReleaseAge": null
+    }
+  ]
+}

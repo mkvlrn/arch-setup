@@ -31,7 +31,7 @@ export const updateConfArgs = {
 export const yayArgs = {
   yayCmds: [
     [() => $`git clone https://aur.archlinux.org/yay-bin`.cwd(os.homedir()), "clone yay-bin"],
-    [() => $`makepkg -si --no-confirm`.cwd(path.join(os.homedir(), "yay-bin")), "make yay"],
+    [() => $`makepkg -si --noconfirm`.cwd(path.join(os.homedir(), "yay-bin")), "make yay"],
     [() => $`rm -rf ${path.join(os.homedir(), "yay-bin")}`, "remove yay-bin src dir"],
     [() => $`yay -Y --gendb`, "track git packages"],
     [() => $`yay -Y --devel --save`, "enable dev packages updates"],

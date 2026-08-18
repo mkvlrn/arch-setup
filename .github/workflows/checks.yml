@@ -9,81 +9,22 @@ on:
       - main
 
 jobs:
-  # checks:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-  #     - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
-
-  #     - name: Setup Bun canary
-  #       uses: oven-sh/setup-bun@v2
-  #       with:
-  #         bun-version: canary
-
-  #     - name: Alias Bun canary
-  #       run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
-
-  #     - run: bun install
-  #     - run: mise typecheck
-  #     - run: mise lint
-  #     - run: mise test-ci
-
-  arch:
-    # needs:
-    #   - checks
+  checks:
     runs-on: ubuntu-latest
     steps:
-      - name: Install QEMU
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-system-x86 qemu-utils
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: Download Arch VM
-        run: |
-          curl -fsSL \
-            https://geo.mirror.pkgbuild.com/images/latest/Arch-Linux-x86_64-basic.qcow2 \
-            -o arch.qcow2
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
 
-          qemu-img create -f qcow2 -F qcow2 \
-            -b "$PWD/arch.qcow2" \
-            arch-test.qcow2
+      - name: Setup Bun canary
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: canary
 
-      - name: Boot Arch VM
-        run: |
-          sudo chmod 666 /dev/kvm
+      - name: Alias Bun canary
+        run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
 
-          qemu-system-x86_64 \
-            -enable-kvm \
-            -cpu host \
-            -m 2G \
-            -smp 2 \
-            -drive file=arch-test.qcow2,format=qcow2 \
-            -nic user,hostfwd=tcp::2222-:22 \
-            -nographic \
-            >qemu.log 2>&1 &
-
-          echo $! > qemu.pid
-
-          for i in $(seq 1 60); do
-            if timeout 1 bash -c '</dev/tcp/127.0.0.1/2222' 2>/dev/null; then
-              echo "Arch VM SSH is up"
-              exit 0
-            fi
-
-            sleep 2
-          done
-
-          cat qemu.log
-          exit 1
-
-      - name: Test Arch SSH
-        run: |
-          sudo apt-get install -y sshpass
-
-          sshpass -p arch ssh \
-            -p 2222 \
-            -o StrictHostKeyChecking=no \
-            -o UserKnownHostsFile=/dev/null \
-            arch@127.0.0.1 \
-            'uname -a && cat /etc/arch-release'
+      - run: bun install
+      - run: mise typecheck
+      - run: mise lint
+      - run: mise test-ci

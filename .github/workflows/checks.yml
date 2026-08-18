@@ -32,7 +32,7 @@ jobs:
   arch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check KVM
+      - name: Install QEMU
         run: |
-          ls -l /dev/kvm || true
-          grep -E '(vmx|svm)' /proc/cpuinfo | head || true
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-x86 qemu-utils

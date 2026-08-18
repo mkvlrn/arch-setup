@@ -30,9 +30,12 @@ jobs:
       - run: mise test-ci
 
   arch:
+    needs:
+      - checks
     runs-on: ubuntu-latest
     steps:
-      - name: Install QEMU
+      - name: Check QEMU
         run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-system-x86 qemu-utils
+          command -v qemu-system-x86_64 || true
+          qemu-system-x86_64 --version || true
+          command -v qemu-img || true

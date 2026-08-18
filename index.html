@@ -7,7 +7,7 @@ DEST="$HOME/repos/arch-setup"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
-printf 'Loading setup...\n'
+printf 'Installing base packages for setup to run...\n'
 
 sudo -v
 

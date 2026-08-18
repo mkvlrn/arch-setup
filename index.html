@@ -7,14 +7,25 @@ DEST="$HOME/repos/arch-setup"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
+printf 'Loading setup...\n'
+
 sudo -v
-sudo pacman -Syu --noconfirm --needed git curl base-devel reflector stow unzip xdg-user-dirs
+
+sudo pacman -Syu --noconfirm --needed \
+  git \
+  curl \
+  base-devel \
+  reflector \
+  stow \
+  unzip \
+  xdg-user-dirs \
+  >/dev/null 2>&1
 
 mkdir -p "$HOME/repos"
-git clone "$REPO" "$DEST"
+git clone "$REPO" "$DEST" >/dev/null 2>&1
 
 export BUN_INSTALL="$tmp/bun"
-curl -fsSL https://bun.sh/install | BUN_INSTALL="$BUN_INSTALL" bash
-"$BUN_INSTALL/bin/bun" upgrade --canary
-
+curl -fsSL https://bun.sh/install |
+  BUN_INSTALL="$BUN_INSTALL" bash >/dev/null 2>&1
+"$BUN_INSTALL/bin/bun" upgrade --canary >/dev/null 2>&1
 "$BUN_INSTALL/bin/bun" "$DEST/main.ts"

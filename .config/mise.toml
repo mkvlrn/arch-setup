@@ -1,5 +1,5 @@
 [tools]
-biome = "2.5.7"
+biome = "2.5.8"
 bun = "1.3.14"
 cocogitto = "7.0.0"
 lefthook = "2.1.10"
@@ -17,7 +17,7 @@ minimum_release_age = "1d"
 
 [tasks.dev]
 description = "Dev mode"
-run = "bun main.ts"
+run = "bunc main.ts"
 [tasks.lint]
 description = "Check files with biome"
 run = "biome check --diagnostic-level=warn --no-errors-on-unmatched"
@@ -29,10 +29,10 @@ description = "Run tsc"
 run = "tsc"
 [tasks.test]
 description = "Run tests"
-run = "bun test --coverage --pass-with-no-tests"
+run = "bunc test --coverage --pass-with-no-tests"
 [tasks.test-staged]
 description = "Run tests on staged files"
-run = "bun test --changed --bail --reporter=dots --pass-with-no-tests"
+run = "bunc test --changed --bail --reporter=dots --pass-with-no-tests"
 [tasks.test-ci]
 description = "Run tests in ci mode"
-run = "bun test --bail --reporter=dots --pass-with-no-tests"
+run = "bunc test --bail --reporter=dots --pass-with-no-tests"

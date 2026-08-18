@@ -5,6 +5,6 @@
     "paths": {
       "#/*": ["./src/*"]
     },
-    "types": ["bun"]
+    "types": ["bun", "node"]
   }
 }

@@ -9,14 +9,30 @@ on:
       - main
 
 jobs:
-  run-checks:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
 
+      - name: Setup Bun canary
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: canary
+
+      - name: Alias Bun canary
+        run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
+
       - run: bun install
       - run: mise typecheck
       - run: mise lint
       - run: mise test-ci
+
+  arch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check KVM
+        run: |
+          ls -l /dev/kvm || true
+          grep -E '(vmx|svm)' /proc/cpuinfo | head || true

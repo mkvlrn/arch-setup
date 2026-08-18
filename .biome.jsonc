@@ -13,6 +13,15 @@
   },
   "extends": ["@mkvlrn/config/biome"],
   "overrides": [
-    { "includes": ["**/*.ts"], "linter": { "rules": { "suspicious": { "noConsole": "off" } } } }
+    {
+      "includes": ["**/*.ts"],
+      "javascript": { "globals": ["Bun"] },
+      "linter": {
+        "rules": {
+          "suspicious": { "noConsole": "off" },
+          "correctness": { "noNodejsModules": "off" }
+        }
+      }
+    }
   ]
 }

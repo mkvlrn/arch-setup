@@ -42,3 +42,5 @@ jobs:
           gh release create latest \
             ./bin/arch-setup \
             --title latest
+
+          gh release edit latest --draft=false

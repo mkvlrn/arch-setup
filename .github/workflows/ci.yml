@@ -25,7 +25,7 @@ jobs:
         run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
 
       - name: check and build
-        run: ./scripts/check-build.sh
+        run: ./.github/workflows/scripts/check-build.sh
 
       # preserve the exact executable produced by this job so both the VM
       # test and release job consume identical bytes.
@@ -52,14 +52,14 @@ jobs:
           path: ./bin
 
       - name: prepare arch VM
-        run: ./scripts/prepare-vm.sh
+        run: ./.github/workflows/scripts/prepare-vm.sh
 
       - name: test executable
-        run: ./scripts/test-vm.sh
+        run: ./.github/workflows/scripts/test-vm.sh
 
       - name: stop arch VM
         if: always()
-        run: ./scripts/stop-vm.sh
+        run: ./.github/workflows/scripts/stop-vm.sh
 
   release:
     # A release cannot exist unless both the build/checks and the real Arch
@@ -83,4 +83,4 @@ jobs:
       - name: release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: ./scripts/release.sh
+        run: ./.github/workflows/scripts/release.sh

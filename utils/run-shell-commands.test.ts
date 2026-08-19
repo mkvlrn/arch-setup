@@ -1,17 +1,20 @@
 import { expect, test } from "bun:test";
 import assert from "node:assert/strict";
 import { $ } from "bun";
-import { yay } from "./yay";
+import { runShellCommands } from "./run-shell-commands";
 
 test("success", async () => {
-  const result = await yay({ cmds: [{ exec: () => $`true`, name: "cmd", quiet: true }] });
+  const result = await runShellCommands([
+    { exec: () => $`true`, name: "cmd", quiet: false },
+    { exec: () => $`true`, name: "quietCmd", quiet: true },
+  ]);
 
   assert(!result.isError);
   expect(result.value).toBeTrue();
 });
 
 test("failure", async () => {
-  const result = await yay({ cmds: [{ exec: () => $`false`, name: "cmd", quiet: true }] });
+  const result = await runShellCommands([{ exec: () => $`false`, name: "cmd", quiet: false }]);
 
   assert(result.isError);
   expect(result.error).toBeInstanceOf(Error);

@@ -1,17 +1,14 @@
 import { errResult, okResult, type ResultAsync } from "@mkvlrn/result";
-import type { $ } from "bun";
-import { runShellCommand } from "../utils/run-shell-command";
+import { type Command, runShellCommands } from "../utils/run-shell-commands";
 
 export interface YayArgs {
-  yayCmds: [() => $.ShellPromise, string][];
+  cmds: Command[];
 }
 
-export async function yay({ yayCmds }: YayArgs): ResultAsync<true, Error> {
-  for await (const [cmd, name] of yayCmds) {
-    const result = await runShellCommand(cmd, name, true);
-    if (result.isError) {
-      return errResult(result.error);
-    }
+export async function yay({ cmds }: YayArgs): ResultAsync<true, Error> {
+  const result = await runShellCommands(cmds.map((cmd) => ({ ...cmd, quiet: true })));
+  if (result.isError) {
+    return errResult(result.error);
   }
 
   return okResult(true);

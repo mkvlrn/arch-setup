@@ -41,7 +41,7 @@ test("success", async () => {
   expect(updatedPacman).toEqual("Color");
 });
 
-test("break updateConf", async () => {
+test("break doUpdate", async () => {
   const error = new Error("mkdtempDisposable broke");
   spyOn(fs, "mkdtempDisposable").mockRejectedValue(error);
   const result = await updateConfs({

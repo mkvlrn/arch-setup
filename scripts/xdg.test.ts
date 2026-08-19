@@ -10,13 +10,13 @@ afterEach(() => {
 
 test("success", async () => {
   await using tempDir = await fs.mkdtempDisposable("/tmp/");
-  const xdgCmd = mock<() => $.ShellPromise>(() => $`true`);
+  const exec = mock<() => $.ShellPromise>(() => $`true`);
 
   const result = await xdg({
     homeDir: tempDir.path,
     mkdir: ["keep1", "keep2", "removeme"],
     rmrf: ["removeme"],
-    xdgCmd,
+    cmd: { exec, name: "cmd", quiet: true },
   });
   const existing = (await fs.readdir(tempDir.path, { withFileTypes: true }))
     .filter((f) => f.isDirectory())
@@ -25,19 +25,19 @@ test("success", async () => {
   assert(!result.isError);
   expect(result.value).toBeTrue();
   expect(existing.toSorted()).toEqual(["keep1", "keep2"]);
-  expect(xdgCmd).toHaveBeenCalled();
+  expect(exec).toHaveBeenCalled();
 });
 
 test("break fn.mkdir", async () => {
   const error = new Error("mkdir broke");
-  const xdgCmd = mock<() => $.ShellPromise>(() => $`true`);
+  const exec = mock<() => $.ShellPromise>(() => $`true`);
   spyOn(fs, "mkdir").mockRejectedValue(error);
 
   const result = await xdg({
     homeDir: "tempDir",
     mkdir: ["keep1", "keep2", "removeme"],
     rmrf: ["removeme"],
-    xdgCmd,
+    cmd: { exec, name: "cmd", quiet: true },
   });
 
   assert(result.isError);
@@ -46,20 +46,20 @@ test("break fn.mkdir", async () => {
     message: "could not create new xdg dirs",
     cause: error,
   });
-  expect(xdgCmd).not.toHaveBeenCalled();
+  expect(exec).not.toHaveBeenCalled();
 });
 
 test("break fn.rm", async () => {
   const error = new Error("rm broke");
   await using tempDir = await fs.mkdtempDisposable("/tmp/");
-  const xdgCmd = mock<() => $.ShellPromise>(() => $`true`);
+  const exec = mock<() => $.ShellPromise>(() => $`true`);
   spyOn(fs, "rm").mockRejectedValue(error);
 
   const result = await xdg({
     homeDir: tempDir.path,
     mkdir: ["keep1", "keep2", "removeme"],
     rmrf: ["removeme"],
-    xdgCmd,
+    cmd: { exec, name: "cmd", quiet: true },
   });
 
   assert(result.isError);
@@ -68,22 +68,22 @@ test("break fn.rm", async () => {
     message: "could not remove default xdg dirs",
     cause: error,
   });
-  expect(xdgCmd).not.toHaveBeenCalled();
+  expect(exec).not.toHaveBeenCalled();
 });
 
 test("break xdgCommand", async () => {
   await using tempDir = await fs.mkdtempDisposable("/tmp/");
-  const xdgCmd = mock<() => $.ShellPromise>(() => $`false`);
+  const exec = mock<() => $.ShellPromise>(() => $`false`);
 
   const result = await xdg({
     homeDir: tempDir.path,
     mkdir: ["keep1", "keep2", "removeme"],
     rmrf: ["removeme"],
-    xdgCmd,
+    cmd: { exec, name: "cmd", quiet: true },
   });
 
   assert(result.isError);
   expect(result.error).toBeInstanceOf(Error);
-  expect(result.error).toMatchObject({ message: "could not run xdg dirs update" });
-  expect(xdgCmd).toHaveBeenCalled();
+  expect(result.error.message).toEqual("could not run cmd");
+  expect(exec).toHaveBeenCalled();
 });

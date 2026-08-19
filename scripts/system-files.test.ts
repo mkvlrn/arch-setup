@@ -102,5 +102,9 @@ test("break doCopy", async () => {
     message: "could not copy system files",
     cause: error,
   });
-  expect(mockInstall).toHaveBeenCalledWith(source, destination);
+  const [call] = mockInstall.mock.calls;
+  assert(call);
+  const [installedSource, installedDestination] = call;
+  expect(installedDestination).toBe(destination);
+  expect(path.basename(installedSource)).toBe(path.basename(source));
 });

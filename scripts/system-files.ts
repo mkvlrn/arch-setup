@@ -47,7 +47,7 @@ async function doCopy(
     );
     const tempFile = path.join(tempDir.path, path.basename(src));
     await Bun.write(tempFile, Bun.file(src));
-    await install(src, dest);
+    await install(tempFile, dest);
 
     return okResult(true);
   } catch (err) {

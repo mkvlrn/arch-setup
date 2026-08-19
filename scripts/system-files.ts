@@ -42,6 +42,11 @@ async function doCopy(
   install: (src: string, dest: string) => $.ShellPromise,
 ): ResultAsync<true, Error> {
   try {
+    await using tempDir = await fs.mkdtempDisposable(
+      path.join(os.tmpdir(), "arch-setup-system-files-"),
+    );
+    const tempFile = path.join(tempDir.path, path.basename(src));
+    await Bun.write(tempFile, Bun.file(src));
     await install(src, dest);
 
     return okResult(true);

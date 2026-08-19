@@ -1,0 +1,86 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: canary
+
+      # mise tasks currently invoke the canary executable as `bunc`.
+      - name: alias bun canary
+        run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
+
+      - name: check and build
+        run: ./scripts/check-build.sh
+
+      # preserve the exact executable produced by this job so both the VM
+      # test and release job consume identical bytes.
+      - name: upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch-setup
+          path: ./bin/arch-setup
+          if-no-files-found: error
+
+  arch-test:
+    # PRs still get the normal checks/build above. The relatively expensive
+    # full-machine integration test runs only after changes land on main.
+    if: github.event_name == 'push'
+    needs: check-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: download executable
+        uses: actions/download-artifact@v4
+        with:
+          name: arch-setup
+          path: ./bin
+
+      - name: prepare arch VM
+        run: ./scripts/prepare-vm.sh
+
+      - name: test executable
+        run: ./scripts/test-vm.sh
+
+      - name: stop arch VM
+        if: always()
+        run: ./scripts/stop-vm.sh
+
+  release:
+    # A release cannot exist unless both the build/checks and the real Arch
+    # VM integration test succeeded.
+    if: github.event_name == 'push'
+    needs:
+      - check-build
+      - arch-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: download tested executable
+        uses: actions/download-artifact@v4
+        with:
+          name: arch-setup
+          path: ./bin
+
+      - name: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/release.sh

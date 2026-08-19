@@ -88,7 +88,7 @@ const pkgs = [
 ];
 export const pkgArgs = [
   {
-    exec: () => $`yay -S --noconfirm --needed ${pkgs.join(" ")}`,
+    exec: () => $`yay -S --noconfirm --needed ${pkgs}`,
     name: "update package data",
     quiet: true,
   },

@@ -1,4 +1,4 @@
-name: checks
+name: check-build-release
 
 on:
   push:

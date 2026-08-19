@@ -1,0 +1,67 @@
+name: checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-build-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - uses: jdx/mise-action@7e36c90d9ab29c415a2384db3006f3ec8a8cc654 # v4
+
+      - name: Setup Bun canary
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: canary
+
+      - name: Alias Bun canary
+        run: sudo ln -s "$(command -v bun)" /usr/local/bin/bunc
+
+      - run: bun install --frozen-lockfile
+      - run: mise typecheck
+      - run: mise lint
+      - run: mise test-ci
+      - run: mise build
+
+      - name: Calver
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          YEAR_MONTH="$(date -u +'%Y.%m')"
+
+          LATEST="$(
+            gh release list \
+              --limit 1 \
+              --json tagName \
+              --jq '.[0].tagName // ""'
+          )"
+
+          case "$LATEST" in
+            "$YEAR_MONTH".*)
+              VER="${LATEST##*.}"
+              VER=$((VER + 1))
+              ;;
+            *)
+              VER=1
+              ;;
+          esac
+
+          echo "tag=$YEAR_MONTH.$VER" >> "$GITHUB_OUTPUT"
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create \
+            "${{ steps.version.outputs.tag }}" \
+            ./bin/arch-setup \
+            --title "${{ steps.version.outputs.tag }}" \
+            --latest

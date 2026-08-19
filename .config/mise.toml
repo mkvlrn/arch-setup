@@ -36,3 +36,6 @@ run = "bunc test --changed --bail --reporter=dots --pass-with-no-tests"
 [tasks.test-ci]
 description = "Run tests in ci mode"
 run = "bunc test --bail --reporter=dots --pass-with-no-tests"
+[tasks.build]
+description = "Build single file executable"
+run = "rm -rf ./bin && bunc build --compile --minify --bytecode ./main.ts --outfile ./bin/arch-setup"

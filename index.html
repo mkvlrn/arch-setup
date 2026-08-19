@@ -2,31 +2,13 @@
 
 set -eu
 
-REPO="https://github.com/mkvlrn/arch-setup"
-DEST="$HOME/repos/arch-setup"
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT HUP INT TERM
 
-printf 'Installing base packages for setup to run...\n'
+curl -fsSL \
+  https://github.com/mkvlrn/arch-setup/releases/latest/download/arch-setup \
+  -o "$tmp/arch-setup"
 
-sudo -v
+chmod +x "$tmp/arch-setup"
 
-sudo pacman -Syu --noconfirm --needed \
-  git \
-  curl \
-  base-devel \
-  reflector \
-  stow \
-  unzip \
-  xdg-user-dirs \
-  >/dev/null 2>&1
-
-mkdir -p "$HOME/repos"
-git clone "$REPO" "$DEST" >/dev/null 2>&1
-
-export BUN_INSTALL="$tmp/bun"
-curl -fsSL https://bun.sh/install |
-  BUN_INSTALL="$BUN_INSTALL" bash >/dev/null 2>&1
-"$BUN_INSTALL/bin/bun" upgrade --canary >/dev/null 2>&1
-"$BUN_INSTALL/bin/bun" install --cwd "$DEST"
-"$BUN_INSTALL/bin/bun" "$DEST/main.ts"
+"$tmp/arch-setup"

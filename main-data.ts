@@ -24,7 +24,7 @@ export const updateConfsArgs = {
 export const baseArgs = [
   { exec: () => $`sudo -v`, name: "sudo timestamp", quiet: true },
   {
-    exec: () => $`sudo pacmain -Syu --noconfirm --needed git base-devel reflector`,
+    exec: () => $`sudo pacman -Syu --noconfirm --needed git base-devel reflector`,
     name: "install basic packages for yay",
     quiet: true,
   },

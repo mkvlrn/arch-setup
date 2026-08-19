@@ -68,3 +68,18 @@ jobs:
             ./bin/arch-setup \
             --title "${{ steps.version.outputs.tag }}" \
             --latest
+
+      - name: Delete old releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CURRENT="${{ steps.version.outputs.tag }}"
+
+          gh release list \
+            --limit 100 \
+            --json tagName \
+            --jq '.[].tagName' |
+          while read -r tag; do
+            [ "$tag" = "$CURRENT" ] && continue
+            gh release delete "$tag" --cleanup-tag --yes
+          done

@@ -1,0 +1,60 @@
+{
+  "policies": {
+    "AutofillCreditCardEnabled": false,
+    "Containers": {
+      "Default": []
+    },
+    "DisablePocket": true,
+    "DisableTelemetry": true,
+    "DisplayBookmarksToolbar": "always",
+    "FirefoxHome": {
+      "Search": false,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "Stories": false,
+      "SponsoredPocket": false,
+      "SponsoredStories": false,
+      "Snippets": false,
+      "Locked": false
+    },
+    "FirefoxSuggest": {
+      "WebSuggestions": false,
+      "SponsoredSuggestions": false,
+      "ImproveSuggest": false,
+      "Locked": false
+    },
+    "GenerativeAI": {
+      "Enabled": false,
+      "Chatbot": false,
+      "LinkPreviews": false,
+      "TabGroups": false,
+      "Locked": false
+    },
+    "StartPage": "none",
+    "NewTabPage": false,
+    "NoDefaultBookmarks": true,
+    "OfferToSaveLogins": false,
+    "OfferToSaveLoginsDefault": false,
+    "PasswordManagerEnabled": false,
+    "SearchEngines": {
+      "Add": [
+        {
+          "Name": "NoAIGoogle",
+          "URLTemplate": "https://google.com/search?q={searchTerms}&udm=14&gl=us&hl=en&pws=0",
+          "Method": "GET",
+          "IconURL": "https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico",
+          "Alias": "@g",
+          "Description": "Yup",
+          "PostData": "",
+          "SuggestURLTemplate": ""
+        }
+      ],
+      "Default": "NoAIGoogle",
+      "Remove": ["Google", "Bing", "DuckDuckGo", "Perplexity"]
+    },
+    "SkipTermsOfUse": true,
+    "TranslateEnabled": false
+  }
+}

@@ -33,14 +33,16 @@ async function doUpdate(
 ): ResultAsync<true, Error> {
   try {
     await using tempDir = await fs.mkdtempDisposable(path.join(os.tmpdir(), "arch-setup-"));
-    for await (const [regex, update] of updates) {
-      const current = await Bun.file(path.join(etcDir, fileName)).text();
-      const updated = current.replace(regex, update);
-      const tempFilePath = path.join(tempDir.path, fileName);
-      await Bun.write(tempFilePath, updated);
 
-      await sudoInstal(tempFilePath, path.join(etcDir, fileName));
+    const current = await Bun.file(path.join(etcDir, fileName)).text();
+    let updated = current;
+    for await (const [regex, update] of updates) {
+      updated = updated.replace(regex, update);
     }
+
+    const tempFilePath = path.join(tempDir.path, fileName);
+    await Bun.write(tempFilePath, updated);
+    await sudoInstal(tempFilePath, path.join(etcDir, fileName));
 
     return okResult(true);
   } catch (cause) {

@@ -1,25 +1,32 @@
 import os from "node:os";
 import path from "node:path";
 import { $ } from "bun";
-import type { UpdateConfsArgs } from "./scripts/update-confs";
+import type { SystemFilesArgs } from "./scripts/system-files";
 import type { XdgArgs } from "./scripts/xdg";
+import bravePolicies from "./system/brave-policies.json" with { type: "file" };
+import dockerDaemon from "./system/docker-daemon.json" with { type: "file" };
+import firefoxPolicies from "./system/firefox-policies.json" with { type: "file" };
 import type { Command } from "./utils/run-shell-commands";
 
-export const updateConfsArgs = {
-  etcDir: "/etc",
-  files: {
-    "makepkg.conf": [
+export const systemFilesArgs = {
+  copies: {
+    [bravePolicies as unknown as string]: "/etc/brave/policies/managed/policies.json",
+    [firefoxPolicies as unknown as string]: "/etc/firefox/policies/policies.json",
+    [dockerDaemon as unknown as string]: "/etc/docker/daemon.json",
+  },
+  updates: {
+    "/etc/makepkg.conf": [
       [
         /^OPTIONS=.*$/m,
         "OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)",
       ],
       [/^MAKEFLAGS=.*$/m, `MAKEFLAGS="--jobs=$(nproc)"`],
     ],
-    "pacman.conf": [[/^#Color$/m, "Color"]],
+    "/etc/pacman.conf": [[/^#Color$/m, "Color"]],
+    "/etc/docker/daemon.json": [[/%DOCKER_DATA%/m, path.join(os.homedir(), ".docker-data")]],
   },
-  sudoInstal: (origin: string, destination: string) =>
-    $`sudo install -m 644 ${origin} ${destination}`,
-} satisfies UpdateConfsArgs;
+  install: (src: string, dest: string) => $`sudo install -m 644 ${src} ${dest}`,
+} satisfies SystemFilesArgs;
 
 export const baseArgs = [
   { exec: () => $`sudo -v`, name: "sudo timestamp", quiet: true },

@@ -77,3 +77,14 @@ jobs:
             -o UserKnownHostsFile=/dev/null \
             arch@127.0.0.1 \
             'curl -fsSL https://mkvlrn.github.io/arch-setup/ | sh'
+
+      - name: Check system files
+        run: |
+          sshpass -p arch ssh \
+            -p 2222 \
+            -o StrictHostKeyChecking=no \
+            -o UserKnownHostsFile=/dev/null \
+            arch@127.0.0.1 \
+            'sudo ls -l /etc/docker/daemon.json /etc/brave/policies/managed/policies.json &&
+            sudo cat /etc/docker/daemon.json &&
+            sudo cat /etc/brave/policies/managed/policies.json'

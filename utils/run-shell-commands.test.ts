@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { $ } from "bun";
 import { runShellCommands } from "./run-shell-commands";
 
-test("success", async () => {
+test("runs commands successfully", async () => {
   const result = await runShellCommands([
     { exec: () => $`true`, name: "cmd", quiet: false },
     { exec: () => $`true`, name: "quietCmd", quiet: true },
@@ -13,7 +13,7 @@ test("success", async () => {
   expect(result.value).toBeTrue();
 });
 
-test("failure", async () => {
+test("returns error when command fails", async () => {
   const result = await runShellCommands([{ exec: () => $`false`, name: "cmd", quiet: false }]);
 
   assert(result.isError);

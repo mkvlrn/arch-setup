@@ -1,7 +1,7 @@
 import process from "node:process";
 import { $ } from "bun";
-import { baseArgs, pkgArgs, repoArgs, updateConfsArgs, xdgArgs, yayArgs } from "./main-data";
-import { updateConfs } from "./scripts/update-confs";
+import { baseArgs, pkgArgs, repoArgs, systemFilesArgs, xdgArgs, yayArgs } from "./main-data";
+import { systemFiles } from "./scripts/system-files";
 import { xdg } from "./scripts/xdg";
 import { formatError } from "./utils/format-error";
 import { runShellCommands } from "./utils/run-shell-commands";
@@ -15,7 +15,7 @@ async function main() {
   });
 
   const scripts = [
-    [() => updateConfs(updateConfsArgs), "Configure pacman"],
+    [() => systemFiles(systemFilesArgs), "Update and copy new system files"],
     [() => runShellCommands(baseArgs), "Install minimal packages to build yay"],
     [() => runShellCommands(yayArgs), "Install yay and update mirrors"],
     [() => runShellCommands(pkgArgs), "Install packages with yay and do cleanup"],

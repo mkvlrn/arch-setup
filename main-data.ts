@@ -25,7 +25,7 @@ export const systemFilesArgs = {
     "/etc/pacman.conf": [[/^#Color$/m, "Color"]],
     "/etc/docker/daemon.json": [[/%DOCKER_DATA%/m, path.join(os.homedir(), ".docker-data")]],
   },
-  install: (src: string, dest: string) => $`sudo install -m 644 ${src} ${dest}`,
+  install: (src: string, dest: string) => $`sudo install -Dm644 ${src} ${dest}`,
 } satisfies SystemFilesArgs;
 
 export const baseArgs = [

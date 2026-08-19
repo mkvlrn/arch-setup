@@ -33,53 +33,12 @@ jobs:
       - run: mise test-ci
       - run: mise build
 
-      - name: Calver
-        id: version
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          YEAR_MONTH="$(date -u +'%Y.%m')"
-
-          LATEST="$(
-            gh release list \
-              --limit 1 \
-              --json tagName \
-              --jq '.[0].tagName // ""'
-          )"
-
-          case "$LATEST" in
-            "$YEAR_MONTH".*)
-              VER="${LATEST##*.}"
-              VER=$((VER + 1))
-              ;;
-            *)
-              VER=1
-              ;;
-          esac
-
-          echo "tag=$YEAR_MONTH.$VER" >> "$GITHUB_OUTPUT"
-
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create \
-            "${{ steps.version.outputs.tag }}" \
+          gh release delete latest --cleanup-tag --yes || true
+
+          gh release create latest \
             ./bin/arch-setup \
-            --title "${{ steps.version.outputs.tag }}" \
-            --latest
-
-      - name: Delete old releases
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          CURRENT="${{ steps.version.outputs.tag }}"
-
-          gh release list \
-            --limit 100 \
-            --json tagName \
-            --jq '.[].tagName' |
-          while read -r tag; do
-            [ "$tag" = "$CURRENT" ] && continue
-            gh release delete "$tag" --cleanup-tag --yes
-          done
+            --title latest

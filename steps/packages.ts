@@ -9,6 +9,7 @@ const pkgs = [
   "docker-compose",
   "docker",
   "fish",
+  "keychain",
   "kitty",
   "less",
   "okular",

@@ -1,22 +1,12 @@
 import { errResult, okResult, type ResultAsync } from "@mkvlrn/result";
-import type { $ } from "bun";
-
-export interface Command {
-  exec: () => $.ShellPromise;
-  name: string;
-  quiet: boolean;
-}
+import type { Command } from "./types";
 
 export async function runShellCommands(cmds: Command[]): ResultAsync<true, Error> {
-  for await (const cmd of cmds) {
+  for await (const [name, cmd] of cmds) {
     try {
-      if (cmd.quiet) {
-        await cmd.exec().quiet();
-      } else {
-        await cmd.exec();
-      }
+      await cmd.quiet();
     } catch (cause) {
-      return errResult(new Error(`could not run ${cmd.name}`, { cause }));
+      return errResult(new Error(`could not run: ${name}`, { cause }));
     }
   }
 

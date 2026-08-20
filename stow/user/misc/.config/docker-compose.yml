@@ -1,0 +1,101 @@
+name: local-docker
+
+services:
+  postgres:
+    container_name: local-postgres
+    image: postgres:alpine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    # - postgres-data:/var/lib/postgresql/data if lower than v18
+
+  mysql:
+    container_name: local-mysql
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  mongodb:
+    container_name: local-mongodb
+    image: bitnami/mongodb
+    ports:
+      - 27017:27017
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: "127.0.0.1"
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_REPLICA_SET_KEY: replicasetkey
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: root
+    volumes:
+      - mongodb-data:/bitnami/mongodb
+  # connection string must be
+  # mongodb://root:root@localhost:27017/database_name?authSource=admin&directConnection=true
+
+  mssql-2022:
+    container_name: local-mssql-2022
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: StR0NgP@SsW0Rd
+    volumes:
+      - mssql-2022-data:/var/opt/mssql
+
+  mssql-2019:
+    container_name: local-mssql-2019
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: StR0NgP@SsW0Rd
+    volumes:
+      - mssql-2019-data:/var/opt/mssql
+
+  redis:
+    container_name: local-redis
+    image: redis:alpine
+    command: >
+      --requirepass ""
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+
+  dynamodb:
+    container_name: local-dynamodb
+    image: amazon/dynamodb-local
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /dynamodb-data"
+    ports:
+      - 8000:8000
+    volumes:
+      - dynamodb-data:/dynamodb-data
+
+  rabbitmq:
+    container_name: local-rabbitmq
+    image: rabbitmq:management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+volumes:
+  postgres-data:
+  mysql-data:
+  mongodb-data:
+  mongodb-config-data:
+  mssql-2022-data:
+  mssql-2019-data:
+  redis-data:
+  dynamodb-data:
+  rabbitmq-data:

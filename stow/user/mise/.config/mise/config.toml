@@ -1,0 +1,23 @@
+[tools]
+usage = "latest"
+jq = "latest"
+glab = "latest"
+github-cli = "latest"
+eza = "latest"
+fastfetch = "latest"
+"github:o2sh/onefetch" = "latest"
+lazydocker = "latest"
+biome = "latest"
+aws-cli = { version = "latest", symlink_bins = "true" }
+devcontainer-cli = "latest"
+node = "latest"
+oh-my-posh = "latest"
+"npm:npm-check-updates" = "latest"
+
+[settings]
+minimum_release_age = "1d"
+disable_backends = ["asdf"]
+trusted_config_paths = ["~/work"]
+use_versions_host = false
+fetch_remote_versions_cache = "1h"
+color_theme = "catppuccin"

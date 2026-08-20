@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedAttributes": "on",
+        "useSortedKeys": "off",
+        "useSortedProperties": "on"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": true,
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "indentStyle": "space",
+    "indentWidth": 2
+  }
+}

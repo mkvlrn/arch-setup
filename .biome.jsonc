@@ -9,7 +9,8 @@
       "!**/build/**/*",
       "!**/coverage/**/*",
       "!**/*.d.ts",
-      "!index.html"
+      "!index.html",
+      "!**/stow/**/*"
     ]
   },
   "extends": ["@mkvlrn/config/biome"],
@@ -20,7 +21,10 @@
       "linter": {
         "rules": {
           "suspicious": { "noConsole": "off" },
-          "correctness": { "noNodejsModules": "off" }
+          "correctness": { "noNodejsModules": "off" },
+          "style": {
+            "useConsistentTypeDefinitions": { "level": "info", "options": { "style": "type" } }
+          }
         }
       }
     }

@@ -27,8 +27,8 @@ async function main() {
     stow("system"),
     yay(),
     packages(),
-    stow("user"),
     xdg(),
+    stow("user"),
     mise(),
     miscUser(),
   ];

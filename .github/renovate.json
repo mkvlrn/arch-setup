@@ -6,5 +6,6 @@
       "matchPackageNames": ["^@mkvlrn", "^npm:@jsr/mkvlrn"],
       "minimumReleaseAge": null
     }
-  ]
+  ],
+  "ignorePaths": ["**/user/misc/.config/docker-compose.yml"]
 }

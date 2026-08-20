@@ -27,7 +27,7 @@ const pkgs = [
 
 export function packages(): Step {
   return {
-    label: "Install packages with yay and mise via curl",
+    label: "Install packages",
     commands: [
       ["install packages", Bun.$`yay -S --noconfirm --needed ${pkgs}`],
       ["install mise", Bun.$`curl https://mise.run | sh`],

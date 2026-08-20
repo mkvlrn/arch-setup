@@ -8,20 +8,23 @@ const repoDir = path.join(os.homedir(), "repos", "arch-setup");
 
 export function stow(type: StowType): Step {
   const stowDir = path.join(repoDir, "stow", type);
-  const args: string[] = [];
+  const prefix: string[] = [];
+  const stowArgs: string[] = [];
   const commands: Command[] = [];
   let target = os.homedir();
 
   if (type === "system") {
-    args.push("sudo");
+    prefix.push("sudo");
     target = "/";
+
+    commands.push(["remove existing confs", Bun.$`sudo rm -f /etc/pacman.conf /etc/makepkg.conf`]);
   } else {
-    args.push("--adopt");
+    stowArgs.push("--adopt");
   }
 
   commands.push([
     `stow ${type} files`,
-    Bun.$`${args} stow -R --no-folding -d ${stowDir} -t ${target} $(ls ${stowDir})`,
+    Bun.$`${prefix} stow -R --no-folding ${stowArgs} -d ${stowDir} -t ${target} $(ls ${stowDir})`,
   ]);
 
   if (type === "user") {

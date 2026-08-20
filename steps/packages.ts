@@ -1,32 +1,32 @@
 import type { Step } from "../utils/types";
 
-const pkgs = [
-  "brave-bin",
-  "bruno-bin",
-  "deluge-gtk",
-  "deluge",
-  "docker-buildx",
-  "docker-compose",
-  "docker",
-  "fish",
-  "keychain",
-  "kitty",
-  "less",
-  "okular",
-  "openssh",
-  "power-profiles-daemon",
-  "qalculate-qt",
-  "stow",
-  "ttf-hack-nerd",
-  "ttf-iosevkaterm-nerd",
-  "ttf-zed-mono-nerd",
-  "unzip",
-  "vscodium-bin",
-  "xdg-user-dirs",
-  "zed",
-];
-
 export function packages(): Step {
+  const pkgs = [
+    "brave-bin",
+    "bruno-bin",
+    "deluge-gtk",
+    "deluge",
+    "docker-buildx",
+    "docker-compose",
+    "docker",
+    "fish",
+    "keychain",
+    "kitty",
+    "less",
+    "okular",
+    "openssh",
+    "power-profiles-daemon",
+    "qalculate-qt",
+    "stow",
+    "ttf-hack-nerd",
+    "ttf-iosevkaterm-nerd",
+    "ttf-zed-mono-nerd",
+    "unzip",
+    "vscodium-bin",
+    "xdg-user-dirs",
+    "zed",
+  ];
+
   return {
     label: "Install packages",
     commands: [

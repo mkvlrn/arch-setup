@@ -2,10 +2,10 @@ import os from "node:os";
 import path from "node:path";
 import type { Step } from "../utils/types";
 
-const repo = "mkvlrn/arch-setup";
-const repoDir = path.join(os.homedir(), "repos", "arch-setup");
-
 export function cloneRepo(): Step {
+  const repo = "mkvlrn/arch-setup";
+  const repoDir = path.join(os.homedir(), "repos", "arch-setup");
+
   return {
     label: `Clone ${repo} to ${repoDir}`,
     commands: [

@@ -2,9 +2,9 @@ import os from "node:os";
 import path from "node:path";
 import type { Step } from "../utils/types";
 
-const defaultYaySrcDir = path.join(os.tmpdir(), "yay-bin");
+export function yay(): Step {
+  const yaySrcDir = path.join(os.tmpdir(), "yay-bin");
 
-export function yay(yaySrcDir = defaultYaySrcDir): Step {
   return {
     label: "Install yay and update mirrors",
     commands: [

@@ -4,9 +4,8 @@ import type { Command, Step } from "../utils/types";
 
 type StowType = "system" | "user";
 
-const repoDir = path.join(os.homedir(), "repos", "arch-setup");
-
 export function stow(type: StowType): Step {
+  const repoDir = path.join(os.homedir(), "repos", "arch-setup");
   const stowDir = path.join(repoDir, "stow", type);
   const prefix: string[] = [];
   const stowArgs: string[] = [];

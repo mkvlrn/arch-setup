@@ -6,6 +6,7 @@ import { miscUser } from "./steps/misc-user";
 import { mise } from "./steps/mise";
 import { packages } from "./steps/packages";
 import { stow } from "./steps/stow";
+import { vscodiumExtensions } from "./steps/vscodium-extensions";
 import { xdg } from "./steps/xdg";
 import { yay } from "./steps/yay";
 import { formatError } from "./utils/format-error";
@@ -31,6 +32,7 @@ async function main() {
     stow("user"),
     mise(),
     miscUser(),
+    vscodiumExtensions(),
   ];
 
   try {

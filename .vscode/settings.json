@@ -12,7 +12,6 @@
     "source.sortImports": "never"
   },
   "eslint.enable": false,
-  "bun.runtime": "/home/mkvlrn/.local/bin/bunc",
   "files.associations": {
     "index.html": "shellscript"
   }

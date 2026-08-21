@@ -5,7 +5,6 @@
       "type": "bun",
       "request": "launch",
       "name": "Debug current Bun test",
-      "runtime": "${env:HOME}/.local/bin/bunc",
       "program": "${workspaceFolder}",
       "args": ["test", "${file}"],
       "cwd": "${workspaceFolder}",

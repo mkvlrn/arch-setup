@@ -11,7 +11,7 @@ export function vscodiumExtensions(): Step {
     commands: [
       [
         "install vscodium extensiosn",
-        Bun.$`xargs -n1 codium --install-extension < vscode-extensions.txt`.cwd(repoDir).env({
+        Bun.$`xargs -n1 codium --install-extension < vscodium-extensions.txt`.cwd(repoDir).env({
           ...process.env,
           VSCODE_GALLERY_SERVICE_URL: "https://marketplace.visualstudio.com/_apis/public/gallery",
           VSCODE_GALLERY_ITEM_URL: "https://marketplace.visualstudio.com/items",

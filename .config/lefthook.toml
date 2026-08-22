@@ -5,8 +5,7 @@ cog-lint = { run = "cog verify --file {1}" }
 typecheck = { glob = "*.{ts,tsx}", run = "mise typecheck" }
 lint = { glob = "*.{ts,tsx,json,jsonc}", run = "mise lint {staged_files}" }
 test = { glob = "*.{ts,tsx}", run = "mise test-staged" }
-gen-vscodium-extensions = { run = "codium --list-extensions >vscodium-extensions.txt" }
-add-vscodium-extensions = { run = "git add vscodium-extensions.txt" }
+vscodium-extensions = { run = "codium --list-extensions >vscodium-extensions.txt && git add vscodium-extensions.txt" }
 
 [pre-push.commands]
 typecheck = { run = "mise typecheck" }

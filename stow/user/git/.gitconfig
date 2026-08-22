@@ -1,7 +1,7 @@
 [user]
   name = mkvlrn
-  email = mkvlrn@gmail.com
-  signingkey = "~/.ssh/id_ed25519_signing"
+  email = dev@mkvlrn.cc
+  signingkey = "~/.ssh/signing"
 [init]
   defaultBranch = main
 [core]

@@ -39,3 +39,6 @@ run = "bun test --bail --reporter=dots --pass-with-no-tests"
 [tasks.build]
 description = "Build single file executable"
 run = "rm -rf ./bin && bun build --compile --minify --bytecode ./main.ts --outfile ./bin/arch-setup"
+[tasks.sync-branch]
+description = "Sync package manager deps"
+run = "mise install && mise prune -y && pnpm install --frozen-lockfile && lefthook install"

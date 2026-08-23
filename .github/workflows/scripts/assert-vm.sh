@@ -93,6 +93,7 @@ for pkg in \
   git \
   reflector \
   stow \
+  age \
   brave-bin \
   bruno-bin \
   deluge-gtk \

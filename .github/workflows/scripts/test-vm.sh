@@ -64,7 +64,7 @@ ssh_vm "printf '%s\n' arch | sudo -S -v"
 
 # Run the installer.
 ssh_vm \
-  'chmod +x /tmp/arch-setup && /tmp/arch-setup'
+  "chmod +x /tmp/arch-setup && MISE_GITHUB_TOKEN='$MISE_GITHUB_TOKEN' /tmp/arch-setup"
 
 # Verify the resulting machine state.
 ssh_vm \

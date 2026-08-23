@@ -37,6 +37,8 @@ jobs:
   arch-test:
     # PRs still get the normal checks/build above. The relatively expensive
     # full-machine integration test runs only after changes land on main.
+    env:
+      MISE_GITHUB_TOKEN: ${{ github.token }}
     if: github.event_name == 'push'
     needs: check-build
     runs-on: ubuntu-latest

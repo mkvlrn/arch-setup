@@ -15,8 +15,9 @@
     "catppuccin": true,
     "catppuccin-icons": true,
     "dockerfile": true,
+    "fish": true,
     "html": true,
-    "tsgo": true
+    "tsgo": true,
   },
   "base_keymap": "VSCode",
   "buffer_font_family": "ZedMono Nerd Font",

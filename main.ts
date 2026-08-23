@@ -1,5 +1,4 @@
 import process from "node:process";
-import { $ } from "bun";
 import { baseSystem } from "./steps/base-system";
 import { cloneRepo } from "./steps/clone-repo";
 import { miscUser } from "./steps/misc-user";
@@ -15,7 +14,7 @@ import type { Step } from "./utils/types";
 async function main() {
   console.info("Starting.");
 
-  await $`sudo -v`;
+  await Bun.$`sudo -v`;
   const keepalive = Bun.spawn(["sh", "-c", "while sleep 30; do sudo -n true || exit; done"], {
     stdout: "ignore",
     stderr: "ignore",

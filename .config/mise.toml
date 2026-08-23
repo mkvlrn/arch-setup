@@ -1,8 +1,10 @@
 [tools]
 biome = "2.5.9"
 bun = "1.4.0"
+clang = "latest"
 cocogitto = "7.0.0"
 lefthook = "2.1.10"
+"npm:scriptc" = "latest"
 
 [hooks]
 postinstall = "lefthook install"
@@ -41,4 +43,4 @@ description = "Build single file executable"
 run = "rm -rf ./bin && bun build --compile --minify --bytecode ./main.ts --outfile ./bin/arch-setup"
 [tasks.sync-branch]
 description = "Sync package manager deps"
-run = "mise install && mise prune -y && pnpm install --frozen-lockfile && lefthook install"
+run = "mise install && mise prune -y && bun install --frozen-lockfile && lefthook install"

@@ -63,6 +63,8 @@ jobs:
         run: ./.github/workflows/scripts/prepare-vm.sh
 
       - name: test executable
+        env:
+          PACKAGE_CACHE_DIR: ${{ runner.temp }}/arch-package-cache
         run: ./.github/workflows/scripts/test-vm.sh
 
       - name: stop arch VM

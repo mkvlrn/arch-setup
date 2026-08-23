@@ -22,7 +22,6 @@ export function packages(): Step {
     "ttf-iosevkaterm-nerd",
     "ttf-zed-mono-nerd",
     "unzip",
-    "vscodium-bin",
     "xdg-user-dirs",
     "zed",
   ];

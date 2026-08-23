@@ -1,7 +1,0 @@
-{
-  "extensionsGallery": {
-    "serviceUrl": "https://marketplace.visualstudio.com/_apis/public/gallery",
-    "itemUrl": "https://marketplace.visualstudio.com/items"
-  },
-  "extensionAllowedProposedApi": ["ms-vscode-remote.remote-containers"]
-}

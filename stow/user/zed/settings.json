@@ -1,0 +1,195 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "format_on_save": "on",
+  "cli_default_open_behavior": "new_window",
+  "auto_indent_on_paste": false,
+  "auto_install_extensions": {
+    "biome": true,
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "dockerfile": true,
+    "html": true,
+    "tsgo": true
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_family": "ZedMono Nerd Font",
+  "buffer_font_size": 20,
+  "collaboration_panel": {
+    "button": false
+  },
+  "debugger": {
+    "dock": "right"
+  },
+  "disable_ai": true,
+  "experimental.theme_overrides": {},
+  "file_types": {
+    "dotenv": [".env", ".env.example", ".env.sample"],
+    "git-rebase": ["work.gitconfig"],
+    "html": ["*.templ"],
+    "jsonc": ["**/settings.json"]
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "gutter": {
+    "min_line_number_digits": 0
+  },
+  "hover_popover_delay": 500,
+  "icon_theme": "Catppuccin Mocha",
+  "languages": {
+    "CSS": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": ["!eslint", "..."]
+    },
+    "JSON": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
+    },
+    "JSONC": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
+    },
+    "JavaScript": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
+    },
+    "TSX": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
+    },
+    "TypeScript": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
+    }
+  },
+  "minimap": {
+    "show": "never"
+  },
+  "preferred_line_length": 100,
+  "project_panel": {
+    "dock": "left",
+    "auto_fold_dirs": false,
+    "entry_spacing": "comfortable",
+    "hide_hidden": false,
+    "hide_root": false,
+    "indent_guides": {
+      "show": "always"
+    }
+  },
+  "show_edit_predictions": true,
+  "show_whitespaces": "boundary",
+  "soft_wrap": "none",
+  "tabs": {
+    "file_icons": true,
+    "git_status": true
+  },
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false
+  },
+  "terminal": {
+    "blinking": "on",
+    "cursor_shape": "bar",
+    "dock": "right",
+    "font_family": "IosevkaTerm Nerd Font",
+    "font_size": 18
+  },
+  "theme": {
+    "dark": "Catppuccin Mocha",
+    "light": "Catppuccin Mocha",
+    "mode": "dark"
+  },
+  "title_bar": {
+    "show_branch_status_icon": true,
+    "show_sign_in": false
+  },
+  "ui_font_family": "Hack Nerd Font",
+  "ui_font_size": 18,
+  "unnecessary_code_fade": 0.6,
+  "wrap_guides": [100]
+}

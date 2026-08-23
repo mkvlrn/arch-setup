@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/mozilla/enterprise-admin-reference/main/schema/policies-schema.json",
   "policies": {
     "AutofillCreditCardEnabled": false,
     "Containers": {
@@ -25,13 +26,6 @@
       "ImproveSuggest": false,
       "Locked": false
     },
-    "GenerativeAI": {
-      "Enabled": false,
-      "Chatbot": false,
-      "LinkPreviews": false,
-      "TabGroups": false,
-      "Locked": false
-    },
     "StartPage": "none",
     "NewTabPage": false,
     "NoDefaultBookmarks": true,
@@ -56,5 +50,71 @@
     },
     "SkipTermsOfUse": true,
     "TranslateEnabled": false
+  },
+  "AIControls": {
+    "Default": {
+      "Value": "blocked",
+      "Locked": true
+    }
+  },
+  "GenerativeAI": {
+    "Enabled": false,
+    "Chatbot": false,
+    "LinkPreviews": false,
+    "TabGroups": false,
+    "Locked": true,
+    "SmartWindow": false
+  },
+  "DisableDefaultBrowserAgent": true,
+  "DisableFirefoxStudies": true,
+  "DisableProfileRefresh": true,
+  "DisableRemoteImprovements": true,
+  "SearchSuggestEnabled": false,
+  "UserMessaging": {
+    "WhatsNew": false,
+    "ExtensionRecommendations": false,
+    "FeatureRecommendations": false,
+    "UrlbarInterventions": false,
+    "SkipOnboarding": true,
+    "MoreFromMozilla": false,
+    "FirefoxLabs": false,
+    "Locked": true
+  },
+  "VisualSearchEnabled": false,
+  "ExtensionSettings": {
+    "@testpilot-containers": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi"
+    },
+    "{db8ff575-504f-4f3d-a910-07702998d21d}": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/json_formatter/latest.xpi"
+    },
+    "{b8f5b973-7a28-4787-8e94-fdb7504e3991}": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/persistentpin/latest.xpi"
+    },
+    "78272b6fa58f4a1abaac99321d503a20@proton.me": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/proton-pass/latest.xpi"
+    },
+    "@react-devtools": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpi"
+    },
+    "sponsorBlocker@ajay.app": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi"
+    },
+    "uBlock0@raymondhill.net": {
+      "installation_mode": "normal_installed",
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+    }
+  },
+  "Preferences": {
+    "devtools.jsonview.enabled": {
+      "Value": false,
+      "Status": "default"
+    }
   }
 }

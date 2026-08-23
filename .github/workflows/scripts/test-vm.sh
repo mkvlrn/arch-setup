@@ -72,8 +72,12 @@ ssh_vm \
 
 # Keep the pacman cache from growing indefinitely. This retains packages
 # useful to the resulting installed system while discarding obsolete ones.
+printf '\nCleaning pacman download leftovers...\n'
 ssh_vm \
-  "printf '%s\n' arch | sudo -S pacman -Sc --noconfirm"
+  "printf '%s\n' arch | sudo -S find /var/cache/pacman/pkg \
+    -mindepth 1 -maxdepth 1 \
+    -type d -name 'download-*' \
+    -exec rm -rf -- {} +"
 
 # Replace the host-side cache with the state produced by this VM run.
 rm -rf \

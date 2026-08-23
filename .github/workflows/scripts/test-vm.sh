@@ -6,6 +6,7 @@ cache_dir="${PACKAGE_CACHE_DIR:?PACKAGE_CACHE_DIR is required}"
 mise_github_token="${MISE_GITHUB_TOKEN:?MISE_GITHUB_TOKEN is required}"
 pacman_cache_dir="$cache_dir/pacman"
 yay_cache_dir="$cache_dir/yay"
+mise_cache_dir="$cache_dir/mise"
 
 # Run a command inside the Arch VM.
 #
@@ -43,7 +44,8 @@ vm_step() {
 # first run they will simply be empty.
 mkdir -p \
   "$pacman_cache_dir" \
-  "$yay_cache_dir"
+  "$yay_cache_dir" \
+  "$mise_cache_dir"
 vm_step "Copying installer to VM"
 
 # Test the exact executable produced by the check-build job.
@@ -84,17 +86,25 @@ tar -C "$yay_cache_dir" -cf - . |
     mkdir -p "$HOME/.cache/yay"
     tar -C "$HOME/.cache/yay" -xf -
   '
+vm_step "Restoring mise download cache"
+
+# Restore downloads retained by mise so supported backends can reuse them while
+# still performing a normal installation into a fresh machine.
+tar -C "$mise_cache_dir" -cf - . |
+  ssh_vm '
+    mkdir -p "$HOME/.local/share/mise/downloads"
+    tar -C "$HOME/.local/share/mise/downloads" -xf -
+  '
 vm_step "Preparing sudo"
 
 # Prime sudo before running the installer so later privileged commands can use
 # the credentials already configured for the test VM.
 ssh_vm "printf '%s\n' arch | sudo -S -v"
 vm_step "Running arch-setup"
-
 # MISE_GITHUB_TOKEN belongs to the runner environment, so explicitly forward it
 # to the installer process inside the VM. Bun and mise inherit it from there.
 ssh_vm \
-  "chmod +x /tmp/arch-setup && MISE_GITHUB_TOKEN='$mise_github_token' /tmp/arch-setup"
+  "chmod +x /tmp/arch-setup && MISE_GITHUB_TOKEN='$mise_github_token' MISE_ALWAYS_KEEP_DOWNLOAD=1 /tmp/arch-setup"
 vm_step "Running machine state checks"
 
 # Keep assertion output untouched so the CI log remains the same as a normal
@@ -116,10 +126,12 @@ vm_step "Preparing updated package caches"
 # produced by this VM run. actions/cache will save them after the job succeeds.
 rm -rf \
   "$pacman_cache_dir" \
-  "$yay_cache_dir"
+  "$yay_cache_dir" \
+  "$mise_cache_dir"
 mkdir -p \
   "$pacman_cache_dir" \
-  "$yay_cache_dir"
+  "$yay_cache_dir" \
+  "$mise_cache_dir"
 vm_step "Saving pacman package cache"
 
 # Pacman creates package files as root, so archive the cache with sudo inside
@@ -133,3 +145,9 @@ vm_step "Saving yay package cache"
 ssh_vm \
   'tar -C "$HOME/.cache/yay" -cf - .' |
   tar -C "$yay_cache_dir" -xf -
+vm_step "Saving mise download cache"
+# Mise runs as the normal Arch user, so its retained downloads can be exported
+# directly without copying any installed tools.
+ssh_vm \
+  'tar -C "$HOME/.local/share/mise/downloads" -cf - .' |
+  tar -C "$mise_cache_dir" -xf -

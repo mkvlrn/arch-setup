@@ -85,7 +85,7 @@ mkdir -p \
   "$yay_cache_dir"
 
 ssh_vm \
-  'tar -C "$HOME/.cache/pacman/pkg" -cf - .' |
+  "printf '%s\n' arch | sudo -S tar -C /var/cache/pacman/pkg -cf - ." |
   tar -C "$pacman_cache_dir" -xf -
 
 ssh_vm \

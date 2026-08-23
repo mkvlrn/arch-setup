@@ -23,6 +23,7 @@ export function packages(): Step {
     "ttf-iosevkaterm-nerd",
     "ttf-zed-mono-nerd",
     "unzip",
+    "vsftpd",
     "xdg-user-dirs",
     "zed",
   ];

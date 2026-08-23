@@ -113,6 +113,7 @@ for pkg in \
   ttf-iosevkaterm-nerd \
   ttf-zed-mono-nerd \
   unzip \
+  vsftpd \
   xdg-user-dirs \
   zed; do
   if ! pacman -Q "$pkg" >/dev/null 2>&1; then
@@ -183,6 +184,10 @@ fi
 
 if ! systemctl is-active docker.socket >/dev/null 2>&1; then
   fail "docker.socket is not active"
+fi
+
+if ! systemctl is-active vsftpd.socket >/dev/null 2>&1; then
+  fail "vsftpd.socket is not active"
 fi
 
 if [ "$FAILURES" -gt 0 ]; then

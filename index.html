@@ -19,5 +19,5 @@ curl -fsSL \
 
 printf '\nRestoring machine secrets\n\n'
 
-age -d "$tmp/secrets.tar.age" |
+age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" |
   tar -C "$HOME" -xf -

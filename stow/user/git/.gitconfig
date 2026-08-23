@@ -5,7 +5,7 @@
 [init]
   defaultBranch = main
 [core]
-  editor = codium --wait
+  editor = zed-editor --wait
   autocrlf = false
   safecrlf = false
   eol = lf

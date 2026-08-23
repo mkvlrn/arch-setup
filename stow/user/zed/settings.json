@@ -15,9 +15,8 @@
     "catppuccin": true,
     "catppuccin-icons": true,
     "dockerfile": true,
-    "fish": true,
     "html": true,
-    "tsgo": true,
+    "tsgo": true
   },
   "base_keymap": "VSCode",
   "buffer_font_family": "ZedMono Nerd Font",
@@ -32,8 +31,7 @@
   "experimental.theme_overrides": {},
   "file_types": {
     "dotenv": [".env", ".env.example", ".env.sample"],
-    "git-rebase": ["work.gitconfig"],
-    "html": ["*.templ"],
+    "git-rebase": [".gitconfig.work"],
     "jsonc": ["**/settings.json"]
   },
   "git_panel": {
@@ -177,7 +175,7 @@
     "blinking": "on",
     "cursor_shape": "bar",
     "dock": "right",
-    "font_family": "IosevkaTerm Nerd Font",
+    "font_family": "Hack Nerd Font",
     "font_size": 18
   },
   "theme": {

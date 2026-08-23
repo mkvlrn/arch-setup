@@ -1,6 +1,6 @@
 # initially for crontab, maybe others, idk
-set -gx VISUAL "code --wait"
-set -gx EDITOR "code --wait"
+set -gx VISUAL "zed --wait"
+set -gx EDITOR "zed --wait"
 # paths
 set -gx HOME_BIN "$HOME/.local/bin"
 set -gx USR_LOCAL_BIN /usr/local/bin

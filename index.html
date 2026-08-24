@@ -13,11 +13,6 @@ chmod +x "$tmp/arch-setup"
 
 "$tmp/arch-setup"
 
-curl -fsSL \
-  https://raw.githubusercontent.com/mkvlrn/arch-setup/main/secrets/secrets.tar.age \
-  -o "$tmp/secrets.tar.age"
-
 printf '\nRestoring machine secrets\n\n'
 
-age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" |
-  tar -C "$HOME" -xf -
+age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" | tar -C "$HOME" -xf -

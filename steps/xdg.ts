@@ -9,6 +9,7 @@ export function xdg(): Step {
     "Downloads",
     "Music",
     "Pictures",
+    "Projects",
     "Public",
     "Templates",
     "Videos",

@@ -10,7 +10,7 @@ export function miscUser(): Step {
       ["add user to docker group", Bun.$`sudo usermod -aG docker ${os.userInfo().username}`],
       [
         "set anonymous ftp user root dir",
-        Bun.$`sudo usermod -d /home/mkvlrn/downloads/torrents ftp`,
+        Bun.$`sudo usermod -d ${path.join(os.homedir(), "downloads", "torrents")} ftp`,
       ],
       ["allow ftp user to traverse to download dir", Bun.$`chmod o+x ${os.homedir()}`],
       ["start docker service", Bun.$`sudo systemctl enable --now docker.socket`],

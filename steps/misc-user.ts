@@ -12,7 +12,7 @@ export function miscUser(): Step {
         "set anonymous ftp user root dir",
         Bun.$`sudo usermod -d /home/mkvlrn/downloads/torrents ftp`,
       ],
-      ["allow ftp user to traverse to download dir", Bun.$`chmod o+x /home/mkvlrn`],
+      ["allow ftp user to traverse to download dir", Bun.$`chmod o+x ${os.homedir()}`],
       ["start docker service", Bun.$`sudo systemctl enable --now docker.socket`],
       ["start pure-fptd service", Bun.$`sudo systemctl enable --now pure-ftpd.socket`],
       [

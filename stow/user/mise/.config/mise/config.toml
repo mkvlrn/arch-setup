@@ -15,6 +15,8 @@ oh-my-posh = "latest"
 "npm:npm-check-updates" = "latest"
 
 [settings]
+auto_update = true
+auto_update_check_duration = "3d"
 minimum_release_age = "1d"
 disable_backends = ["asdf"]
 trusted_config_paths = ["~/work"]

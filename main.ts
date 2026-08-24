@@ -15,7 +15,7 @@ async function main() {
   console.info("Starting.");
 
   await Bun.$`sudo -v`;
-  const keepalive = Bun.spawn(["sh", "-c", "while sleep 30; do sudo -n true || exit; done"], {
+  const keepalive = Bun.spawn(["sh", "-c", "while sleep 30; do sudo -n -v || exit; done"], {
     stdout: "ignore",
     stderr: "ignore",
   });

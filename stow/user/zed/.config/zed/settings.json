@@ -16,6 +16,7 @@
     "catppuccin-icons": true,
     "dockerfile": true,
     "html": true,
+    "toml": true,
     "tsgo": true
   },
   "base_keymap": "VSCode",

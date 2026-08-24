@@ -94,13 +94,13 @@ for pkg in \
   reflector \
   stow \
   age \
-  brave-bin \
   bruno-bin \
   deluge-gtk \
   deluge \
   docker-buildx \
   docker-compose \
   docker \
+  firefox \
   fish \
   keychain \
   kitty \

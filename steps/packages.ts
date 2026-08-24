@@ -3,13 +3,13 @@ import type { Step } from "../utils/types";
 export function packages(): Step {
   const pkgs = [
     "age",
-    "brave-bin",
     "bruno-bin",
     "deluge-gtk",
     "deluge",
     "docker-buildx",
     "docker-compose",
     "docker",
+    "firefox",
     "fish",
     "keychain",
     "kitty",

@@ -8,5 +8,5 @@ oh-my-posh init fish --config $omp_config | source
 # keychain, .ssh
 if status is-interactive
     keychain --eval --quiet | source
-    ssh-add -q ~/.ssh/id_ed25519 </dev/null
+    ssh-add -q ~/.ssh/dev </dev/null
 end

@@ -32,7 +32,7 @@
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-'": "terminal_panel::Toggle"
+      "ctrl-menu": "terminal_panel::Toggle"
     }
   },
   {

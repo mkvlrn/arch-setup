@@ -14,7 +14,7 @@ export function miscUser(): Step {
       ],
       ["allow ftp user to traverse to download dir", Bun.$`chmod o+x ${os.homedir()}`],
       ["start docker service", Bun.$`sudo systemctl enable --now docker.socket`],
-      ["start pure-fptd service", Bun.$`sudo systemctl enable --now pure-ftpd.socket`],
+      ["start pure-fptd service", Bun.$`sudo systemctl enable --now pure-ftpd.service`],
       [
         "create fish completions dir",
         Bun.$`mkdir -p ${path.join(os.homedir(), ".config", "fish", "completions")}`,

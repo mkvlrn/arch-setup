@@ -8,8 +8,13 @@ export function miscUser(): Step {
     commands: [
       ["set user shell", Bun.$`sudo chsh -s $(which fish) ${os.userInfo().username}`],
       ["add user to docker group", Bun.$`sudo usermod -aG docker ${os.userInfo().username}`],
+      [
+        "set anonymous ftp user root dir",
+        Bun.$`sudo usermod -d /home/mkvlrn/downloads/torrents ftp`,
+      ],
+      ["allow ftp user to traverse to download dir", Bun.$`chmod o+x /home/mkvlrn`],
       ["start docker service", Bun.$`sudo systemctl enable --now docker.socket`],
-      ["start vsftpd service", Bun.$`sudo systemctl enable --now vsftpd.socket`],
+      ["start pure-fptd service", Bun.$`sudo systemctl enable --now pure-ftpd.socket`],
       [
         "create fish completions dir",
         Bun.$`mkdir -p ${path.join(os.homedir(), ".config", "fish", "completions")}`,

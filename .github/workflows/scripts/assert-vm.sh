@@ -186,8 +186,8 @@ if ! systemctl is-active docker.socket >/dev/null 2>&1; then
   fail "docker.socket is not active"
 fi
 
-if ! systemctl is-active pure-ftpd.socket >/dev/null 2>&1; then
-  fail "pure-ftpd.socket is not active"
+if ! systemctl is-active pure-ftpd.service >/dev/null 2>&1; then
+  fail "pure-ftpd.service is not active"
 fi
 
 if [ "$FAILURES" -gt 0 ]; then

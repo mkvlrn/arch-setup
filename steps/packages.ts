@@ -24,6 +24,7 @@ export function packages(): Step {
     "ttf-iosevkaterm-nerd",
     "ttf-zed-mono-nerd",
     "unzip",
+    "visual-studio-code-bin",
     "xdg-user-dirs",
     "zed",
   ];

@@ -114,6 +114,7 @@ for pkg in \
   ttf-iosevkaterm-nerd \
   ttf-zed-mono-nerd \
   unzip \
+  visual-studio-code-bin \
   xdg-user-dirs \
   zed; do
   if ! pacman -Q "$pkg" >/dev/null 2>&1; then

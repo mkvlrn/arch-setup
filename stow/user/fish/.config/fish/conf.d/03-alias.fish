@@ -6,5 +6,3 @@ alias yaym "yay && mise self-update -y && mise cache clear && mise upgrade -b"
 alias ls eza
 # repo eza to k
 alias k 'eza -al --git --git-repos --group-directories-first'
-# codium to code
-alias code codium

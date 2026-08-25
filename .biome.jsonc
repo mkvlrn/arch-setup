@@ -10,7 +10,12 @@
       "!**/coverage/**/*",
       "!**/*.d.ts",
       "!index.html",
-      "!**/stow/**/*"
+      "!**/stow/**/*",
+      "stow/user",
+      "stow/user/zed",
+      "stow/user/zed/.config",
+      "stow/user/zed/.config/zed",
+      "stow/user/zed/.config/zed/*.json"
     ]
   },
   "extends": ["@mkvlrn/config/biome"],

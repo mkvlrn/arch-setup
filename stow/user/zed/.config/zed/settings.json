@@ -18,7 +18,12 @@
     "dockerfile": true,
     "html": true,
     "toml": true,
-    "tsgo": true
+    "tsgo": true,
+    "git-firefly": true,
+    "make": true,
+    "fish": true,
+    "golangci-lint": true,
+    "editorconfig": true
   },
   "base_keymap": "VSCode",
   "buffer_font_family": "ZedMono Nerd Font",
@@ -30,7 +35,9 @@
     "dock": "right"
   },
   "disable_ai": true,
-  "experimental.theme_overrides": {},
+  "experimental.theme_overrides": {
+    "terminal.background": "#0b0b11"
+  },
   "file_types": {
     "dotenv": [".env", ".env.example", ".env.sample"],
     "git-rebase": [".gitconfig.work"],
@@ -146,6 +153,15 @@
         "!tailwindcss-language-server",
         "..."
       ]
+    },
+    "Go": {
+      "language_servers": ["gopls", "golangci-lint"],
+      "formatter": {
+        "external": {
+          "command": "mise",
+          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"]
+        }
+      }
     }
   },
   "minimap": {
@@ -196,5 +212,28 @@
   "ui_font_family": "Hack Nerd Font",
   "ui_font_size": 18,
   "unnecessary_code_fade": 0.6,
-  "wrap_guides": [100]
+  "wrap_guides": [100],
+  "lsp": {
+    "gopls": {
+      "binary": {
+        "path": "mise",
+        "arguments": ["exec", "--", "gopls"]
+      }
+    },
+    "golangci-lint": {
+      "initialization_options": {
+        "command": [
+          "mise",
+          "exec",
+          "--",
+          "golangci-lint",
+          "run",
+          "--output.json.path",
+          "stdout",
+          "--show-stats=false",
+          "--output.text.path="
+        ]
+      }
+    }
+  }
 }

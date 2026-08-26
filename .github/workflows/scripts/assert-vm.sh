@@ -102,6 +102,7 @@ for pkg in \
   docker \
   firefox \
   fish \
+  gnome-keyring \
   keychain \
   kitty \
   less \

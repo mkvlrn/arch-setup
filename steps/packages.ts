@@ -11,6 +11,7 @@ export function packages(): Step {
     "docker",
     "firefox",
     "fish",
+    "gnome-keyring",
     "keychain",
     "kitty",
     "less",

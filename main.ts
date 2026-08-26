@@ -33,8 +33,7 @@ async function main() {
   ];
 
   try {
-    for await (const [index, step] of steps.entries()) {
-      const { label, commands } = step;
+    for await (const [index, { label, commands }] of steps.entries()) {
       console.log(`[${index + 1}/${steps.length}] ${label}`);
       const result = await runShellCommands(commands);
       if (result.isError) {

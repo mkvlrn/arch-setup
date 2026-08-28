@@ -112,7 +112,7 @@ ssh_vm \
    MISE_GITHUB_TOKEN='$mise_github_token' \
    MISE_ALWAYS_KEEP_DOWNLOAD=1 \
    GITHUB_ACTIONS='$GITHUB_ACTIONS' \
-   /tmp/arch-setup --repo-ready"
+   /tmp/arch-setup"
 
 # Run verification in a new login session so changes such as supplementary
 # group membership are visible.

@@ -1,0 +1,11 @@
+[tools]
+golangci-lint = "2.13.1"
+go = "1.27.0"
+gofumpt = "0.11.0"
+lefthook = "2.1.11"
+cocogitto = "7.0.0"
+
+[settings]
+disable_backends = ["asdf"]
+use_versions_host = false
+minimum_release_age = "1d"

@@ -1,7 +1,0 @@
-[Desktop Entry]
-Exec=kitten quick-access-terminal
-Name=qitty
-NoDisplay=true
-StartupNotify=false
-Type=Application
-X-KDE-GlobalAccel-CommandShortcut=true

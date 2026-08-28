@@ -1,0 +1,36 @@
+version = "2"
+
+[run]
+timeout = "5m"
+
+[formatters]
+enable = ["gofumpt"]
+
+[linters]
+default = "fast"
+disable = ["wsl", "gomodguard"]
+enable = [
+  # The Core Defaults (High-signal correctness)
+  "errcheck",
+  "govet",
+  "ineffassign",
+  "staticcheck",
+  "unused",
+
+  # Pragmatic Strictness (The critical extensions)
+  "errorlint", # Enforces errors.As and errors.Is (stops bad error wrapping bugs)
+  "gocritic",  # Catches micro-performance traps and subtle logic bugs
+  "gosec",     # Scans for actual security vulnerabilities (hardcoded credentials, math/rand abuse)
+  "revive",    # Fast, configurable drop-in replacement for old golint
+  "wsl_v5",    # White space
+]
+[linters.settings.revive]
+enable-default-rules = true
+[linters.settings.depguard.rules.prevent_unmaintained_packages]
+list-mode = "lax"
+files = ["$all"]
+allow = ["$gostd"]
+[linters.settings.wsl_v5]
+allow-first-in-block = true
+allow-whole-block = false
+branch-max-lines = 2

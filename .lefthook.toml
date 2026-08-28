@@ -1,0 +1,21 @@
+[commit-msg.commands]
+cog-lint = { run = "cog verify --file {1}" }
+
+[pre-commit.commands]
+lint = { run = "make lint" }
+format-check = { run = "make format-check" }
+
+[pre-push.commands]
+lint = { run = "make lint" }
+format-check = { run = "make format-check" }
+test = { run = "make test" }
+
+[post-checkout.commands]
+sync-mise = { run = "mise install" }
+clean-mise = { run = "mise prune -y" }
+sync-go = { run = "go mod tidy" }
+
+[post-merge.commands]
+sync-mise = { run = "mise install" }
+clean-mise = { run = "mise prune -y" }
+sync-go = { run = "go mod tidy" }

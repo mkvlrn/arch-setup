@@ -14,9 +14,6 @@ indent_style = tab
 indent_size = 4
 tab_width = 4
 
-[*.{cs,py}]
-indent_size = 4
-
 [Makefile]
 indent_style = tab
 indent_size = 4

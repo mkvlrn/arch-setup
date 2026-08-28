@@ -13,21 +13,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  release-check:
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.check.outputs.release }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: check whether push merged a PR
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/workflows/scripts/check-release.sh
+
   check-build:
+    needs: release-check
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: jdx/mise-action@3c2e0cf82a5b2e5249f0d3635a4d83d0ae861518 # v4
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4
 
       - name: check and build
         run: ./.github/workflows/scripts/check-build.sh
 
-      # preserve the exact executable produced by this job so both the VM
-      # test and release job consume identical bytes.
       - name: upload executable
+        if: |
+          github.event_name == 'pull_request' ||
+          needs.release-check.outputs.release == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: arch-setup
@@ -35,15 +53,15 @@ jobs:
           if-no-files-found: error
 
   arch-test:
-    # PRs still get the normal checks/build above. The relatively expensive
-    # full-machine integration test runs only after changes land on main.
+    if: github.event_name == 'pull_request'
+    needs: check-build
     env:
       MISE_GITHUB_TOKEN: ${{ github.token }}
-    if: github.event_name == 'push'
-    needs: check-build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: download executable
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -72,19 +90,17 @@ jobs:
         run: ./.github/workflows/scripts/stop-vm.sh
 
   release:
-    # A release cannot exist unless both the build/checks and the real Arch
-    # VM integration test succeeded.
-    if: github.event_name == 'push'
+    if: needs.release-check.outputs.release == 'true'
     needs:
       - check-build
-      - arch-test
-    runs-on: ubuntu-latest
+      - release-check
     permissions:
       contents: write
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - name: download tested executable
+      - name: download executable
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: arch-setup

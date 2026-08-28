@@ -43,9 +43,6 @@ jobs:
         run: ./.github/workflows/scripts/check-build.sh
 
       - name: upload executable
-        if: |
-          github.event_name == 'pull_request' ||
-          needs.release-check.outputs.release == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: arch-setup
@@ -53,8 +50,12 @@ jobs:
           if-no-files-found: error
 
   arch-test:
-    if: github.event_name == 'pull_request'
-    needs: check-build
+    if: |
+      github.event_name == 'pull_request' ||
+      needs.release-check.outputs.release != 'true'
+    needs:
+      - check-build
+      - release-check
     env:
       MISE_GITHUB_TOKEN: ${{ github.token }}
     runs-on: ubuntu-latest
@@ -90,10 +91,18 @@ jobs:
         run: ./.github/workflows/scripts/stop-vm.sh
 
   release:
-    if: needs.release-check.outputs.release == 'true'
+    if: |
+      always() &&
+      github.event_name == 'push' &&
+      needs.check-build.result == 'success' &&
+      (
+        needs.release-check.outputs.release == 'true' ||
+        needs.arch-test.result == 'success'
+      )
     needs:
       - check-build
       - release-check
+      - arch-test
     permissions:
       contents: write
     runs-on: ubuntu-latest

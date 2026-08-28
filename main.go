@@ -14,12 +14,12 @@ import (
 )
 
 func main() {
+	repoReady := os.Getenv("GITHUB_ACTIONS") == "true"
 	verifyOnly := flag.Bool("verify", false, "verify the installed system without modifying it")
-	repoReady := flag.Bool("repo-ready", false, "use the repository already present at the configured path")
 
 	flag.Parse()
 
-	if err := run(context.Background(), *verifyOnly, *repoReady); err != nil {
+	if err := run(context.Background(), *verifyOnly, repoReady); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 
 		os.Exit(1)

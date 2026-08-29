@@ -32,7 +32,7 @@
   "repoSsh": "git@github.com:mkvlrn/arch-setup",
   "mirrorListPath": "/etc/pacman.d/mirrorlist",
   "mirrorListCheck": "# With:       reflector --latest 20 --protocol https --sort rate --country Brazil --save /etc/pacman.d/mirrorlist",
-  "xdgMkDir": ["repos", "work", "documents", "downloads", "media"],
+  "xdgMkDir": ["repos", "work", "documents", "downloads", "media", "torrents"],
   "xdgRmRf": [
     "Desktop",
     "Documents",

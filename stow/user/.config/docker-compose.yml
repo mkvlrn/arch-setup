@@ -39,27 +39,16 @@ services:
   # connection string must be
   # mongodb://root:root@localhost:27017/database_name?authSource=admin&directConnection=true
 
-  mssql-2022:
-    container_name: local-mssql-2022
-    image: mcr.microsoft.com/mssql/server:2022-latest
+  mssql:
+    container_name: local-mssql
+    image: mcr.microsoft.com/mssql/server:2025-latest
     ports:
       - 1433:1433
     environment:
       ACCEPT_EULA: Y
       MSSQL_SA_PASSWORD: StR0NgP@SsW0Rd
     volumes:
-      - mssql-2022-data:/var/opt/mssql
-
-  mssql-2019:
-    container_name: local-mssql-2019
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    ports:
-      - 1433:1433
-    environment:
-      ACCEPT_EULA: Y
-      MSSQL_SA_PASSWORD: StR0NgP@SsW0Rd
-    volumes:
-      - mssql-2019-data:/var/opt/mssql
+      - mssql-data:/var/opt/mssql
 
   redis:
     container_name: local-redis
@@ -94,8 +83,7 @@ volumes:
   mysql-data:
   mongodb-data:
   mongodb-config-data:
-  mssql-2022-data:
-  mssql-2019-data:
+  mssql-data:
   redis-data:
   dynamodb-data:
   rabbitmq-data:

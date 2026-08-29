@@ -1,5 +1,5 @@
 [tools]
-golangci-lint = "2.13.1"
+golangci-lint = "2.13.2"
 go = "1.27.0"
 gofumpt = "0.11.0"
 lefthook = "2.1.11"

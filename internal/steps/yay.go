@@ -42,7 +42,6 @@ func Yay(tempDir string, mirrorListPath string) setup.Step {
 					"--latest", "20",
 					"--protocol", "https",
 					"--sort", "rate",
-					"--country", "Brazil",
 					"--save", mirrorListPath,
 				},
 				Sudo: true,

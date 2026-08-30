@@ -10,8 +10,6 @@ import (
 
 // Run executes setup steps sequentially and stops at the first failure.
 func Run(ctx context.Context, output io.Writer, steps []Step) error {
-	_, _ = fmt.Fprintln(output, "Starting.")
-
 	defer func() {
 		_, _ = fmt.Fprintln(output, "Done.")
 	}()

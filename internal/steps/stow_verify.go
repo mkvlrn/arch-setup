@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
@@ -35,6 +36,10 @@ func verifyStowTree(sourceRoot string, targetRoot string) error {
 			}
 
 			if entry.IsDir() {
+				return nil
+			}
+
+			if strings.HasSuffix(entry.Name(), ".gitkeep") {
 				return nil
 			}
 

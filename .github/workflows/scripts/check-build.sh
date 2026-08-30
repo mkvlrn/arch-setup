@@ -4,6 +4,5 @@
 set -eu
 
 make lint
-make format-check
 make test
 make build

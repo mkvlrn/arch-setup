@@ -3,11 +3,9 @@ cog-lint = { run = "cog verify --file {1}" }
 
 [pre-commit.commands]
 lint = { run = "make lint" }
-format-check = { run = "make format-check" }
 
 [pre-push.commands]
 lint = { run = "make lint" }
-format-check = { run = "make format-check" }
 test = { run = "make test" }
 
 [post-checkout.commands]

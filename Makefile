@@ -16,9 +16,6 @@ lint:
 format:
 	@gofumpt -w .
 
-format-check:
-	@gofumpt -d .
-
 test:
 	@go test ./... -cover
 

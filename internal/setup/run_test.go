@@ -20,7 +20,7 @@ func TestRunWithNoSteps(t *testing.T) {
 		t.Fatalf("expected success, got %v", err)
 	}
 
-	expected := "Starting.\nDone.\n"
+	expected := "Done.\n"
 
 	if output.String() != expected {
 		t.Fatalf(
@@ -74,7 +74,6 @@ func TestRunExecutesStepsInOrder(t *testing.T) {
 	}
 
 	expectedOutput := strings.Join([]string{
-		"Starting.",
 		"[1/2] first",
 		"[2/2] second",
 		"Done.",

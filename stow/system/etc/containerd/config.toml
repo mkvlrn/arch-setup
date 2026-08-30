@@ -1,0 +1,2 @@
+root = "/home/mkvlrn/.containerd-data"
+state = "/run/containerd"

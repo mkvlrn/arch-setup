@@ -23,7 +23,6 @@ func UserVerify(username string, homeDir string) setup.Check {
 				verifyDockerGroup(ctx, username),
 				verifyFtpHome(ctx, homeDir),
 				verifyHomeTraversal(homeDir),
-				verifyUserDirectories(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "pure-ftpd.service"),
 			)
@@ -124,12 +123,6 @@ func verifyHomeTraversal(homeDir string) error {
 	}
 
 	return nil
-}
-
-func verifyUserDirectories(homeDir string) error {
-	return verifyDirectoriesExist(homeDir, []string{
-		filepath.Join(".config", "fish", "completions"),
-	})
 }
 
 func verifySystemdUnit(ctx context.Context, unit string) error {

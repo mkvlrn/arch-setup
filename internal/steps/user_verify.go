@@ -25,6 +25,7 @@ func UserVerify(username string, homeDir string) setup.Check {
 				verifyHomeTraversal(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "pure-ftpd.service"),
+				verifyCompletions(homeDir),
 			)
 		},
 	}
@@ -140,6 +141,20 @@ func verifySystemdUnit(ctx context.Context, unit string) error {
 	})
 	if err != nil {
 		return fmt.Errorf("verify systemd unit %q: %w", unit, err)
+	}
+
+	return nil
+}
+
+func verifyCompletions(homeDir string) error {
+	base := filepath.Join(homeDir, ".config", "fish", "completions")
+	files := []string{"mise", "gh", "glab"}
+
+	for _, file := range files {
+		_, err := os.Stat(filepath.Join(base, file+".fish"))
+		if err != nil {
+			return fmt.Errorf("completion file for %s not generated", file)
+		}
 	}
 
 	return nil

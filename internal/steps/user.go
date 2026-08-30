@@ -9,6 +9,10 @@ import (
 
 // User configures settings needed for normal usage after install.
 func User(username string, homeDir string) setup.Step {
+	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
+	ghPath := filepath.Join(homeDir, ".local", "share", "mise", "shims", "gh")
+	glabPath := filepath.Join(homeDir, ".local", "share", "mise", "shims", "glab")
+
 	return setup.Step{
 		Name: "Config misc user settings",
 		Commands: []shell.Command{
@@ -46,6 +50,21 @@ func User(username string, homeDir string) setup.Step {
 				Path: "systemctl",
 				Args: []string{"enable", "--now", "pure-ftpd.service"},
 				Sudo: true,
+			},
+			{
+				Name: "generate mise completions",
+				Path: misePath,
+				Args: []string{"completion", "fish", ">~/.config/fish/completions/mise.fish"},
+			},
+			{
+				Name: "generate gh completions",
+				Path: ghPath,
+				Args: []string{"completion", "-s", "fish", ">~/.config/fish/completions/gh.fish"},
+			},
+			{
+				Name: "generate glab completions",
+				Path: glabPath,
+				Args: []string{"completion", "-s", "fish", ">~/.config/fish/completions/glab.fish"},
 			},
 		},
 	}

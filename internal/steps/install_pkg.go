@@ -1,7 +1,7 @@
 package steps
 
 import (
-	"strings"
+	"fmt"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
@@ -18,7 +18,7 @@ const (
 
 // InstallPkg returns a package installation step.
 func InstallPkg(pm packageManager, packages []string) setup.Step {
-	list := strings.Join(packages, ", ")
+	stepName := fmt.Sprintf("Installing %d packages with %s", len(packages), string(pm))
 	operation := "-S"
 	sudo := false
 
@@ -30,7 +30,7 @@ func InstallPkg(pm packageManager, packages []string) setup.Step {
 	args := append([]string{operation, "--noconfirm", "--needed"}, packages...)
 
 	return setup.Step{
-		Name: "Install " + list,
+		Name: stepName,
 		Commands: []shell.Command{{
 			Name: "install packages",
 			Path: string(pm),

@@ -4,6 +4,7 @@ package start
 type Config struct {
 	BasePackages []string `json:"basePackages"`
 	MainPackages []string `json:"mainPackages"`
+	MiseTools    []string
 
 	RepoHTTP string `json:"repoHttp"`
 	RepoSSH  string `json:"repoSsh"`
@@ -18,4 +19,8 @@ type Config struct {
 	HomeDir  string
 	RepoDir  string
 	TempDir  string
+}
+
+type miseConfig struct {
+	Tools map[string]any `toml:"tools"`
 }

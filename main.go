@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	_ "embed"
 	"flag"
 	"fmt"
 	"os"
@@ -12,6 +13,12 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 	"github.com/mkvlrn/arch-setup/internal/sudo"
 )
+
+//go:embed config.json
+var configData []byte
+
+//go:embed stow/user/.config/mise/config.toml
+var miseConfigData []byte
 
 func main() {
 	repoReady := os.Getenv("GITHUB_ACTIONS") == "true"
@@ -27,7 +34,7 @@ func main() {
 }
 
 func run(ctx context.Context, verifyOnly bool, repoReady bool) error {
-	config, err := start.Bootstrap()
+	config, err := start.Bootstrap(configData, miseConfigData)
 	if err != nil {
 		return err
 	}
@@ -69,7 +76,7 @@ func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
 		steps.InstallPkg(steps.UseYay, config.MainPackages),
 		steps.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
-		steps.Mise(config.HomeDir),
+		steps.Mise(config.HomeDir, config.MiseTools),
 		steps.User(config.Username, config.HomeDir),
 	)
 

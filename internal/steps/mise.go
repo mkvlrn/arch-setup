@@ -1,6 +1,7 @@
 package steps
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
@@ -8,11 +9,12 @@ import (
 )
 
 // Mise installs the mise binary and uses it to globally install the tools in its manifest.
-func Mise(homeDir string) setup.Step {
+func Mise(homeDir string, tools []string) setup.Step {
+	stepName := fmt.Sprintf("Installing mise and %d tools", len(tools))
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 
 	return setup.Step{
-		Name: "Install mise and the global tools it manages",
+		Name: stepName,
 		Commands: []shell.Command{
 			{
 				Name: "install mise",

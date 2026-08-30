@@ -9,7 +9,7 @@ import (
 
 // User configures settings needed for normal usage after install.
 func User(username string, homeDir string) setup.Step {
-	ftpRootDir := filepath.Join(homeDir, "downloads", "torrents")
+	ftpRootDir := filepath.Join(homeDir, "torrents")
 	fishComplDir := filepath.Join(homeDir, ".config", "fish", "completions")
 
 	return setup.Step{
@@ -28,9 +28,9 @@ func User(username string, homeDir string) setup.Step {
 				Sudo: true,
 			},
 			{
-				Name: "create required dirs",
+				Name: "create fish compl dir",
 				Path: "mkdir",
-				Args: []string{"-p", fishComplDir, ftpRootDir},
+				Args: []string{"-p", fishComplDir},
 			},
 			{
 				Name: "set anonymous ftp user root dir",

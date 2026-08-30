@@ -78,7 +78,7 @@ func verifyFtpHome(ctx context.Context, homeDir string) error {
 
 	const homeField = 5
 
-	expected := filepath.Join(homeDir, "downloads", "torrents")
+	expected := filepath.Join(homeDir, "torrents")
 
 	if entry[homeField] != expected {
 		return fmt.Errorf(
@@ -129,7 +129,6 @@ func verifyHomeTraversal(homeDir string) error {
 func verifyUserDirectories(homeDir string) error {
 	return verifyDirectoriesExist(homeDir, []string{
 		filepath.Join(".config", "fish", "completions"),
-		filepath.Join("downloads", "torrents"),
 	})
 }
 

@@ -25,6 +25,7 @@ func UserVerify(username string, homeDir string) setup.Check {
 				verifyHomeTraversal(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "pure-ftpd.service"),
+				verifySystemdUnit(ctx, "paccache.timer"),
 				verifyCompletions(homeDir),
 			)
 		},

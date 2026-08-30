@@ -17,6 +17,7 @@
     "less",
     "okular",
     "openssh",
+    "pacman-contrib",
     "power-profiles-daemon",
     "pure-ftpd",
     "qalculate-qt",

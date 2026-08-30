@@ -55,6 +55,12 @@ func User(username string, homeDir string) setup.Step {
 				Sudo: true,
 			},
 			{
+				Name: "start paccache service",
+				Path: "systemctl",
+				Args: []string{"enable", "--now", "paccache.timer"},
+				Sudo: true,
+			},
+			{
 				Name: "create completions directory",
 				Path: "mkdir",
 				Args: []string{"-p", baseCompletion},

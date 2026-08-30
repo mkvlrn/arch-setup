@@ -7,7 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"strings"
+	"slices"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
@@ -28,6 +28,8 @@ func StowVerify(dest stowDestination, repoDir string, homeDir string) setup.Chec
 func verifyStowTree(sourceRoot string, targetRoot string) error {
 	var failures []error
 
+	ignoreStow := []string{".gitkeep", ".stow-local-ignore"}
+
 	err := filepath.WalkDir(
 		sourceRoot,
 		func(source string, entry fs.DirEntry, walkErr error) error {
@@ -39,7 +41,7 @@ func verifyStowTree(sourceRoot string, targetRoot string) error {
 				return nil
 			}
 
-			if strings.HasSuffix(entry.Name(), ".gitkeep") {
+			if slices.Contains(ignoreStow, entry.Name()) {
 				return nil
 			}
 

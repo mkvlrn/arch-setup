@@ -3,7 +3,7 @@ name: local-docker
 services:
   postgres:
     container_name: local-postgres
-    image: postgres:alpine
+    image: postgres:alpine@sha256:d3e1620b530c944afa6e887d22eb899824da68e19c52024bf98f5220c88a65b2
     ports:
       - 5432:5432
     environment:
@@ -15,7 +15,7 @@ services:
 
   mysql:
     container_name: local-mysql
-    image: mysql
+    image: mysql@sha256:66aec17cd21a956029b83f083b813073859e8355dc1a00e55df6ba02f0e32345
     ports:
       - 3306:3306
     environment:
@@ -25,7 +25,7 @@ services:
 
   mongodb:
     container_name: local-mongodb
-    image: bitnami/mongodb
+    image: bitnami/mongodb@sha256:1b97815032d03904c324dea54e61c990a8ba3e6ae8d1074b525b6ea1d228f68a
     ports:
       - 27017:27017
     environment:
@@ -41,7 +41,7 @@ services:
 
   mssql:
     container_name: local-mssql
-    image: mcr.microsoft.com/mssql/server:2025-latest
+    image: mcr.microsoft.com/mssql/server:2025-latest@sha256:4bab24f36c1ecd48e85f7d37df26e6bf301641d84c3fe652f9a0dcc947d512e1
     ports:
       - 1433:1433
     environment:
@@ -52,7 +52,7 @@ services:
 
   redis:
     container_name: local-redis
-    image: redis:alpine
+    image: redis:alpine@sha256:becdda6c7f4b3fb42e42fd7f120bbf5c54c4caaaf16f26da24e4563d2c1f0576
     command: >
       --requirepass ""
     ports:
@@ -62,7 +62,7 @@ services:
 
   dynamodb:
     container_name: local-dynamodb
-    image: amazon/dynamodb-local
+    image: amazon/dynamodb-local@sha256:ff89bd48ff32cd8d9be5fee8873b65b8854dc408f1afe881be6eb00247bc0dab
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /dynamodb-data"
     ports:
       - 8000:8000
@@ -71,7 +71,7 @@ services:
 
   rabbitmq:
     container_name: local-rabbitmq
-    image: rabbitmq:management-alpine
+    image: rabbitmq:management-alpine@sha256:e2f08f846de10bb09649a8b020f286ed362a8f72ee45e5a8d043851f1533fda8
     ports:
       - 15672:15672
       - 5672:5672

@@ -1,0 +1,21 @@
+{
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "e",
+        description: Some("Files"),
+    ): Spawn("cosmic-files"),
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "t",
+    ): Disable,
+    (
+        modifiers: [
+            Super,
+        ],
+        key: "Return",
+    ): System(Terminal),
+}

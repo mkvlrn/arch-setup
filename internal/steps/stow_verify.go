@@ -7,28 +7,35 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
-	"slices"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
 
-// StowVerify returns the check for stowed system or user files.
-func StowVerify(dest stowDestination, repoDir string, homeDir string) setup.Check {
+// StowVerify returns the check for a stowed package.
+func StowVerify(pkg stowPackage, repoDir string, homeDir string) setup.Check {
 	return setup.Check{
-		Name: fmt.Sprintf("Verify stowed %s files", dest),
+		Name: fmt.Sprintf("Verify stowed %s files", pkg),
 		Run: func(_ context.Context) error {
-			sourceRoot := filepath.Join(repoDir, "stow", string(dest))
-			targetRoot := stowTarget(dest, homeDir)
+			sourceRoot := filepath.Join(repoDir, "stow", string(pkg))
 
-			return verifyStowTree(sourceRoot, targetRoot)
+			if pkg == StowCosmic {
+				return verifyCosmicStow(sourceRoot, homeDir)
+			}
+
+			return verifyStowTree(sourceRoot, stowTarget(pkg, homeDir))
 		},
 	}
 }
 
+func verifyCosmicStow(sourceRoot string, homeDir string) error {
+	source := filepath.Join(sourceRoot, ".config", "cosmic")
+	destination := filepath.Join(homeDir, ".config", "cosmic")
+
+	return verifyStowLink(source, destination)
+}
+
 func verifyStowTree(sourceRoot string, targetRoot string) error {
 	var failures []error
-
-	ignoreStow := []string{".gitkeep", ".stow-local-ignore"}
 
 	err := filepath.WalkDir(
 		sourceRoot,
@@ -41,10 +48,6 @@ func verifyStowTree(sourceRoot string, targetRoot string) error {
 				return nil
 			}
 
-			if slices.Contains(ignoreStow, entry.Name()) {
-				return nil
-			}
-
 			if err := verifyStowEntry(sourceRoot, targetRoot, source); err != nil {
 				failures = append(failures, err)
 			}
@@ -53,7 +56,10 @@ func verifyStowTree(sourceRoot string, targetRoot string) error {
 		},
 	)
 	if err != nil {
-		failures = append(failures, fmt.Errorf("walk stow package %q: %w", sourceRoot, err))
+		failures = append(
+			failures,
+			fmt.Errorf("walk stow package %q: %w", sourceRoot, err),
+		)
 	}
 
 	return errors.Join(failures...)
@@ -67,6 +73,10 @@ func verifyStowEntry(sourceRoot string, targetRoot string, source string) error 
 
 	destination := filepath.Join(targetRoot, relative)
 
+	return verifyStowLink(source, destination)
+}
+
+func verifyStowLink(source string, destination string) error {
 	info, err := os.Lstat(destination)
 	if err != nil {
 		return fmt.Errorf("inspect %q: %w", destination, err)
@@ -87,7 +97,12 @@ func verifyStowEntry(sourceRoot string, targetRoot string, source string) error 
 	}
 
 	if sourceReal != destinationReal {
-		return fmt.Errorf("%q points to %q instead of %q", destination, destinationReal, sourceReal)
+		return fmt.Errorf(
+			"%q points to %q instead of %q",
+			destination,
+			destinationReal,
+			sourceReal,
+		)
 	}
 
 	return nil

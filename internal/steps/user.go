@@ -8,7 +8,10 @@ import (
 )
 
 // User configures settings needed for normal usage after install.
+//
+//nolint:funlen // The function is long because it declaratively lists setup commands.
 func User(username string, homeDir string) setup.Step {
+	baseCompletion := filepath.Join(homeDir, ".config", "fish", "completions")
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	ghPath := filepath.Join(homeDir, ".local", "share", "mise", "shims", "gh")
 	glabPath := filepath.Join(homeDir, ".local", "share", "mise", "shims", "glab")
@@ -52,19 +55,24 @@ func User(username string, homeDir string) setup.Step {
 				Sudo: true,
 			},
 			{
+				Name: "create completions directory",
+				Path: "mkdir",
+				Args: []string{"-p", baseCompletion},
+			},
+			{
 				Name: "generate mise completions",
-				Path: misePath,
-				Args: []string{"completion", "fish", ">~/.config/fish/completions/mise.fish"},
+				Path: "sh",
+				Args: []string{"-c", `"$1" completion fish > "$2"`, "sh", misePath, filepath.Join(baseCompletion, "mise.fish")},
 			},
 			{
 				Name: "generate gh completions",
-				Path: ghPath,
-				Args: []string{"completion", "-s", "fish", ">~/.config/fish/completions/gh.fish"},
+				Path: "sh",
+				Args: []string{"-c", `"$1" completion -s fish > "$2"`, "sh", ghPath, filepath.Join(baseCompletion, "gh.fish")},
 			},
 			{
 				Name: "generate glab completions",
-				Path: glabPath,
-				Args: []string{"completion", "-s", "fish", ">~/.config/fish/completions/glab.fish"},
+				Path: "sh",
+				Args: []string{"-c", `"$1" completion -s fish > "$2"`, "sh", glabPath, filepath.Join(baseCompletion, "glab.fish")},
 			},
 		},
 	}

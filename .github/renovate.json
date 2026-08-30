@@ -1,5 +1,5 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>mkvlrn/ts-tools//packages/config/src/renovate"],
-  "ignorePaths": ["**/user/misc/.config/docker-compose.yml"]
+  "ignorePaths": ["stow/user/.config/docker-compose.yml"]
 }

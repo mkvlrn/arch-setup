@@ -3,6 +3,7 @@ package shell
 import (
 	"bytes"
 	"context"
+	"os"
 	"os/exec"
 )
 
@@ -28,6 +29,7 @@ func Run(ctx context.Context, commands []Command) ([]Result, error) {
 		cmd := exec.CommandContext(ctx, path, args...)
 
 		cmd.Dir = command.Dir
+		cmd.Env = append(os.Environ(), command.Env...)
 		cmd.Stdout = &stdout
 		cmd.Stderr = &stderr
 

@@ -25,6 +25,7 @@ func Mise(homeDir string, tools []string) setup.Step {
 				Name: "install tools managed by mise",
 				Path: misePath,
 				Args: []string{"install"},
+				Env:  []string{"GOPATH=" + filepath.Join(homeDir, ".go")},
 			},
 		},
 	}

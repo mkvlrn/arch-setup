@@ -14,6 +14,9 @@ type Command struct {
 	// Dir sets the command's working directory when non-empty.
 	Dir string
 
+	// Env adds or replaces environment variables for the command.
+	Env []string
+
 	// Sudo runs the command through sudo.
 	Sudo bool
 }

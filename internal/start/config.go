@@ -3,6 +3,7 @@ package start
 // Config describes data from config.json.
 type Config struct {
 	BasePackages   []string `json:"basePackages"`
+	RemovePackages []string `json:"removePackages"`
 	MainPackages   []string `json:"mainPackages"`
 	FlatpakApplets []string `json:"flatpakApplets"`
 	MiseTools      []string

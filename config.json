@@ -1,5 +1,6 @@
 {
   "basePackages": ["git", "base-devel", "reflector", "stow"],
+  "removePackages": ["vim", "cosmic-terminal"],
   "mainPackages": [
     "age",
     "bruno-bin",

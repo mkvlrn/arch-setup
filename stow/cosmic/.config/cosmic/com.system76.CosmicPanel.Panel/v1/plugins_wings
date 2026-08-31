@@ -2,7 +2,6 @@ Some(([
     "io.github.crocodile.cosmic-ext-applet-workspace-icons",
 ], [
     "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
-    "io.github.cosmic_utils.cosmic-ext-applet-clipboard-manager",
     "com.system76.CosmicAppletStatusArea",
     "com.system76.CosmicAppletTiling",
     "com.system76.CosmicAppletAudio",

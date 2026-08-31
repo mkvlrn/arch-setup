@@ -55,6 +55,7 @@ func run(ctx context.Context, verifyOnly bool, repoReady bool) error {
 func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
 	plan := []setup.Step{
 		steps.InstallPkg(steps.UsePacman, config.BasePackages),
+		steps.RemovePkg(config.RemovePackages),
 	}
 
 	if repoReady {
@@ -96,6 +97,7 @@ func runVerification(ctx context.Context, config start.Config) error {
 		steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
 		steps.InstallPkgVerify(packages),
+		steps.RemovePkgVerify(config.RemovePackages),
 		steps.FlatpakVerify(config.FlatpakApplets),
 		steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),

@@ -74,10 +74,12 @@ func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
 		steps.Stow(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.Yay(config.TempDir, config.MirrorListPath),
 		steps.InstallPkg(steps.UseYay, config.MainPackages),
+		steps.Flatpak(config.FlatpakApplets),
 		steps.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.Mise(config.HomeDir, config.MiseTools),
 		steps.User(config.Username, config.HomeDir),
+		steps.Stow(steps.StowCosmic, config.RepoDir, config.HomeDir),
 	)
 
 	return setup.Run(ctx, os.Stdout, plan)
@@ -94,10 +96,12 @@ func runVerification(ctx context.Context, config start.Config) error {
 		steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
 		steps.InstallPkgVerify(packages),
+		steps.FlatpakVerify(config.FlatpakApplets),
 		steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.MiseVerify(config.HomeDir),
 		steps.UserVerify(config.Username, config.HomeDir),
+		steps.StowVerify(steps.StowCosmic, config.RepoDir, config.HomeDir),
 	}
 
 	return setup.Verify(ctx, os.Stdout, checks)

@@ -11,6 +11,7 @@
     "dolphin",
     "firefox",
     "fish",
+    "flatpak",
     "ghostty",
     "gnome-keyring",
     "keychain",
@@ -28,6 +29,10 @@
     "visual-studio-code-bin",
     "xdg-user-dirs",
     "zed"
+  ],
+  "flatpakApplets": [
+    "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
+    "io.github.cosmic_utils.cosmic-ext-applet-clipboard-manager"
   ],
   "repoHttp": "https://github.com/mkvlrn/arch-setup",
   "repoSsh": "git@github.com:mkvlrn/arch-setup",

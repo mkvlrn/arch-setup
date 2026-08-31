@@ -2,9 +2,10 @@ package start
 
 // Config describes data from config.json.
 type Config struct {
-	BasePackages []string `json:"basePackages"`
-	MainPackages []string `json:"mainPackages"`
-	MiseTools    []string
+	BasePackages   []string `json:"basePackages"`
+	MainPackages   []string `json:"mainPackages"`
+	FlatpakApplets []string `json:"flatpakApplets"`
+	MiseTools      []string
 
 	RepoHTTP string `json:"repoHttp"`
 	RepoSSH  string `json:"repoSsh"`

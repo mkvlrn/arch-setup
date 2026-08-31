@@ -1,6 +1,9 @@
 # no greeting
 set -g fish_greeting
 
+# for ghostty, via cosmic
+set -gx GTK_IM_MODULE simple
+
 # initially for crontab, maybe others, idk
 set -gx VISUAL "code --wait"
 set -gx EDITOR "code --wait"

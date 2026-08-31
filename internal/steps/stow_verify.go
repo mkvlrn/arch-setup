@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
@@ -37,6 +38,8 @@ func verifyCosmicStow(sourceRoot string, homeDir string) error {
 func verifyStowTree(sourceRoot string, targetRoot string) error {
 	var failures []error
 
+	ignoreStow := []string{".gitkeep", ".stow-local-ignore"}
+
 	err := filepath.WalkDir(
 		sourceRoot,
 		func(source string, entry fs.DirEntry, walkErr error) error {
@@ -45,6 +48,10 @@ func verifyStowTree(sourceRoot string, targetRoot string) error {
 			}
 
 			if entry.IsDir() {
+				return nil
+			}
+
+			if slices.Contains(ignoreStow, entry.Name()) {
 				return nil
 			}
 

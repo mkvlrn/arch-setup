@@ -32,7 +32,8 @@
   ],
   "flatpakApplets": [
     "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
-    "io.github.cosmic_utils.cosmic-ext-applet-clipboard-manager"
+    "io.github.cosmic_utils.cosmic-ext-applet-clipboard-manager",
+    "io.github.crocodile.cosmic-ext-applet-workspace-icons"
   ],
   "repoHttp": "https://github.com/mkvlrn/arch-setup",
   "repoSsh": "git@github.com:mkvlrn/arch-setup",

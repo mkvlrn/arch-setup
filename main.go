@@ -21,26 +21,26 @@ var configData []byte
 var miseConfigData []byte
 
 func main() {
-	repoReady := os.Getenv("GITHUB_ACTIONS") == "true"
+	ci := os.Getenv("GITHUB_ACTIONS") == "true"
 	verifyOnly := flag.Bool("verify", false, "verify the installed system without modifying it")
 
 	flag.Parse()
 
-	if err := run(context.Background(), *verifyOnly, repoReady); err != nil {
+	if err := run(context.Background(), *verifyOnly, ci); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 
 		os.Exit(1)
 	}
 }
 
-func run(ctx context.Context, verifyOnly bool, repoReady bool) error {
+func run(ctx context.Context, verifyOnly bool, ci bool) error {
 	config, err := start.Bootstrap(configData, miseConfigData)
 	if err != nil {
 		return err
 	}
 
 	if verifyOnly {
-		return runVerification(ctx, config)
+		return runVerification(ctx, config, ci)
 	}
 
 	stopSudo, err := sudo.KeepAlive(ctx)
@@ -49,16 +49,15 @@ func run(ctx context.Context, verifyOnly bool, repoReady bool) error {
 	}
 	defer stopSudo()
 
-	return runSetup(ctx, config, repoReady)
+	return runSetup(ctx, config, ci)
 }
 
-func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
+func runSetup(ctx context.Context, config start.Config, ci bool) error {
 	plan := []setup.Step{
 		steps.InstallPkg(steps.UsePacman, config.BasePackages),
-		steps.RemovePkg(config.RemovePackages),
 	}
 
-	if repoReady {
+	if ci {
 		plan = append(
 			plan,
 			steps.ExistingRepo(config.RepoSSH, config.RepoDir),
@@ -66,6 +65,7 @@ func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
 	} else {
 		plan = append(
 			plan,
+			steps.RemovePkg(config.RemovePackages),
 			steps.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir),
 		)
 	}
@@ -86,7 +86,7 @@ func runSetup(ctx context.Context, config start.Config, repoReady bool) error {
 	return setup.Run(ctx, os.Stdout, plan)
 }
 
-func runVerification(ctx context.Context, config start.Config) error {
+func runVerification(ctx context.Context, config start.Config, ci bool) error {
 	packages := append(
 		append([]string{}, config.BasePackages...),
 		config.MainPackages...,
@@ -97,14 +97,21 @@ func runVerification(ctx context.Context, config start.Config) error {
 		steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
 		steps.InstallPkgVerify(packages),
-		steps.RemovePkgVerify(config.RemovePackages),
+	}
+
+	if !ci {
+		checks = append(checks, steps.RemovePkgVerify(config.RemovePackages))
+	}
+
+	checks = append(
+		checks,
 		steps.FlatpakVerify(config.FlatpakApplets),
 		steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.MiseVerify(config.HomeDir),
 		steps.UserVerify(config.Username, config.HomeDir),
 		steps.StowVerify(steps.StowCosmic, config.RepoDir, config.HomeDir),
-	}
+	)
 
 	return setup.Verify(ctx, os.Stdout, checks)
 }

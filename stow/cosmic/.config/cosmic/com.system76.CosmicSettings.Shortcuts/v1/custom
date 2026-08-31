@@ -10,12 +10,12 @@
         modifiers: [
             Super,
         ],
-        key: "t",
-    ): Disable,
+        key: "Return",
+    ): System(Terminal),
     (
         modifiers: [
             Super,
         ],
-        key: "Return",
-    ): System(Terminal),
+        key: "t",
+    ): Disable,
 }

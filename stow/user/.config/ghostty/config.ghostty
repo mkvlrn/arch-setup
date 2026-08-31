@@ -1,0 +1,7 @@
+font-family = "IosevkaTerm Nerd Font"
+theme = "Catppuccin Mocha"
+background-opacity = 0.9
+font-size = 15
+window-decoration = "server"
+window-height = 34
+window-width = 128

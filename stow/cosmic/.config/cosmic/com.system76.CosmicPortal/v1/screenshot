@@ -1,10 +1,10 @@
 (
-    save_location: Pictures,
+    save_location: Clipboard,
     choice: Rectangle,
     last_rectangle: Some((
-        left: 700,
-        top: 163,
-        right: 1258,
-        bottom: 722,
+        left: 1278,
+        top: 340,
+        right: 1976,
+        bottom: 637,
     )),
 )

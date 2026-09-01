@@ -9,7 +9,6 @@
     "docker-buildx",
     "docker-compose",
     "docker",
-    "dolphin",
     "firefox",
     "fish",
     "flatpak",

@@ -1,5 +1,6 @@
 Some(([
     "io.github.crocodile.cosmic-ext-applet-workspace-icons",
+    "io.github.cosmic-ext-applet-app-switcher",
 ], [
     "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
     "io.github.k33wee.clippy-land",

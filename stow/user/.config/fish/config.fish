@@ -1,6 +1,9 @@
 # no greeting
 set -g fish_greeting
 
+# vscode, teams, whatever else with electron
+set -Ux ELECTRON_OZONE_PLATFORM_HINT wayland
+
 # for ghostty, via cosmic
 set -gx GTK_IM_MODULE simple
 

@@ -2,8 +2,8 @@ Some(([
     "io.github.crocodile.cosmic-ext-applet-workspace-icons",
 ], [
     "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
-    "io.github.k33wee.clippy-land",
     "com.system76.CosmicAppletStatusArea",
+    "io.github.k33wee.clippy-land",
     "com.system76.CosmicAppletAudio",
     "com.system76.CosmicAppletBluetooth",
     "com.system76.CosmicAppletNetwork",

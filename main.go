@@ -60,12 +60,8 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 			Commands: []shell.Command{
 				{
 					Name: "test pacman",
-					Path: "pacman",
-					Args: []string{"--version"},
-				},
-				{
-					Name: "fail",
-					Path: "false",
+					Path: "sh",
+					Args: []string{"-c", "pacman --version; false"},
 				},
 			},
 		},

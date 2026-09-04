@@ -1,6 +1,5 @@
 function upgrayedd --description "Update system, mise, tools, and completions"
     yay
-    and flatpak update -y
     and mise self-update -y; or mise self-update -y # fail tolerance-ish
     and mise cache clear
     and mise upgrade -b

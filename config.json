@@ -12,9 +12,7 @@
     "docker",
     "ferdium-bin",
     "fish",
-    "flatpak",
     "ghostty",
-    "gnome-keyring",
     "keychain",
     "less",
     "okular",
@@ -30,11 +28,6 @@
     "visual-studio-code-bin",
     "xdg-user-dirs",
     "zed"
-  ],
-  "flatpakApplets": [
-    "com.github.DiegoMMR.CosmicExtAppletNowPlaying",
-    "io.github.k33wee.clippy-land",
-    "io.github.crocodile.cosmic-ext-applet-workspace-icons"
   ],
   "repoHttp": "https://github.com/mkvlrn/arch-setup",
   "repoSsh": "git@github.com:mkvlrn/arch-setup",

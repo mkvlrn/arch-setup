@@ -5,7 +5,6 @@ type Config struct {
 	BasePackages   []string `json:"basePackages"`
 	RemovePackages []string `json:"removePackages"`
 	MainPackages   []string `json:"mainPackages"`
-	FlatpakApplets []string `json:"flatpakApplets"`
 	MiseTools      []string
 
 	RepoHTTP string `json:"repoHttp"`

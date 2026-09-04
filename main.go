@@ -75,7 +75,6 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 		steps.Stow(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.Yay(config.TempDir, config.MirrorListPath),
 		steps.InstallPkg(steps.UseYay, config.MainPackages),
-		steps.Flatpak(config.FlatpakApplets),
 		steps.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.Mise(config.HomeDir, config.MiseTools),
@@ -105,7 +104,6 @@ func runVerification(ctx context.Context, config start.Config, ci bool) error {
 
 	checks = append(
 		checks,
-		steps.FlatpakVerify(config.FlatpakApplets),
 		steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
 		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.MiseVerify(config.HomeDir),

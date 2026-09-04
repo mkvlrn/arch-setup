@@ -126,7 +126,13 @@ func TestRunStopsAfterFailure(t *testing.T) {
 		t.Fatal("later step ran unexpectedly")
 	}
 
-	if !strings.HasSuffix(output.String(), "Done.\n") {
-		t.Fatalf("completion message missing from %q", output.String())
+	expectedOutput := "[1/2] failing step\n"
+
+	if output.String() != expectedOutput {
+		t.Fatalf(
+			"expected output %q, got %q",
+			expectedOutput,
+			output.String(),
+		)
 	}
 }

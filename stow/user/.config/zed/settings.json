@@ -7,34 +7,48 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "buffer_line_height": "standard",
-  "format_on_save": "on",
-  "cli_default_open_behavior": "new_window",
+  "agent": {
+    "sidebar_side": "right",
+    "dock": "right",
+    "favorite_models": [],
+    "model_parameters": [],
+    "default_profile": "ask"
+  },
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "provider": "zed",
+    "open_ai_compatible_api": {
+      "api_url": "",
+      "model": ""
+    }
+  },
   "auto_indent_on_paste": false,
   "auto_install_extensions": {
     "biome": true,
     "catppuccin": true,
     "catppuccin-icons": true,
     "dockerfile": true,
-    "html": true,
-    "toml": true,
-    "tsgo": true,
-    "git-firefly": true,
-    "make": true,
+    "editorconfig": true,
     "fish": true,
+    "git-firefly": true,
     "golangci-lint": true,
-    "editorconfig": true
+    "html": true,
+    "make": true,
+    "toml": true,
+    "tsgo": true
   },
   "base_keymap": "VSCode",
   "buffer_font_family": "ZedMono Nerd Font",
   "buffer_font_size": 20,
+  "buffer_line_height": "standard",
+  "cli_default_open_behavior": "new_window",
   "collaboration_panel": {
     "button": false
   },
   "debugger": {
     "dock": "right"
   },
-  "disable_ai": true,
+  "disable_ai": false,
   "experimental.theme_overrides": {
     "terminal.background": "#0b0b11"
   },
@@ -43,6 +57,7 @@
     "git-rebase": [".gitconfig.work"],
     "jsonc": ["**/settings.json"]
   },
+  "format_on_save": "on",
   "git_panel": {
     "dock": "left"
   },
@@ -63,6 +78,15 @@
         }
       },
       "language_servers": ["!eslint", "..."]
+    },
+    "Go": {
+      "formatter": {
+        "external": {
+          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"],
+          "command": "mise"
+        }
+      },
+      "language_servers": ["gopls", "golangci-lint"]
     },
     "JSON": {
       "code_actions_on_format": {
@@ -153,14 +177,28 @@
         "!tailwindcss-language-server",
         "..."
       ]
+    }
+  },
+  "lsp": {
+    "golangci-lint": {
+      "initialization_options": {
+        "command": [
+          "mise",
+          "exec",
+          "--",
+          "golangci-lint",
+          "run",
+          "--output.json.path",
+          "stdout",
+          "--show-stats=false",
+          "--output.text.path="
+        ]
+      }
     },
-    "Go": {
-      "language_servers": ["gopls", "golangci-lint"],
-      "formatter": {
-        "external": {
-          "command": "mise",
-          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"]
-        }
+    "gopls": {
+      "binary": {
+        "arguments": ["exec", "--", "gopls"],
+        "path": "mise"
       }
     }
   },
@@ -169,11 +207,11 @@
   },
   "preferred_line_length": 100,
   "project_panel": {
-    "diagnostic_badges": true,
-    "git_status_indicator": true,
-    "dock": "left",
     "auto_fold_dirs": false,
+    "diagnostic_badges": true,
+    "dock": "left",
     "entry_spacing": "standard",
+    "git_status_indicator": true,
     "hide_hidden": false,
     "hide_root": true,
     "indent_guides": {
@@ -206,34 +244,11 @@
   },
   "title_bar": {
     "show_branch_status_icon": true,
-    "show_sign_in": false,
-    "show_menus": false
+    "show_menus": false,
+    "show_sign_in": false
   },
   "ui_font_family": "Hack Nerd Font",
   "ui_font_size": 18,
   "unnecessary_code_fade": 0.6,
-  "wrap_guides": [100],
-  "lsp": {
-    "gopls": {
-      "binary": {
-        "path": "mise",
-        "arguments": ["exec", "--", "gopls"]
-      }
-    },
-    "golangci-lint": {
-      "initialization_options": {
-        "command": [
-          "mise",
-          "exec",
-          "--",
-          "golangci-lint",
-          "run",
-          "--output.json.path",
-          "stdout",
-          "--show-stats=false",
-          "--output.text.path="
-        ]
-      }
-    }
-  }
+  "wrap_guides": [100]
 }

@@ -40,5 +40,10 @@
     "unbind": {
       "ctrl-`": "terminal_panel::Toggle"
     }
+  },
+  {
+    "bindings": {
+      "ctrl-,": "zed::OpenSettingsFile"
+    }
   }
 ]

@@ -63,6 +63,10 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 					Path: "pacman",
 					Args: []string{"--version"},
 				},
+				{
+					Name: "fail",
+					Path: "false",
+				},
 			},
 		},
 		steps.InstallPkg(steps.UsePacman, config.BasePackages),

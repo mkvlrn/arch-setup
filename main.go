@@ -9,7 +9,6 @@ import (
 	"os"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
-	"github.com/mkvlrn/arch-setup/internal/shell"
 	"github.com/mkvlrn/arch-setup/internal/start"
 	"github.com/mkvlrn/arch-setup/internal/steps"
 	"github.com/mkvlrn/arch-setup/internal/sudo"
@@ -55,16 +54,6 @@ func run(ctx context.Context, verifyOnly bool, ci bool) error {
 
 func runSetup(ctx context.Context, config start.Config, ci bool) error {
 	plan := []setup.Step{
-		{
-			Name: "Yolo",
-			Commands: []shell.Command{
-				{
-					Name: "test pacman",
-					Path: "sh",
-					Args: []string{"-c", "pacman --version; false"},
-				},
-			},
-		},
 		steps.InstallPkg(steps.UsePacman, config.BasePackages),
 	}
 

@@ -53,6 +53,10 @@ popupHeight=432
 popupWidth=432
 wallpaperplugin=org.kde.image
 
+[Containments][55][Applets][60][Applets][107]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
+
 [Containments][55][Applets][60][Applets][61]
 immutability=1
 plugin=org.kde.plasma.vault
@@ -271,6 +275,10 @@ plugin=org.kde.plasma.brightness
 [Containments][82][Applets][86][Applets][102]
 immutability=1
 plugin=org.kde.plasma.bluetooth
+
+[Containments][82][Applets][86][Applets][106]
+immutability=1
+plugin=org.kde.plasma.mediacontroller
 
 [Containments][82][Applets][86][Applets][87]
 immutability=1

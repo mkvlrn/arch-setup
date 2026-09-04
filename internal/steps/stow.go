@@ -21,7 +21,7 @@ const (
 func Stow(pkg stowPackage, repoDir string, homeDir string) setup.Step {
 	stowDir := filepath.Join(repoDir, "stow")
 	targetRoot := stowTarget(pkg, homeDir)
-	args := []string{"-R"}
+	args := []string{"-R", "--no-folding"}
 
 	if pkg != StowSystem {
 		args = append(args, "--adopt")

@@ -10,6 +10,7 @@
     "docker-buildx",
     "docker-compose",
     "docker",
+    "ferdium-bin",
     "fish",
     "flatpak",
     "ghostty",

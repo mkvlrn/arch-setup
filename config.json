@@ -1,6 +1,6 @@
 {
   "basePackages": ["git", "base-devel", "reflector", "stow"],
-  "removePackages": ["vim", "cosmic-terminal"],
+  "removePackages": ["vim"],
   "mainPackages": [
     "age",
     "brave-origin-bin",

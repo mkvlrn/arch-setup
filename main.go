@@ -79,7 +79,6 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 		steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.Mise(config.HomeDir, config.MiseTools),
 		steps.User(config.Username, config.HomeDir),
-		steps.Stow(steps.StowCosmic, config.RepoDir, config.HomeDir),
 	)
 
 	return setup.Run(ctx, os.Stdout, plan)
@@ -108,7 +107,6 @@ func runVerification(ctx context.Context, config start.Config, ci bool) error {
 		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
 		steps.MiseVerify(config.HomeDir),
 		steps.UserVerify(config.Username, config.HomeDir),
-		steps.StowVerify(steps.StowCosmic, config.RepoDir, config.HomeDir),
 	)
 
 	return setup.Verify(ctx, os.Stdout, checks)

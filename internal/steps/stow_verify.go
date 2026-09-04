@@ -19,20 +19,9 @@ func StowVerify(pkg stowPackage, repoDir string, homeDir string) setup.Check {
 		Run: func(_ context.Context) error {
 			sourceRoot := filepath.Join(repoDir, "stow", string(pkg))
 
-			if pkg == StowCosmic {
-				return verifyCosmicStow(sourceRoot, homeDir)
-			}
-
 			return verifyStowTree(sourceRoot, stowTarget(pkg, homeDir))
 		},
 	}
-}
-
-func verifyCosmicStow(sourceRoot string, homeDir string) error {
-	source := filepath.Join(sourceRoot, ".config", "cosmic")
-	destination := filepath.Join(homeDir, ".config", "cosmic")
-
-	return verifyStowLink(source, destination)
 }
 
 func verifyStowTree(sourceRoot string, targetRoot string) error {

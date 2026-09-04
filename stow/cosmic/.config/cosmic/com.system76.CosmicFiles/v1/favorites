@@ -1,9 +1,0 @@
-[
-    Home,
-    Documents,
-    Downloads,
-    Music,
-    Path("/home/mkvlrn/repos"),
-    Path("/home/mkvlrn/torrents"),
-    Path("/home/mkvlrn/work"),
-]

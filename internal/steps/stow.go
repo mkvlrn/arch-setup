@@ -15,8 +15,6 @@ const (
 	StowSystem stowPackage = "system"
 	// StowUser selects the user Stow package.
 	StowUser stowPackage = "user"
-	// StowCosmic selects the cosmic Stow package.
-	StowCosmic stowPackage = "cosmic"
 )
 
 // Stow symlink packages to the correct paths.
@@ -24,10 +22,6 @@ func Stow(pkg stowPackage, repoDir string, homeDir string) setup.Step {
 	stowDir := filepath.Join(repoDir, "stow")
 	targetRoot := stowTarget(pkg, homeDir)
 	args := []string{"-R"}
-
-	if pkg != StowCosmic {
-		args = append(args, "--no-folding")
-	}
 
 	if pkg != StowSystem {
 		args = append(args, "--adopt")
@@ -72,7 +66,7 @@ func stowTarget(dest stowPackage, homeDir string) string {
 	switch dest {
 	case StowSystem:
 		return "/"
-	case StowUser, StowCosmic:
+	case StowUser:
 		return homeDir
 	default:
 		panic(fmt.Sprintf("unknown stow destination %q", dest))

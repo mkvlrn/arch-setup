@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -9,8 +9,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// RemovePkgVerify returns the check for packages that should not be installed.
-func RemovePkgVerify(packages []string) setup.Check {
+// RemovedPackages returns the check for packages that should not be installed.
+func RemovedPackages(packages []string) setup.Check {
 	return setup.Check{
 		Name: "Verify removed packages",
 		Run: func(ctx context.Context) error {

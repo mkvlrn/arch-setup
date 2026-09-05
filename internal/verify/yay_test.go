@@ -1,4 +1,4 @@
-package steps //nolint:testpackage // Tests exercise unexported filesystem verification helpers.
+package verify //nolint:testpackage // Tests exercise unexported filesystem verification helpers.
 
 import (
 	"errors"

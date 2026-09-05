@@ -1,4 +1,4 @@
-package steps_test
+package execute_test
 
 import (
 	"path/filepath"
@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/shell"
-	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
 const (
@@ -47,25 +47,25 @@ func TestCommandsInstallPackages(t *testing.T) {
 	packages := []string{"git", "base-devel"}
 
 	t.Run("pacman upgrades with sudo", func(t *testing.T) {
-		commands := steps.InstallPkg(steps.UsePacman, packages).Commands
+		commands := execute.InstallPkg(execute.UsePacman, packages).Commands
 		requireCommandCount(t, commands, 1)
 		checkCommand(t, commands[0], "pacman", true, "", "-Syu", "--noconfirm", "--needed", "git", "base-devel")
 	})
 	t.Run("yay installs without sudo", func(t *testing.T) {
-		commands := steps.InstallPkg(steps.UseYay, packages).Commands
+		commands := execute.InstallPkg(execute.UseYay, packages).Commands
 		requireCommandCount(t, commands, 1)
 		checkCommand(t, commands[0], "yay", false, "", "-S", "--noconfirm", "--needed", "git", "base-devel")
 	})
 }
 
 func TestCommandsRemovePackages(t *testing.T) {
-	commands := steps.RemovePkg([]string{"nano", "vim"}).Commands
+	commands := execute.RemovePkg([]string{"nano", "vim"}).Commands
 	requireCommandCount(t, commands, 1)
 	checkCommand(t, commands[0], "pacman", true, "", "-Rns", "--noconfirm", "nano", "vim")
 }
 
 func TestCommandsStowSystem(t *testing.T) {
-	commands := steps.Stow(steps.StowSystem, commandRepo, commandHome).Commands
+	commands := execute.Stow(execute.StowSystem, commandRepo, commandHome).Commands
 	requireCommandCount(t, commands, 2)
 	checkCommand(t, commands[0], "rm", true, "", "-f", "/etc/pacman.conf", "/etc/makepkg.conf")
 	checkCommand(t, commands[1], "stow", true, "",
@@ -73,7 +73,7 @@ func TestCommandsStowSystem(t *testing.T) {
 }
 
 func TestCommandsStowUser(t *testing.T) {
-	commands := steps.Stow(steps.StowUser, commandRepo, commandHome).Commands
+	commands := execute.Stow(execute.StowUser, commandRepo, commandHome).Commands
 	requireCommandCount(t, commands, 3)
 	checkCommand(t, commands[0], "stow", false, "",
 		"-R", "--no-folding", "--adopt", "-d", filepath.Join(commandRepo, "stow"), "-t", commandHome, "user")
@@ -82,7 +82,7 @@ func TestCommandsStowUser(t *testing.T) {
 }
 
 func TestCommandsXdg(t *testing.T) {
-	commands := steps.Xdg(
+	commands := execute.Xdg(
 		[]string{"new downloads", "new documents"},
 		[]string{"Old Downloads", "Old Documents"},
 		commandHome,
@@ -94,7 +94,7 @@ func TestCommandsXdg(t *testing.T) {
 }
 
 func TestCommandsMise(t *testing.T) {
-	commands := steps.Mise(commandHome, []string{"go", "node"}).Commands
+	commands := execute.Mise(commandHome, []string{"go", "node"}).Commands
 	requireCommandCount(t, commands, 2)
 	checkCommand(t, commands[0], "sh", false, "", "-c", "curl https://mise.run | sh")
 	checkCommand(t, commands[1], filepath.Join(commandHome, ".local", "bin", "mise"), false, "", "install")
@@ -106,7 +106,7 @@ func TestCommandsMise(t *testing.T) {
 }
 
 func TestCommandsUserSettings(t *testing.T) {
-	commands := steps.User("test-user", commandHome).Commands
+	commands := execute.User("test-user", commandHome).Commands
 	requireCommandCount(t, commands, 11)
 	checkCommand(t, commands[0], "chsh", true, "", "-s", "/usr/bin/fish", "test-user")
 	checkCommand(t, commands[1], "usermod", true, "", "-aG", "docker", "test-user")
@@ -119,7 +119,7 @@ func TestCommandsUserSettings(t *testing.T) {
 }
 
 func TestCommandsUserCompletions(t *testing.T) {
-	commands := steps.User("test-user", commandHome).Commands
+	commands := execute.User("test-user", commandHome).Commands
 	requireCommandCount(t, commands, 11)
 
 	completionDir := filepath.Join(commandHome, ".config", "fish", "completions")
@@ -147,7 +147,7 @@ func TestCommandsYay(t *testing.T) {
 		mirrorList = "/etc/test mirrors/mirrorlist"
 	)
 
-	commands := steps.Yay(tempDir, mirrorList).Commands
+	commands := execute.Yay(tempDir, mirrorList).Commands
 	requireCommandCount(t, commands, 7)
 
 	source := filepath.Join(tempDir, "yay-bin")
@@ -168,7 +168,7 @@ func TestCommandsCloneRepo(t *testing.T) {
 		revision   = "0123456789abcdef0123456789abcdef01234567"
 	)
 
-	commands := steps.CloneRepo(remoteHTTP, remoteSSH, commandRepo, revision).Commands
+	commands := execute.CloneRepo(remoteHTTP, remoteSSH, commandRepo, revision).Commands
 	requireCommandCount(t, commands, 4)
 	checkCommand(t, commands[0], "git", false, "", "clone", remoteHTTP, commandRepo)
 	checkCommand(t, commands[1], "git", false, commandRepo, "checkout", "-B", "main", revision)
@@ -182,7 +182,7 @@ func TestCommandsExistingRepoAssertsRevisionBeforeRemote(t *testing.T) {
 		revision = "revision with spaces"
 	)
 
-	commands := steps.ExistingRepo(remote, commandRepo, revision).Commands
+	commands := execute.ExistingRepo(remote, commandRepo, revision).Commands
 	requireCommandCount(t, commands, 2)
 
 	assertion := commands[0]

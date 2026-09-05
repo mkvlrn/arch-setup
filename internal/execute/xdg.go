@@ -1,4 +1,4 @@
-package steps
+package execute
 
 import (
 	"github.com/mkvlrn/arch-setup/internal/setup"

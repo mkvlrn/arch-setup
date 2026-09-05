@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -9,8 +9,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// InstallPkgVerify returns the check for packages installed as base and main packages.
-func InstallPkgVerify(packages []string) setup.Check {
+// InstalledPackages returns the check for packages installed as base and main packages.
+func InstalledPackages(packages []string) setup.Check {
 	return setup.Check{
 		Name: "Verify installed packages",
 		Run: func(ctx context.Context) error {

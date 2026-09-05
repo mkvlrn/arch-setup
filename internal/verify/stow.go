@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -12,8 +12,17 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
 
-// StowVerify returns the check for a stowed package.
-func StowVerify(pkg stowPackage, repoDir string, homeDir string) setup.Check {
+type stowPackage string
+
+const (
+	// StowSystem selects the system Stow package.
+	StowSystem stowPackage = "system"
+	// StowUser selects the user Stow package.
+	StowUser stowPackage = "user"
+)
+
+// Stow returns the check for a stowed package.
+func Stow(pkg stowPackage, repoDir string, homeDir string) setup.Check {
 	return setup.Check{
 		Name: fmt.Sprintf("Verify stowed %s files", pkg),
 		Run: func(_ context.Context) error {
@@ -111,4 +120,15 @@ func resolvePath(path string) (string, error) {
 	}
 
 	return filepath.Abs(resolved)
+}
+
+func stowTarget(dest stowPackage, homeDir string) string {
+	switch dest {
+	case StowSystem:
+		return "/"
+	case StowUser:
+		return homeDir
+	default:
+		panic(fmt.Sprintf("unknown stow destination %q", dest))
+	}
 }

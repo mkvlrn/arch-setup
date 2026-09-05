@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -13,8 +13,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// UserVerify returns the check for miscellaneous user settings.
-func UserVerify(username string, homeDir string) setup.Check {
+// User returns the check for miscellaneous user settings.
+func User(username string, homeDir string) setup.Check {
 	return setup.Check{
 		Name: "Verify miscellaneous user settings",
 		Run: func(ctx context.Context) error {

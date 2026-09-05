@@ -1,4 +1,4 @@
-package steps //nolint:testpackage // Tests exercise unexported filesystem verification helpers.
+package verify //nolint:testpackage // Tests exercise unexported filesystem verification helpers.
 
 import (
 	"errors"
@@ -46,7 +46,7 @@ func filesystemVerifyError(t *testing.T, err error, fragments ...string) {
 	}
 }
 
-func TestStowVerifyFilesystem(t *testing.T) {
+func TestStowFilesystem(t *testing.T) {
 	for _, relative := range []bool{false, true} {
 		name := "absolute"
 		if relative {
@@ -81,7 +81,7 @@ func TestStowVerifyFilesystem(t *testing.T) {
 
 			filesystemVerifyLink(t, target, destination)
 
-			check := StowVerify(StowUser, repo, home)
+			check := Stow(StowUser, repo, home)
 			if check.Name != "Verify stowed user files" {
 				t.Errorf("unexpected check name %q", check.Name)
 			}

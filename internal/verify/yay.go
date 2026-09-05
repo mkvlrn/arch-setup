@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -11,8 +11,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// YayVerify returns the check for the Yay installation and mirror configuration.
-func YayVerify(mirrorListPath string, mirrorListCheck string) setup.Check {
+// Yay returns the check for the Yay installation and mirror configuration.
+func Yay(mirrorListPath string, mirrorListCheck string) setup.Check {
 	return setup.Check{
 		Name: "Verify Yay and mirrors",
 		Run: func(ctx context.Context) error {

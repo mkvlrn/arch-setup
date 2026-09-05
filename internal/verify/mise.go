@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -10,8 +10,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// MiseVerify returns a check for mise and all tools in its global manifest.
-func MiseVerify(homeDir string) setup.Check {
+// Mise returns a check for mise and all tools in its global manifest.
+func Mise(homeDir string) setup.Check {
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 
 	return setup.Check{

@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -12,8 +12,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-// CloneRepoVerify returns the check for the cloned arch-setup repository.
-func CloneRepoVerify(repoSSH, repoDir, revision string) setup.Check {
+// Repository returns the check for the cloned arch-setup repository.
+func Repository(repoSSH, repoDir, revision string) setup.Check {
 	return setup.Check{
 		Name: "Verify cloned repository",
 		Run: func(ctx context.Context) error {

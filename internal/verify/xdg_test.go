@@ -1,4 +1,4 @@
-package steps //nolint:testpackage // Tests share fixtures with unexported filesystem helper tests.
+package verify //nolint:testpackage // Tests share fixtures with unexported filesystem helper tests.
 
 import (
 	"os"
@@ -29,7 +29,7 @@ func filesystemVerifyXdgFixture(t *testing.T, kind, path string) {
 	}
 }
 
-func TestXdgVerifyFilesystem(t *testing.T) {
+func TestXdgFilesystem(t *testing.T) {
 	for _, tc := range []struct {
 		name    string
 		kind    string
@@ -60,7 +60,7 @@ func TestXdgVerifyFilesystem(t *testing.T) {
 				required, removed = removed, required
 			}
 
-			check := XdgVerify(required, removed, home)
+			check := Xdg(required, removed, home)
 			if check.Name != "Verify XDG user directories" {
 				t.Errorf("unexpected check name %q", check.Name)
 			}
@@ -79,19 +79,19 @@ func TestXdgVerifyFilesystem(t *testing.T) {
 	}
 }
 
-func TestXdgVerifyEmptyFilesystem(t *testing.T) {
-	if err := XdgVerify(nil, nil, filepath.Join(t.TempDir(), "absent")).Run(t.Context()); err != nil {
+func TestXdgEmptyFilesystem(t *testing.T) {
+	if err := Xdg(nil, nil, filepath.Join(t.TempDir(), "absent")).Run(t.Context()); err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestXdgVerifyAggregatesFilesystem(t *testing.T) {
+func TestXdgAggregatesFilesystem(t *testing.T) {
 	home := t.TempDir()
 	filesystemVerifyFile(t, filepath.Join(home, "wrong type"))
 	filesystemVerifyFile(t, filepath.Join(home, "old one"))
 	filesystemVerifyFile(t, filepath.Join(home, "old two"))
 
-	err := XdgVerify([]string{"missing", "wrong type"}, []string{"old one", "old two"}, home).Run(t.Context())
+	err := Xdg([]string{"missing", "wrong type"}, []string{"old one", "old two"}, home).Run(t.Context())
 	filesystemVerifyError(t, err,
 		filepath.Join(home, "missing"), filepath.Join(home, "wrong type"),
 		filepath.Join(home, "old one"), filepath.Join(home, "old two"),

@@ -1,4 +1,4 @@
-package steps_test
+package execute_test
 
 import (
 	"errors"
@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/shell"
-	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
 const testRemote = "git@example.invalid:setup.git"
@@ -57,7 +57,7 @@ func revisionRepo(t *testing.T) (dir, older, newer string) {
 func TestCloneRepoPinsOlderRevision(t *testing.T) {
 	source, older, _ := revisionRepo(t)
 	destination := filepath.Join(t.TempDir(), "clone with spaces")
-	step := steps.CloneRepo(source, testRemote, destination, older)
+	step := execute.CloneRepo(source, testRemote, destination, older)
 
 	if _, err := shell.Run(t.Context(), step.Commands); err != nil {
 		t.Fatal(err)
@@ -71,8 +71,12 @@ func TestCloneRepoPinsOlderRevision(t *testing.T) {
 		t.Fatalf("expected main branch, got %s", branch)
 	}
 
-	if err := steps.CloneRepoVerify(testRemote, destination, older).Run(t.Context()); err != nil {
-		t.Fatal(err)
+	if remote := gitOutput(t, destination, "remote", "get-url", "origin"); remote != testRemote {
+		t.Fatalf("expected origin %s, got %s", testRemote, remote)
+	}
+
+	if status := gitOutput(t, destination, "status", "--porcelain"); status != "" {
+		t.Fatalf("expected clean repository, got %s", status)
 	}
 }
 
@@ -80,7 +84,7 @@ func TestCloneRepoTracksMainForPull(t *testing.T) {
 	source, older, newer := revisionRepo(t)
 	destination := filepath.Join(t.TempDir(), "clone")
 	// Keep the test origin local so pull exercises tracking without network access.
-	step := steps.CloneRepo(source, source, destination, older)
+	step := execute.CloneRepo(source, source, destination, older)
 
 	if _, err := shell.Run(t.Context(), step.Commands); err != nil {
 		t.Fatal(err)
@@ -100,7 +104,7 @@ func TestCloneRepoTracksMainForPull(t *testing.T) {
 func TestCloneRepoUnavailableRevision(t *testing.T) {
 	source, _, _ := revisionRepo(t)
 	destination := filepath.Join(t.TempDir(), "clone")
-	step := steps.CloneRepo(source, testRemote, destination, strings.Repeat("0", 40))
+	step := execute.CloneRepo(source, testRemote, destination, strings.Repeat("0", 40))
 
 	if _, err := shell.Run(t.Context(), step.Commands); err == nil {
 		t.Fatal("expected unavailable revision to fail")
@@ -127,7 +131,7 @@ func TestExistingRepoRevision(t *testing.T) {
 				revision = newer
 			}
 
-			_, err := shell.Run(t.Context(), steps.ExistingRepo(testRemote, dir, revision).Commands)
+			_, err := shell.Run(t.Context(), execute.ExistingRepo(testRemote, dir, revision).Commands)
 			if match && err != nil {
 				t.Fatal(err)
 			}
@@ -160,70 +164,5 @@ func assertRevisionMismatch(t *testing.T, err error, expected, actual string) {
 
 	if !strings.Contains(commandErr.Stderr, expected) || !strings.Contains(commandErr.Stderr, actual) {
 		t.Fatalf("missing revision diagnostic: %s", commandErr.Stderr)
-	}
-}
-
-func makeRepoDirty(t *testing.T, dir, kind string) {
-	t.Helper()
-
-	file := "untracked"
-	if kind == "tracked dirty" || kind == "staged dirty" {
-		file = "tracked"
-	}
-
-	if err := os.WriteFile(filepath.Join(dir, file), []byte("dirty"), 0o600); err != nil {
-		t.Fatal(err)
-	}
-
-	if kind == "staged dirty" {
-		gitOutput(t, dir, "add", file)
-	}
-}
-
-func TestCloneRepoVerify(t *testing.T) {
-	tests := []struct {
-		name          string
-		wrongRevision bool
-		remote        string
-		dirty         string
-		want          []string
-	}{
-		{name: "match", remote: testRemote},
-		{name: "wrong revision", wrongRevision: true, remote: testRemote, want: []string{"expected HEAD"}},
-		{name: "wrong remote", remote: "different", want: []string{"expected origin"}},
-		{name: "dirty", remote: testRemote, dirty: "dirty", want: []string{"repository is dirty"}},
-		{name: "tracked dirty", remote: testRemote, dirty: "tracked dirty", want: []string{"repository is dirty"}},
-		{name: "staged dirty", remote: testRemote, dirty: "staged dirty", want: []string{"repository is dirty"}},
-		{
-			name: "all wrong", wrongRevision: true, remote: "different", dirty: "dirty",
-			want: []string{"expected HEAD", "expected origin", "repository is dirty"},
-		},
-	}
-
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			dir, older, newer := revisionRepo(t)
-			gitOutput(t, dir, "remote", "add", "origin", testRemote)
-
-			revision := newer
-			if test.wrongRevision {
-				revision = older
-			}
-
-			if test.dirty != "" {
-				makeRepoDirty(t, dir, test.dirty)
-			}
-
-			err := steps.CloneRepoVerify(test.remote, dir, revision).Run(t.Context())
-			if len(test.want) == 0 && err != nil {
-				t.Fatal(err)
-			}
-
-			for _, message := range test.want {
-				if err == nil || !strings.Contains(err.Error(), message) {
-					t.Errorf("expected %q, got %v", message, err)
-				}
-			}
-		})
 	}
 }

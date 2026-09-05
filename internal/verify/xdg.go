@@ -1,4 +1,4 @@
-package steps
+package verify
 
 import (
 	"context"
@@ -10,8 +10,8 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
 
-// XdgVerify returns the check for the configured XDG directories.
-func XdgVerify(mkdir []string, rmrf []string, homeDir string) setup.Check {
+// Xdg returns the check for the configured XDG directories.
+func Xdg(mkdir []string, rmrf []string, homeDir string) setup.Check {
 	return setup.Check{
 		Name: "Verify XDG user directories",
 		Run: func(_ context.Context) error {

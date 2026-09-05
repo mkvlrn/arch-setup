@@ -1,39 +1,40 @@
 package app
 
 import (
+	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/start"
-	"github.com/mkvlrn/arch-setup/internal/steps"
+	"github.com/mkvlrn/arch-setup/internal/verify"
 )
 
 func setupPlan(config start.Config, ci bool) []setup.Step {
 	plan := []setup.Step{
-		steps.InstallPkg(steps.UsePacman, config.BasePackages),
+		execute.InstallPkg(execute.UsePacman, config.BasePackages),
 	}
 
 	if ci {
 		plan = append(
 			plan,
-			steps.ExistingRepo(config.RepoSSH, config.RepoDir, revision.Commit),
+			execute.ExistingRepo(config.RepoSSH, config.RepoDir, revision.Commit),
 		)
 	} else {
 		plan = append(
 			plan,
-			steps.RemovePkg(config.RemovePackages),
-			steps.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir, revision.Commit),
+			execute.RemovePkg(config.RemovePackages),
+			execute.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir, revision.Commit),
 		)
 	}
 
 	plan = append(
 		plan,
-		steps.Stow(steps.StowSystem, config.RepoDir, config.HomeDir),
-		steps.Yay(config.TempDir, config.MirrorListPath),
-		steps.InstallPkg(steps.UseYay, config.MainPackages),
-		steps.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
-		steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
-		steps.Mise(config.HomeDir, config.MiseTools),
-		steps.User(config.Username, config.HomeDir),
+		execute.Stow(execute.StowSystem, config.RepoDir, config.HomeDir),
+		execute.Yay(config.TempDir, config.MirrorListPath),
+		execute.InstallPkg(execute.UseYay, config.MainPackages),
+		execute.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
+		execute.Stow(execute.StowUser, config.RepoDir, config.HomeDir),
+		execute.Mise(config.HomeDir, config.MiseTools),
+		execute.User(config.Username, config.HomeDir),
 	)
 
 	return plan
@@ -46,22 +47,22 @@ func verificationPlan(config start.Config, ci bool) []setup.Check {
 	)
 
 	checks := []setup.Check{
-		steps.CloneRepoVerify(config.RepoSSH, config.RepoDir, revision.Commit),
-		steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
-		steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
-		steps.InstallPkgVerify(packages),
+		verify.Repository(config.RepoSSH, config.RepoDir, revision.Commit),
+		verify.Stow(verify.StowSystem, config.RepoDir, config.HomeDir),
+		verify.Yay(config.MirrorListPath, config.MirrorListCheck),
+		verify.InstalledPackages(packages),
 	}
 
 	if !ci {
-		checks = append(checks, steps.RemovePkgVerify(config.RemovePackages))
+		checks = append(checks, verify.RemovedPackages(config.RemovePackages))
 	}
 
 	checks = append(
 		checks,
-		steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
-		steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
-		steps.MiseVerify(config.HomeDir),
-		steps.UserVerify(config.Username, config.HomeDir),
+		verify.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
+		verify.Stow(verify.StowUser, config.RepoDir, config.HomeDir),
+		verify.Mise(config.HomeDir),
+		verify.User(config.Username, config.HomeDir),
 	)
 
 	return checks

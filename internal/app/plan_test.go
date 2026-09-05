@@ -6,10 +6,11 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/start"
-	"github.com/mkvlrn/arch-setup/internal/steps"
+	"github.com/mkvlrn/arch-setup/internal/verify"
 )
 
 func planConfig() start.Config {
@@ -32,25 +33,25 @@ func TestSetupPlan(t *testing.T) {
 
 	for _, ci := range []bool{false, true} {
 		config := planConfig()
-		want := []setup.Step{steps.InstallPkg(steps.UsePacman, config.BasePackages)}
+		want := []setup.Step{execute.InstallPkg(execute.UsePacman, config.BasePackages)}
 
 		if ci {
-			want = append(want, steps.ExistingRepo(config.RepoSSH, config.RepoDir, revision.Commit))
+			want = append(want, execute.ExistingRepo(config.RepoSSH, config.RepoDir, revision.Commit))
 		} else {
 			want = append(want,
-				steps.RemovePkg(config.RemovePackages),
-				steps.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir, revision.Commit),
+				execute.RemovePkg(config.RemovePackages),
+				execute.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir, revision.Commit),
 			)
 		}
 
 		want = append(want,
-			steps.Stow(steps.StowSystem, config.RepoDir, config.HomeDir),
-			steps.Yay(config.TempDir, config.MirrorListPath),
-			steps.InstallPkg(steps.UseYay, config.MainPackages),
-			steps.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
-			steps.Stow(steps.StowUser, config.RepoDir, config.HomeDir),
-			steps.Mise(config.HomeDir, config.MiseTools),
-			steps.User(config.Username, config.HomeDir),
+			execute.Stow(execute.StowSystem, config.RepoDir, config.HomeDir),
+			execute.Yay(config.TempDir, config.MirrorListPath),
+			execute.InstallPkg(execute.UseYay, config.MainPackages),
+			execute.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
+			execute.Stow(execute.StowUser, config.RepoDir, config.HomeDir),
+			execute.Mise(config.HomeDir, config.MiseTools),
+			execute.User(config.Username, config.HomeDir),
 		)
 
 		got := setupPlan(config, ci)
@@ -71,20 +72,20 @@ func TestVerificationPlan(t *testing.T) {
 		config := planConfig()
 
 		want := []setup.Check{
-			steps.CloneRepoVerify(config.RepoSSH, config.RepoDir, revision.Commit),
-			steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
-			steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
-			steps.InstallPkgVerify(append(slices.Clone(config.BasePackages), config.MainPackages...)),
+			verify.Repository(config.RepoSSH, config.RepoDir, revision.Commit),
+			verify.Stow(verify.StowSystem, config.RepoDir, config.HomeDir),
+			verify.Yay(config.MirrorListPath, config.MirrorListCheck),
+			verify.InstalledPackages(append(slices.Clone(config.BasePackages), config.MainPackages...)),
 		}
 		if !ci {
-			want = append(want, steps.RemovePkgVerify(config.RemovePackages))
+			want = append(want, verify.RemovedPackages(config.RemovePackages))
 		}
 
 		want = append(want,
-			steps.XdgVerify(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
-			steps.StowVerify(steps.StowUser, config.RepoDir, config.HomeDir),
-			steps.MiseVerify(config.HomeDir),
-			steps.UserVerify(config.Username, config.HomeDir),
+			verify.Xdg(config.XdgMkDir, config.XdgRmRf, config.HomeDir),
+			verify.Stow(verify.StowUser, config.RepoDir, config.HomeDir),
+			verify.Mise(config.HomeDir),
+			verify.User(config.Username, config.HomeDir),
 		)
 
 		got := verificationPlan(config, ci)

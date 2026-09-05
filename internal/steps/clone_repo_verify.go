@@ -13,7 +13,7 @@ import (
 )
 
 // CloneRepoVerify returns the check for the cloned arch-setup repository.
-func CloneRepoVerify(repoSSH string, repoDir string) setup.Check {
+func CloneRepoVerify(repoSSH, repoDir, revision string) setup.Check {
 	return setup.Check{
 		Name: "Verify cloned repository",
 		Run: func(ctx context.Context) error {
@@ -36,6 +36,12 @@ func CloneRepoVerify(repoSSH string, repoDir string) setup.Check {
 					Dir:  repoDir,
 				},
 				{
+					Name: "get repository HEAD",
+					Path: "git",
+					Args: []string{"rev-parse", "HEAD"},
+					Dir:  repoDir,
+				},
+				{
 					Name: "get repository status",
 					Path: "git",
 					Args: []string{"status", "--porcelain"},
@@ -46,19 +52,28 @@ func CloneRepoVerify(repoSSH string, repoDir string) setup.Check {
 				return err
 			}
 
-			var failures []error
-
-			remote := strings.TrimSpace(results[0].Stdout)
-			if remote != repoSSH {
-				failures = append(failures, fmt.Errorf("expected origin %q, got %q", repoSSH, remote))
-			}
-
-			status := strings.TrimSpace(results[1].Stdout)
-			if status != "" {
-				failures = append(failures, fmt.Errorf("repository is dirty:\n%s", status))
-			}
-
-			return errors.Join(failures...)
+			return verifyRepoResults(results, repoSSH, revision)
 		},
 	}
+}
+
+func verifyRepoResults(results []shell.Result, repoSSH, revision string) error {
+	var failures []error
+
+	remote := strings.TrimSpace(results[0].Stdout)
+	if remote != repoSSH {
+		failures = append(failures, fmt.Errorf("expected origin %q, got %q", repoSSH, remote))
+	}
+
+	head := strings.TrimSpace(results[1].Stdout)
+	if head != revision {
+		failures = append(failures, fmt.Errorf("expected HEAD %q, got %q", revision, head))
+	}
+
+	status := strings.TrimSpace(results[2].Stdout)
+	if status != "" {
+		failures = append(failures, fmt.Errorf("repository is dirty:\n%s", status))
+	}
+
+	return errors.Join(failures...)
 }

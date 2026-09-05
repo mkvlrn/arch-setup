@@ -3,10 +3,19 @@ package main
 
 import (
 	"context"
+	_ "embed"
 	"flag"
 	"fmt"
 	"os"
+
+	"github.com/mkvlrn/arch-setup/internal/app"
 )
+
+//go:embed config.json
+var configData []byte
+
+//go:embed stow/user/.config/mise/config.toml
+var miseConfigData []byte
 
 func main() {
 	ci := os.Getenv("GITHUB_ACTIONS") == "true"
@@ -14,7 +23,7 @@ func main() {
 
 	flag.Parse()
 
-	if err := run(context.Background(), *verifyOnly, ci); err != nil {
+	if err := app.Run(context.Background(), configData, miseConfigData, *verifyOnly, ci); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 
 		os.Exit(1)

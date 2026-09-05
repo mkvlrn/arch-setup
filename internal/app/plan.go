@@ -1,42 +1,13 @@
-package main
+package app
 
 import (
-	"context"
-	_ "embed"
-	"os"
-
+	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/start"
 	"github.com/mkvlrn/arch-setup/internal/steps"
-	"github.com/mkvlrn/arch-setup/internal/sudo"
 )
 
-//go:embed config.json
-var configData []byte
-
-//go:embed stow/user/.config/mise/config.toml
-var miseConfigData []byte
-
-func run(ctx context.Context, verifyOnly bool, ci bool) error {
-	config, err := start.Bootstrap(configData, miseConfigData)
-	if err != nil {
-		return err
-	}
-
-	if verifyOnly {
-		return runVerification(ctx, config, ci)
-	}
-
-	stopSudo, err := sudo.KeepAlive(ctx)
-	if err != nil {
-		return err
-	}
-	defer stopSudo()
-
-	return runSetup(ctx, config, ci)
-}
-
-func runSetup(ctx context.Context, config start.Config, ci bool) error {
+func setupPlan(config start.Config, ci bool) []setup.Step {
 	plan := []setup.Step{
 		steps.InstallPkg(steps.UsePacman, config.BasePackages),
 	}
@@ -44,13 +15,13 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 	if ci {
 		plan = append(
 			plan,
-			steps.ExistingRepo(config.RepoSSH, config.RepoDir),
+			steps.ExistingRepo(config.RepoSSH, config.RepoDir, revision.Commit),
 		)
 	} else {
 		plan = append(
 			plan,
 			steps.RemovePkg(config.RemovePackages),
-			steps.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir),
+			steps.CloneRepo(config.RepoHTTP, config.RepoSSH, config.RepoDir, revision.Commit),
 		)
 	}
 
@@ -65,17 +36,17 @@ func runSetup(ctx context.Context, config start.Config, ci bool) error {
 		steps.User(config.Username, config.HomeDir),
 	)
 
-	return setup.Run(ctx, os.Stdout, plan)
+	return plan
 }
 
-func runVerification(ctx context.Context, config start.Config, ci bool) error {
+func verificationPlan(config start.Config, ci bool) []setup.Check {
 	packages := append(
 		append([]string{}, config.BasePackages...),
 		config.MainPackages...,
 	)
 
 	checks := []setup.Check{
-		steps.CloneRepoVerify(config.RepoSSH, config.RepoDir),
+		steps.CloneRepoVerify(config.RepoSSH, config.RepoDir, revision.Commit),
 		steps.StowVerify(steps.StowSystem, config.RepoDir, config.HomeDir),
 		steps.YayVerify(config.MirrorListPath, config.MirrorListCheck),
 		steps.InstallPkgVerify(packages),
@@ -93,5 +64,5 @@ func runVerification(ctx context.Context, config start.Config, ci bool) error {
 		steps.UserVerify(config.Username, config.HomeDir),
 	)
 
-	return setup.Verify(ctx, os.Stdout, checks)
+	return checks
 }

@@ -1,6 +1,10 @@
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := lint
 
-.PHONY: setup dev lint format format-check test build
+BASH_SCRIPTS := main.sh $(wildcard misc/*.sh steps/*.sh)
+POSIX_SCRIPTS := $(wildcard .github/workflows/scripts/*.sh secrets/*.sh) index.html
+SCRIPTS := $(BASH_SCRIPTS) $(POSIX_SCRIPTS)
+
+.PHONY: setup dev lint format test
 
 setup:
 	mise trust --yes
@@ -8,21 +12,17 @@ setup:
 	lefthook install
 
 dev:
-	@go run . $(ARGS)
+	@bash main.sh $(ARGS)
 
 lint:
-	@golangci-lint run ./...
+	@set -e; for script in $(BASH_SCRIPTS); do bash -n "$$script"; done
+	@set -e; for script in $(POSIX_SCRIPTS); do sh -n "$$script"; done
+	@shellcheck -x $(SCRIPTS)
+	@shfmt -d $(SCRIPTS)
 
 format:
-	@gofumpt -w .
+	@shfmt -w $(SCRIPTS)
 
 test:
-	@go test ./... -cover
-
-build:
-	@rm -rf ./bin
-	@mkdir -p ./bin
-	@go build -o ./bin/arch-setup .
-
-%:
-	@:
+	@bash misc/test.sh
+	@bash misc/test-launcher.sh

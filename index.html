@@ -2,17 +2,66 @@
 
 set -eu
 
-tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+fail() {
+  printf 'Launcher: %s\n' "$*" >&2
+  return 1
+}
 
-curl -fsSL \
-  https://github.com/mkvlrn/arch-setup/releases/latest/download/arch-setup \
-  -o "$tmp/arch-setup"
+setup() (
+  sudo pacman -Syu --needed --noconfirm git jq || exit "$?"
+  mkdir -p -- "$HOME/repos" || exit "$?"
+  git clone https://github.com/mkvlrn/arch-setup "$repo" || exit "$?"
+  bash "$repo/main.sh" || exit "$?"
 
-chmod +x "$tmp/arch-setup"
+  printf '\nRestoring machine secrets\n\n'
+  umask 077
+  tmp=$(mktemp -d) || exit "$?"
+  trap 'rm -rf -- "$tmp"' 0
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  # Do not extract partial output if age fails (POSIX sh has no pipefail).
+  age -d "$repo/secrets/secrets.tar.age" >"$tmp/secrets.tar" || exit "$?"
+  tar -C "$HOME" -xf "$tmp/secrets.tar"
+)
 
-"$tmp/arch-setup"
+with_terminal() {
+  if (: </dev/tty) 2>/dev/null; then
+    setup </dev/tty
+  else
+    fail 'An interactive terminal is required; run curl https://arch.mkvlrn.cc | sh from a terminal.'
+  fi
+}
 
-printf '\nRestoring machine secrets\n\n'
+main() {
+  uid=$(id -u) || return
+  [ "$uid" != 0 ] || {
+    fail 'Run as the target user, not root or sudo.'
+    return 1
+  }
+  case ${HOME:-} in
+  /*) ;;
+  *)
+    fail 'HOME must be a nonempty absolute path.'
+    return 1
+    ;;
+  esac
+  [ "$HOME" != / ] && [ -d "$HOME" ] && [ -w "$HOME" ] || {
+    fail 'HOME must be an existing writable user directory.'
+    return 1
+  }
+  owner=$(stat -c %u -- "$HOME/.") || return
+  [ "$owner" = "$uid" ] || {
+    fail 'HOME must belong to the target user.'
+    return 1
+  }
+  repo=$HOME/repos/arch-setup
+  if [ -e "$repo" ] || [ -L "$repo" ]; then
+    fail "Refusing existing checkout path: $repo"
+    return 1
+  fi
+  with_terminal
+}
 
-age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" | tar -C "$HOME" -xf -
+# Keep invocation last: sh must parse all logic before commands use terminal stdin.
+main "$@"

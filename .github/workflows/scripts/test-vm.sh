@@ -23,17 +23,6 @@ ssh_vm() {
     "$@"
 }
 
-# Copy files between the runner and the Arch VM using the same ephemeral SSH
-# connection settings as ssh_vm.
-scp_vm() {
-  sshpass -p arch scp \
-    -P 2222 \
-    -o StrictHostKeyChecking=no \
-    -o UserKnownHostsFile=/dev/null \
-    -o LogLevel=ERROR \
-    "$@"
-}
-
 # Make VM preparation work visible in the Actions log while keeping the actual
 # installer and assertion output unchanged.
 vm_step() {
@@ -46,12 +35,6 @@ mkdir -p \
   "$pacman_cache_dir" \
   "$yay_cache_dir" \
   "$mise_cache_dir"
-
-# Test the exact executable produced by the check-build job.
-vm_step "Copying installer to VM"
-scp_vm \
-  ./bin/arch-setup \
-  arch@127.0.0.1:/tmp/arch-setup
 
 # Copy the exact repository contents checked out for this PR, including Git
 # metadata required by the user Stow step.
@@ -88,6 +71,12 @@ ssh_vm '
       /var/cache/pacman/pkg
 '
 
+vm_step "Installing bootstrap dependencies"
+ssh_vm '
+  printf "%s\n" arch | sudo -S -v &&
+    sudo pacman -Syu --needed --noconfirm git jq
+'
+
 # Restore yay's normal cache/build directory so downloaded sources and previous
 # build artifacts are available to yay during installation.
 vm_step "Restoring yay package cache"
@@ -112,18 +101,18 @@ tar -C "$mise_cache_dir" -cf - . |
 # to the installer process inside the VM.
 vm_step "Running arch-setup"
 ssh_vm \
-  "chmod +x /tmp/arch-setup &&
-   printf '%s\n' arch | sudo -S -v &&
-   MISE_GITHUB_TOKEN='$mise_github_token' \
+  "printf '%s\n' arch | sudo -S -v &&
+   env MISE_GITHUB_TOKEN='$mise_github_token' \
    MISE_ALWAYS_KEEP_DOWNLOAD=1 \
-   GITHUB_ACTIONS='$GITHUB_ACTIONS' \
-   /tmp/arch-setup"
+   GITHUB_ACTIONS=true \
+   bash \"\$HOME/repos/arch-setup/main.sh\""
 
 # Run verification in a new login session so changes such as supplementary
 # group membership are visible.
 vm_step "Verifying machine state"
+# shellcheck disable=SC2016
 ssh_vm \
-  '/tmp/arch-setup --verify'
+  'env GITHUB_ACTIONS=true bash "$HOME/repos/arch-setup/main.sh" --verify'
 
 # Pacman 7 may leave temporary download-* directories in its package cache.
 # Remove only those temporary directories and preserve all actual package files.

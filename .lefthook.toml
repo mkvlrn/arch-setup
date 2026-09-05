@@ -11,9 +11,7 @@ test = { run = "make test" }
 [post-checkout.commands]
 sync-mise = { run = "mise install" }
 clean-mise = { run = "mise prune -y" }
-sync-go = { run = "go mod tidy" }
 
 [post-merge.commands]
 sync-mise = { run = "mise install" }
 clean-mise = { run = "mise prune -y" }
-sync-go = { run = "go mod tidy" }

@@ -8,6 +8,12 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent": {
+    "default_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-6-astra",
+      "enable_thinking": true,
+      "effort": "low"
+    },
     "sidebar_side": "right",
     "dock": "right",
     "favorite_models": [],
@@ -15,6 +21,7 @@
     "default_profile": "ask"
   },
   "edit_predictions": {
+    "mode": "subtle",
     "allow_data_collection": "no",
     "provider": "zed",
     "open_ai_compatible_api": {
@@ -141,6 +148,14 @@
         "!tailwindcss-language-server",
         "..."
       ]
+    },
+    "Shell Script": {
+      "formatter": {
+        "external": {
+          "command": "shfmt",
+          "arguments": ["-i", "2"]
+        }
+      }
     },
     "TSX": {
       "code_actions_on_format": {

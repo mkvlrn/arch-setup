@@ -118,6 +118,29 @@ quiet_step() { run_command quiet noisy_command; }
 actual=$(run_plan Setup quiet_step)
 [[ $actual == $'[1/1] quiet step\nDone.' ]] || fail 'main progress changed or command output leaked'
 
+# Exercise animation separately from TTY detection, with no real setup commands.
+animated_success() { sleep 0.2; }
+animated_failure() {
+  printf 'step diagnostic\n' >&2
+  return 17
+}
+TMPDIR=$sandbox/logs run_animated_step '[1/1] test' animated_success \
+  >"$sandbox/out" 2>"$sandbox/err"
+[[ $(<"$sandbox/out") == *'[1/1] test done'* && ! -s $sandbox/err ]] ||
+  fail 'animation did not finish cleanly'
+if TMPDIR=$sandbox/logs run_animated_step '[1/1] test' animated_failure \
+  >"$sandbox/out" 2>"$sandbox/err"; then
+  fail 'animated failure accepted'
+else
+  [[ $? == 17 ]] || fail 'animation changed failure status'
+fi
+[[ $(<"$sandbox/out") == *'[1/1] test failed'* &&
+$(<"$sandbox/err") == 'step diagnostic' ]] || fail 'animation hid diagnostics'
+[[ -z $(find "$sandbox/logs" -mindepth 1 -print) ]] || fail 'animation logs leaked'
+[[ -z $(jobs -pr) ]] || fail 'animation process leaked'
+actual=$(GITHUB_ACTIONS=true run_plan Setup quiet_step)
+[[ $actual == $'[1/1] quiet step\nDone.' ]] || fail 'CI output contains animation'
+
 home_dir=$sandbox/home
 repo_dir=$sandbox/repo
 mkdir -p "$home_dir" "$repo_dir/stow/user/.config"

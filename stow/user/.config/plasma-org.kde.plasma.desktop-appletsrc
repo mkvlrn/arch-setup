@@ -14,17 +14,6 @@ location=3
 plugin=org.kde.panel
 wallpaperplugin=org.kde.image
 
-[Containments][55][Applets][56]
-immutability=1
-plugin=org.kde.plasma.kickoff
-
-[Containments][55][Applets][56][Configuration]
-popupHeight=509
-popupWidth=647
-
-[Containments][55][Applets][56][Configuration][General]
-favoritesPortedToKAstats=true
-
 [Containments][55][Applets][57]
 immutability=1
 plugin=org.kde.plasma.pager
@@ -136,9 +125,17 @@ plugin=org.kde.plasma.digitalclock
 popupHeight=400
 popupWidth=560
 
-[Containments][55][Applets][75]
-immutability=1
-plugin=org.kde.plasma.showdesktop
+[Containments][55][Applets][74][Configuration][Appearance]
+customDateFormat=ddd | yyyy-MM-dd |
+dateDisplayFormat=BesideTime
+dateFormat=custom
+fontFamily=Noto Sans
+fontWeight=400
+use24hFormat=0
+
+[Containments][55][Applets][74][Configuration][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
 
 [Containments][55][Applets][81]
 immutability=1
@@ -153,7 +150,7 @@ launchers=
 showOnlyCurrentScreen=true
 
 [Containments][55][General]
-AppletOrder=56;57;81;59;60;74;75
+AppletOrder=57;81;59;60;74
 
 [Containments][79]
 ItemGeometries-2560x1080=
@@ -209,9 +206,14 @@ plugin=org.kde.plasma.digitalclock
 popupHeight=400
 popupWidth=560
 
-[Containments][82][Applets][104]
-immutability=1
-plugin=org.kde.plasma.showdesktop
+[Containments][82][Applets][103][Configuration][Appearance]
+customDateFormat=ddd | yyyy-MM-dd |
+dateDisplayFormat=BesideTime
+dateFormat=custom
+
+[Containments][82][Applets][103][Configuration][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
 
 [Containments][82][Applets][105]
 immutability=1
@@ -224,17 +226,6 @@ DialogWidth=810
 [Containments][82][Applets][105][Configuration][General]
 launchers=
 showOnlyCurrentScreen=true
-
-[Containments][82][Applets][83]
-immutability=1
-plugin=org.kde.plasma.kickoff
-
-[Containments][82][Applets][83][Configuration]
-popupHeight=509
-popupWidth=647
-
-[Containments][82][Applets][83][Configuration][General]
-favoritesPortedToKAstats=true
 
 [Containments][82][Applets][84]
 immutability=1
@@ -340,7 +331,7 @@ extraItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetoot
 knownItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller
 
 [Containments][82][General]
-AppletOrder=83;84;105;85;86;103;104
+AppletOrder=84;105;85;86;103
 
 [ScreenMapping]
 itemsOnDisabledScreens=0,e9c253db-ded5-451c-b874-5197fba1d0bd,1,desktop:/mkvlrn.png

@@ -8,6 +8,7 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent": {
+    "flexible": false,
     "default_model": {
       "provider": "openai-subscribed",
       "model": "gpt-6-astra",
@@ -23,11 +24,7 @@
   "edit_predictions": {
     "mode": "subtle",
     "allow_data_collection": "no",
-    "provider": "zed",
-    "open_ai_compatible_api": {
-      "api_url": "",
-      "model": ""
-    }
+    "provider": "zed"
   },
   "auto_indent_on_paste": false,
   "auto_install_extensions": {
@@ -57,6 +54,7 @@
   },
   "disable_ai": false,
   "experimental.theme_overrides": {
+    "editor.gutter.background": "#0b0b11",
     "terminal.background": "#0b0b11"
   },
   "file_types": {
@@ -246,6 +244,7 @@
     "metrics": false
   },
   "terminal": {
+    "flexible": false,
     "blinking": "on",
     "cursor_shape": "bar",
     "dock": "right",
@@ -265,5 +264,5 @@
   "ui_font_family": "Hack Nerd Font",
   "ui_font_size": 18,
   "unnecessary_code_fade": 0.6,
-  "wrap_guides": [100]
+  "wrap_guides": [80, 100]
 }

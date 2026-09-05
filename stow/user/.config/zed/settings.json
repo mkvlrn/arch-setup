@@ -8,6 +8,9 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent": {
+    "sandbox_permissions": {
+      "allow_all_hosts": true
+    },
     "flexible": false,
     "default_model": {
       "provider": "openai-subscribed",

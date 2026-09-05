@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks" xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info">
+ <bookmark href="file:///home/mkvlrn">
+  <title>Home</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/18</ID>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/documents">
+  <title>documents</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/19</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-documents"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/downloads">
+  <title>downloads</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/20</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-downloads"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/media">
+  <title>media</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/21</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-pictures"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/repos">
+  <title>repos</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/22</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-text"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/torrents">
+  <title>torrents</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/23</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-videos"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="file:///home/mkvlrn/work">
+  <title>work</title>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637592/24</ID>
+   </metadata>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="certificate-server"/>
+   </metadata>
+  </info>
+ </bookmark>
+ <separator>
+  <info>
+   <metadata owner="http://www.kde.org">
+    <UDI>/org/freedesktop/UDisks2/block_devices/nvme0n1p2</UDI>
+    <isSystemItem>true</isSystemItem>
+    <uuid>0450f8f2-9558-44ad-97ee-912766beacfe</uuid>
+   </metadata>
+  </info>
+ </separator>
+ <info>
+  <metadata owner="http://www.kde.org">
+   <kde_places_version>4</kde_places_version>
+   <withRecentlyUsed>true</withRecentlyUsed>
+   <GroupState-RecentlySaved-IsHidden>false</GroupState-RecentlySaved-IsHidden>
+   <withBaloo>true</withBaloo>
+   <GroupState-SearchFor-IsHidden>false</GroupState-SearchFor-IsHidden>
+  </metadata>
+ </info>
+ <bookmark href="remote:/">
+  <title>Network</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-network"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637794/0</ID>
+    <isSystemItem>true</isSystemItem>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="trash:/">
+  <title>Trash</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="user-trash"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637794/1</ID>
+    <isSystemItem>true</isSystemItem>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="recentlyused:/files">
+  <title>Recent Files</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="document-open-recent"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637794/2</ID>
+    <isSystemItem>true</isSystemItem>
+   </metadata>
+  </info>
+ </bookmark>
+ <bookmark href="recentlyused:/locations">
+  <title>Recent Locations</title>
+  <info>
+   <metadata owner="http://freedesktop.org">
+    <bookmark:icon name="folder-open-recent"/>
+   </metadata>
+   <metadata owner="http://www.kde.org">
+    <ID>1788637794/3</ID>
+    <isSystemItem>true</isSystemItem>
+   </metadata>
+  </info>
+ </bookmark>
+</xbel>

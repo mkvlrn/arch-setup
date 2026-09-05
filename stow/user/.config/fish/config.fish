@@ -2,7 +2,7 @@
 set -g fish_greeting
 
 # mise
-mise activate fish | source
+$HOME/.local/bin/mise activate fish | source
 
 # interactive
 if status is-interactive

@@ -15,14 +15,14 @@
     "default_model": {
       "provider": "openai-subscribed",
       "model": "gpt-6-astra",
-      "enable_thinking": true,
+      "enable_thinking": false,
       "effort": "low"
     },
     "sidebar_side": "right",
     "dock": "right",
     "favorite_models": [],
     "model_parameters": [],
-    "default_profile": "write"
+    "default_profile": "minimal"
   },
   "edit_predictions": {
     "mode": "subtle",

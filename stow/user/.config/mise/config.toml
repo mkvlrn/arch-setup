@@ -19,6 +19,7 @@ go = "latest"
 "go:github.com/josharian/impl" = "latest"
 shfmt = "latest"
 shellcheck = "latest"
+yq = "latest"
 
 [settings]
 auto_update = true

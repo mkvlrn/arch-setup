@@ -1,0 +1,55 @@
+{
+  "DefaultSearchProviderEnabled": true,
+  "DefaultSearchProviderName": "DuckDuckGo NoAI",
+  "DefaultSearchProviderSearchURL": "https://noai.duckduckgo.com/?q={searchTerms}",
+
+  "SiteSearchSettings": [
+    {
+      "name": "DuckDuckGo NoAI",
+      "shortcut": "ddg",
+      "url": "https://noai.duckduckgo.com/?q={searchTerms}",
+      "featured": true,
+      "allow_user_override": false
+    }
+  ],
+
+  "PasswordManagerEnabled": false,
+
+  "ExtensionSettings": {
+    "edibdbjcniadpccecjdfdjjppcchdlm": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "gpmodmeblccallcadopbocooejepgpnb": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "cimiefiiaegbelhefglklhhakcgmhkai": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "ghmbeldphafepmbegfdlkpapadhbakde": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "mnjggcdmjocbbbhaepdhchncahnbgone": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "jinjaccalgkegednnccohejagnlnfdag": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    },
+    "jcokkipkhgiakinbnnplhkdobjbgcgpe": {
+      "installation_mode": "force_installed",
+      "update_url": "https://clients2.google.com/service/update2/crx",
+      "toolbar_pin": "default_pinned"
+    }
+  }
+}

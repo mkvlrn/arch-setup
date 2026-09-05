@@ -60,11 +60,11 @@ fi
 bootstrap() { :; }
 start_sudo() { :; }
 run_plan() { printf '%s\n' "$@"; }
-expected=$'Setup\ninstall_base_packages\nremove_packages_step\nexisting_repository\nstow_system\ninstall_yay\ninstall_main_packages\nconfigure_xdg\nstow_user\ninstall_mise\nconfigure_user'
+expected=$'Setup\ninstall_base_packages\nremove_packages_step\nclone_repository\nstow_system\ninstall_yay\ninstall_main_packages\nconfigure_xdg\nstow_user\ninstall_mise_and_tools\nconfigure_user'
 actual=$(GITHUB_ACTIONS=false main)
 [[ $actual == "$expected" ]] || fail 'normal setup plan'
 actual=$(GITHUB_ACTIONS=true main)
-[[ $actual == *existing_repository* && $actual != *remove_packages_step* ]] || fail 'CI setup plan'
+[[ $actual == *clone_repository* && $actual != *remove_packages_step* ]] || fail 'CI setup plan'
 actual=$(GITHUB_ACTIONS=false main --verify)
 [[ $actual == Verification* && $actual == *verify_removed_packages* ]] || fail 'verification plan'
 actual=$(GITHUB_ACTIONS=true main -verify)

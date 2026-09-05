@@ -64,7 +64,7 @@ animate_progress() (
   local label=$1 frame sleeper=''
   trap 'if [[ -n $sleeper ]]; then kill "$sleeper" 2>/dev/null || :; wait "$sleeper" 2>/dev/null || :; fi; exit 0' TERM INT HUP
   while :; do
-    for frame in '|' '/' '-' $'\\'; do
+    for frame in "|" "/" "-" "\\"; do
       printf '\r\033[K%s %s' "$label" "$frame"
       sleep 0.1 &
       sleeper=$!

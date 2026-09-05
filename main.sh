@@ -67,9 +67,9 @@ main() {
     if [[ ${GITHUB_ACTIONS:-} != true ]]; then
       plan+=(remove_packages_step)
     fi
-    plan+=(existing_repository)
+    plan+=(clone_repository)
     plan+=(stow_system install_yay install_main_packages configure_xdg stow_user)
-    plan+=(install_mise configure_user)
+    plan+=(install_mise_and_tools configure_user)
     run_plan Setup "${plan[@]}"
   fi
 }

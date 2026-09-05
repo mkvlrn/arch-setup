@@ -23,6 +23,8 @@ stat() { printf '%s\n' "$TEST_OWNER"; }
 sudo() {
   printf 'sudo %s\n' "$*" >>"$TEST_LOG"
   [ "$*" = 'pacman -Syu --needed --noconfirm git jq' ] || return 99
+  printf 'bootstrap stdout\n'
+  printf 'bootstrap stderr\n' >&2
   return "$SUDO_STATUS"
 }
 git() {
@@ -91,6 +93,9 @@ reset_case success
 run_case 0
 expected=$(printf 'sudo pacman -Syu --needed --noconfirm git jq\ngit clone https://github.com/mkvlrn/arch-setup %s/repos/arch-setup\nbash %s/repos/arch-setup/main.sh\nage -d %s/repos/arch-setup/secrets/secrets.tar.age\ntar' "$HOME" "$HOME" "$HOME")
 [[ $(<"$TEST_LOG") == "$expected" ]] || fail 'incorrect success order'
+[[ $(<"$sandbox/output") == *'Installing bootstrap dependencies'* &&
+$(<"$sandbox/output") != *'bootstrap stdout'* &&
+$(<"$sandbox/output") != *'bootstrap stderr'* ]] || fail 'successful bootstrap was noisy'
 
 for kind in directory file dangling; do
   reset_case "$kind"
@@ -123,7 +128,12 @@ for stage in SUDO GIT SETUP AGE TAR; do
   run_case 23
   export "${stage}_STATUS=0"
   case $stage in
-  SUDO) [[ $(wc -l <"$TEST_LOG") == 1 ]] || fail 'sudo failure continued' ;;
+  SUDO)
+    [[ $(wc -l <"$TEST_LOG") == 1 ]] || fail 'sudo failure continued'
+    [[ $(<"$sandbox/output") == *'failed (exit 23)'* &&
+    $(<"$sandbox/output") == *'bootstrap stdout'* &&
+    $(<"$sandbox/output") == *'bootstrap stderr'* ]] || fail 'bootstrap diagnostics lost'
+    ;;
   GIT) [[ $(wc -l <"$TEST_LOG") == 2 ]] || fail 'clone failure continued' ;;
   SETUP) [[ $(wc -l <"$TEST_LOG") == 3 ]] || fail 'setup failure restored secrets' ;;
   AGE) [[ $(wc -l <"$TEST_LOG") == 4 ]] || fail 'age failure extracted archive' ;;

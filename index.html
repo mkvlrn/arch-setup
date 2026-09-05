@@ -8,7 +8,16 @@ fail() {
 }
 
 setup() (
-  sudo pacman -Syu --needed --noconfirm git jq || exit "$?"
+  printf '\nInstalling bootstrap dependencies\n'
+  # Sudo reads authentication from the terminal; capture only command output.
+  if bootstrap_output=$(sudo pacman -Syu --needed --noconfirm git jq 2>&1); then
+    :
+  else
+    status=$?
+    printf 'Installing bootstrap dependencies failed (exit %d).\n%s\n' \
+      "$status" "$bootstrap_output" >&2
+    exit "$status"
+  fi
   mkdir -p -- "$HOME/repos" || exit "$?"
   git clone https://github.com/mkvlrn/arch-setup "$repo" || exit "$?"
   bash "$repo/main.sh" || exit "$?"

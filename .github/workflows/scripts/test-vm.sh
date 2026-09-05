@@ -72,10 +72,17 @@ ssh_vm '
 '
 
 vm_step "Installing bootstrap dependencies"
-ssh_vm '
+if bootstrap_output=$(ssh_vm '
   printf "%s\n" arch | sudo -S -v &&
     sudo pacman -Syu --needed --noconfirm git jq
-'
+' 2>&1); then
+  :
+else
+  status=$?
+  printf 'Installing bootstrap dependencies failed (exit %d).\n%s\n' \
+    "$status" "$bootstrap_output" >&2
+  exit "$status"
+fi
 
 # Restore yay's normal cache/build directory so downloaded sources and previous
 # build artifacts are available to yay during installation.

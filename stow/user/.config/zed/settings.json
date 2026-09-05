@@ -22,7 +22,7 @@
     "dock": "right",
     "favorite_models": [],
     "model_parameters": [],
-    "default_profile": "minimal"
+    "default_profile": "write"
   },
   "edit_predictions": {
     "mode": "subtle",

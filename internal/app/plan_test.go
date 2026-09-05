@@ -6,15 +6,15 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/mkvlrn/arch-setup/internal/bootstrap"
 	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
-	"github.com/mkvlrn/arch-setup/internal/start"
 	"github.com/mkvlrn/arch-setup/internal/verify"
 )
 
-func planConfig() start.Config {
-	return start.Config{
+func planConfig() bootstrap.Config {
+	return bootstrap.Config{
 		BasePackages: []string{"base"}, MainPackages: []string{"main"},
 		RemovePackages: []string{"removed"}, MiseTools: []string{"go"},
 		RepoHTTP: "https://example.invalid/setup", RepoSSH: "git@example.invalid:setup",

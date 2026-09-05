@@ -5,9 +5,9 @@ import (
 	"context"
 	"os"
 
+	"github.com/mkvlrn/arch-setup/internal/bootstrap"
 	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
-	"github.com/mkvlrn/arch-setup/internal/start"
 	"github.com/mkvlrn/arch-setup/internal/sudo"
 )
 
@@ -17,7 +17,7 @@ func Run(ctx context.Context, configData, miseConfigData []byte, verifyOnly, ci 
 		return err
 	}
 
-	config, err := start.Bootstrap(configData, miseConfigData)
+	config, err := bootstrap.Bootstrap(configData, miseConfigData)
 	if err != nil {
 		return err
 	}

@@ -1,4 +1,4 @@
-package start_test
+package bootstrap_test
 
 import (
 	"os"
@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mkvlrn/arch-setup/internal/start"
+	"github.com/mkvlrn/arch-setup/internal/bootstrap"
 )
 
 func TestBootstrapLoadsConfig(t *testing.T) {
@@ -46,14 +46,14 @@ go = "latest"
 node = "lts"
 `)
 
-	got, err := start.Bootstrap(configData, miseData)
+	got, err := bootstrap.Bootstrap(configData, miseData)
 	if err != nil {
 		t.Fatalf("expected success, got %v", err)
 	}
 
 	slices.Sort(got.MiseTools)
 
-	want := start.Config{
+	want := bootstrap.Config{
 		BasePackages:    []string{"git", "stow"},
 		RemovePackages:  []string{"unwanted"},
 		MainPackages:    []string{"fish"},
@@ -94,7 +94,7 @@ func TestBootstrapWithNoMiseTools(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			config, err := start.Bootstrap([]byte(`{}`), []byte(tt.data))
+			config, err := bootstrap.Bootstrap([]byte(`{}`), []byte(tt.data))
 			if err != nil {
 				t.Fatalf("expected success, got %v", err)
 			}
@@ -133,7 +133,7 @@ func TestBootstrapRejectsInvalidConfig(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			config, err := start.Bootstrap(
+			config, err := bootstrap.Bootstrap(
 				[]byte(tt.configData),
 				[]byte(tt.miseData),
 			)
@@ -145,7 +145,7 @@ func TestBootstrapRejectsInvalidConfig(t *testing.T) {
 				t.Errorf("expected error containing %q, got %v", tt.wantErr, err)
 			}
 
-			if !reflect.DeepEqual(config, start.Config{}) {
+			if !reflect.DeepEqual(config, bootstrap.Config{}) {
 				t.Errorf("expected zero config on failure, got %#v", config)
 			}
 		})
@@ -155,7 +155,7 @@ func TestBootstrapRejectsInvalidConfig(t *testing.T) {
 func TestBootstrapWithoutHomeDirectory(t *testing.T) {
 	t.Setenv("HOME", "")
 
-	_, err := start.Bootstrap([]byte(`{}`), nil)
+	_, err := bootstrap.Bootstrap([]byte(`{}`), nil)
 	if err == nil {
 		t.Fatal("expected an error")
 	}
@@ -171,7 +171,7 @@ func TestBootstrapUsesTemporaryDirectory(t *testing.T) {
 	t.Setenv("HOME", t.TempDir())
 	t.Setenv("TMPDIR", t.TempDir())
 
-	config, err := start.Bootstrap([]byte(`{}`), nil)
+	config, err := bootstrap.Bootstrap([]byte(`{}`), nil)
 	if err != nil {
 		t.Fatalf("expected success, got %v", err)
 	}

@@ -1,4 +1,4 @@
-package start
+package bootstrap
 
 // Config describes data from config.json.
 type Config struct {

@@ -1,4 +1,4 @@
-package start
+package bootstrap
 
 import (
 	"encoding/json"

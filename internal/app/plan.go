@@ -1,14 +1,14 @@
 package app
 
 import (
+	"github.com/mkvlrn/arch-setup/internal/bootstrap"
 	"github.com/mkvlrn/arch-setup/internal/execute"
 	"github.com/mkvlrn/arch-setup/internal/revision"
 	"github.com/mkvlrn/arch-setup/internal/setup"
-	"github.com/mkvlrn/arch-setup/internal/start"
 	"github.com/mkvlrn/arch-setup/internal/verify"
 )
 
-func setupPlan(config start.Config, ci bool) []setup.Step {
+func setupPlan(config bootstrap.Config, ci bool) []setup.Step {
 	plan := []setup.Step{
 		execute.InstallPkg(execute.UsePacman, config.BasePackages),
 	}
@@ -40,7 +40,7 @@ func setupPlan(config start.Config, ci bool) []setup.Step {
 	return plan
 }
 
-func verificationPlan(config start.Config, ci bool) []setup.Check {
+func verificationPlan(config bootstrap.Config, ci bool) []setup.Check {
 	packages := append(
 		append([]string{}, config.BasePackages...),
 		config.MainPackages...,

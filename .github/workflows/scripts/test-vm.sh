@@ -56,6 +56,7 @@ scp_vm \
 # Copy the exact repository contents checked out for this PR, including Git
 # metadata required by the user Stow step.
 vm_step "Copying candidate repository to VM"
+# shellcheck disable=SC2016
 {
   printf '%s\0' .git
   git ls-files -z
@@ -69,6 +70,7 @@ vm_step "Copying candidate repository to VM"
 # Restore cached pacman packages into a directory owned by the VM user. Using a
 # user-owned directory makes transferring the cache in and out of the VM easy.
 vm_step "Restoring pacman package cache"
+# shellcheck disable=SC2016
 tar -C "$pacman_cache_dir" -cf - . |
   ssh_vm '
     mkdir -p "$HOME/.cache/pacman/pkg"
@@ -78,6 +80,7 @@ tar -C "$pacman_cache_dir" -cf - . |
 # Bind the restored directory over pacman's normal cache location. Pacman can
 # therefore reuse cached packages without any installer-specific configuration.
 vm_step "Mounting pacman package cache"
+# shellcheck disable=SC2016
 ssh_vm '
   printf "%s\n" arch |
     sudo -S mount --bind \
@@ -88,6 +91,7 @@ ssh_vm '
 # Restore yay's normal cache/build directory so downloaded sources and previous
 # build artifacts are available to yay during installation.
 vm_step "Restoring yay package cache"
+# shellcheck disable=SC2016
 tar -C "$yay_cache_dir" -cf - . |
   ssh_vm '
     mkdir -p "$HOME/.cache/yay"
@@ -97,6 +101,7 @@ tar -C "$yay_cache_dir" -cf - . |
 # Restore downloads retained by mise so supported backends can reuse them while
 # still performing a normal installation into a fresh machine.
 vm_step "Restoring mise download cache"
+# shellcheck disable=SC2016
 tar -C "$mise_cache_dir" -cf - . |
   ssh_vm '
     mkdir -p "$HOME/.local/share/mise/downloads"
@@ -150,6 +155,7 @@ ssh_vm \
 
 # Yay runs as the normal Arch user, so its cache can be exported directly.
 vm_step "Saving yay package cache"
+# shellcheck disable=SC2016
 ssh_vm \
   'tar -C "$HOME/.cache/yay" -cf - .' |
   tar -C "$yay_cache_dir" -xf -
@@ -157,6 +163,7 @@ ssh_vm \
 # Mise runs as the normal Arch user, so its retained downloads can be exported
 # directly without copying any installed tools.
 vm_step "Saving mise download cache"
+# shellcheck disable=SC2016
 ssh_vm \
   'tar -C "$HOME/.local/share/mise/downloads" -cf - .' |
   tar -C "$mise_cache_dir" -xf -

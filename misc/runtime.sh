@@ -1,21 +1,42 @@
 #!/usr/bin/env bash
-# Commands retain their argument boundaries and stream diagnostics, including
-# interactive prompts. Never eval a command assembled from configuration.
+# Ordinary commands are silent on success. Checks that need stdout explicitly
+# use capture_command inside command substitution. Never eval command arguments.
 run_command() {
-  local description=$1 status
+  capture_command "$@" >/dev/null
+}
+
+capture_command() (
+  local description=$1 status logs
   shift
-  if "$@"; then
-    return 0
+  logs=$(mktemp -d) || return
+  # Isolate traps from the runner and remove logs on success, failure, or signals.
+  trap 'rm -rf -- "$logs"' EXIT
+  trap 'exit 129' HUP
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  if "$@" >"$logs/stdout" 2>"$logs/stderr"; then
+    cat -- "$logs/stdout"
   else
     status=$?
     printf 'Could not run %s (exit %d).\n' "$description" "$status" >&2
+    if [[ -s $logs/stdout ]]; then
+      printf '\nstdout:\n' >&2
+      cat -- "$logs/stdout" >&2
+      printf '\n' >&2
+    fi
+    if [[ -s $logs/stderr ]]; then
+      printf '\nstderr:\n' >&2
+      cat -- "$logs/stderr" >&2
+      printf '\n' >&2
+    fi
     return "$status"
   fi
-}
+)
 
 sudo_pid=
 start_sudo() {
-  run_command 'validate sudo credentials' sudo -v || return
+  # Authentication must remain interactive; subsequent commands are captured.
+  sudo -v || return
   (
     # Reap the sleeper too, so exiting setup leaves no refresh subprocesses.
     sleeper=
@@ -25,7 +46,7 @@ start_sudo() {
       sleeper=$!
       wait "$sleeper" || exit
       sleeper=
-      sudo -n -v || exit
+      run_command 'refresh sudo credentials' sudo -n -v || exit
     done
   ) &
   sudo_pid=$!

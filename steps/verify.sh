@@ -19,7 +19,7 @@ verify_repository() {
     _verify_error "Repository metadata is missing or not a directory: $repo_dir/.git"
     return 1
   fi
-  if remote=$(run_command 'Get repository origin' git --no-pager -C "$repo_dir" remote get-url origin); then
+  if remote=$(capture_command 'Get repository origin' git --no-pager -C "$repo_dir" remote get-url origin); then
     _verify_trim "$remote"
     if [[ $REPLY != "$repo_ssh" ]]; then
       _verify_error "Expected origin '$repo_ssh', got '$REPLY'"
@@ -29,7 +29,7 @@ verify_repository() {
     _verify_error "Cannot get repository origin: $repo_dir"
     failed=1
   fi
-  if status=$(run_command 'Get repository status' git --no-pager --no-optional-locks -C "$repo_dir" status --porcelain); then
+  if status=$(capture_command 'Get repository status' git --no-pager --no-optional-locks -C "$repo_dir" status --porcelain); then
     _verify_trim "$status"
     if [[ -n $REPLY ]]; then
       _verify_error "Repository is dirty:
@@ -50,13 +50,13 @@ _verify_stow_link() {
     return 1
   fi
   # A sentinel preserves trailing newlines in filenames during capture.
-  if source_real=$(run_command "Resolve source: $source" realpath -e -- "$source" && printf '.'); then
+  if source_real=$(capture_command "Resolve source: $source" realpath -e -- "$source" && printf '.'); then
     source_real=${source_real%$'\n.'}
   else
     _verify_error "Cannot resolve Stow source: $source"
     failed=1
   fi
-  if destination_real=$(run_command "Resolve destination: $destination" realpath -e -- "$destination" && printf '.'); then
+  if destination_real=$(capture_command "Resolve destination: $destination" realpath -e -- "$destination" && printf '.'); then
     destination_real=${destination_real%$'\n.'}
   else
     _verify_error "Cannot resolve Stow destination: $destination"
@@ -142,7 +142,7 @@ verify_yay() {
     _verify_error 'Yay is not available'
     failed=1
   fi
-  if packages=$(run_command 'List installed packages' yay -Qq); then
+  if packages=$(capture_command 'List installed packages' yay -Qq); then
     while IFS= read -r package; do
       if [[ $package == *-debug ]]; then
         _verify_error "Debug package is installed: $package"
@@ -153,7 +153,7 @@ verify_yay() {
     _verify_error 'Cannot list installed packages'
     failed=1
   fi
-  if content=$(run_command 'Read mirrorlist' cat -- "$mirror_list_path" && printf '.'); then
+  if content=$(capture_command 'Read mirrorlist' cat -- "$mirror_list_path" && printf '.'); then
     content=${content%.}
     if [[ $content != *"$mirror_list_check"* ]]; then
       _verify_error "Mirrorlist '$mirror_list_path' lacks the expected Reflector command"
@@ -223,7 +223,7 @@ verify_mise() {
     _verify_error 'Mise is not available'
     failed=1
   fi
-  if missing=$(run_command 'List missing mise tools' "$home_dir/.local/bin/mise" ls --global --missing --no-header); then
+  if missing=$(capture_command 'List missing mise tools' "$home_dir/.local/bin/mise" ls --global --missing --no-header); then
     _verify_trim "$missing"
     if [[ -n $REPLY ]]; then
       _verify_error "Mise tools are missing:
@@ -240,7 +240,7 @@ $REPLY"
 _verify_passwd_field() {
   local account=$1 field=$2 expected=$3 entry REPLY remainder
   local -a fields=()
-  if entry=$(run_command "Get passwd entry: $account" getent passwd "$account"); then
+  if entry=$(capture_command "Get passwd entry: $account" getent passwd "$account"); then
     _verify_trim "$entry"
     remainder=$REPLY
     # Unlike read -a, preserve an empty final field and reject extra fields.
@@ -271,7 +271,7 @@ verify_user() {
   else
     failed=1
   fi
-  if groups=$(run_command "Get groups: $username" id -nG "$username"); then
+  if groups=$(capture_command "Get groups: $username" id -nG "$username"); then
     if [[ ! $groups =~ (^|[[:space:]])docker($|[[:space:]]) ]]; then
       _verify_error "User '$username' is not in the docker group"
       failed=1
@@ -285,7 +285,7 @@ verify_user() {
   else
     failed=1
   fi
-  if mode=$(run_command 'Inspect home permissions' stat -L -c %a -- "$home_dir"); then
+  if mode=$(capture_command 'Inspect home permissions' stat -L -c %a -- "$home_dir"); then
     if [[ ! $mode =~ ^[0-7]+$ ]]; then
       _verify_error "Invalid permission mode for '$home_dir': $mode"
       failed=1

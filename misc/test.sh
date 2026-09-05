@@ -90,6 +90,34 @@ else
   [[ $? == 23 ]] || fail 'command status changed'
 fi
 
+# Successful commands hide both streams; failed commands report both streams
+# on stderr without contaminating values captured by verification checks.
+mkdir "$sandbox/logs"
+noisy_command() {
+  printf 'command output\n\n'
+  printf 'command diagnostic\n' >&2
+  return "${1:-0}"
+}
+TMPDIR=$sandbox/logs run_command quiet noisy_command >"$sandbox/out" 2>"$sandbox/err"
+[[ ! -s $sandbox/out && ! -s $sandbox/err ]] || fail 'successful command was noisy'
+TMPDIR=$sandbox/logs capture_command query noisy_command >"$sandbox/out" 2>"$sandbox/err"
+printf 'command output\n\n' >"$sandbox/expected"
+cmp "$sandbox/out" "$sandbox/expected" || fail 'captured stdout changed'
+[[ ! -s $sandbox/err ]] || fail 'successful query leaked stderr'
+if TMPDIR=$sandbox/logs capture_command broken noisy_command 23 >"$sandbox/out" 2>"$sandbox/err"; then
+  fail 'noisy failure accepted'
+else
+  [[ $? == 23 ]] || fail 'noisy failure status changed'
+fi
+[[ ! -s $sandbox/out ]] || fail 'failure contaminated captured stdout'
+error=$(<"$sandbox/err")
+[[ $error == *'broken (exit 23)'* && $error == *$'stdout:\ncommand output'* &&
+  $error == *$'stderr:\ncommand diagnostic'* ]] || fail 'failure output missing'
+[[ -z $(find "$sandbox/logs" -mindepth 1 -print) ]] || fail 'command logs leaked'
+quiet_step() { run_command quiet noisy_command; }
+actual=$(run_plan Setup quiet_step)
+[[ $actual == $'[1/1] quiet step\nDone.' ]] || fail 'main progress changed or command output leaked'
+
 home_dir=$sandbox/home
 repo_dir=$sandbox/repo
 mkdir -p "$home_dir" "$repo_dir/stow/user/.config"

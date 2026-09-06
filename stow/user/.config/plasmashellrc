@@ -1,6 +1,6 @@
 [PlasmaViews][Panel 109]
 alignment=132
-floating=1
+floating=0
 shell=org.kde.plasma.desktop
 
 [PlasmaViews][Panel 109][Defaults]
@@ -10,7 +10,7 @@ thickness=40
 
 [PlasmaViews][Panel 55]
 alignment=132
-floating=1
+floating=0
 shell=org.kde.plasma.desktop
 
 [PlasmaViews][Panel 55][Defaults]

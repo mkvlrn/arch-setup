@@ -1,11 +1,16 @@
 [ActivityManager]
 _k_friendly_name=Activity Manager
+switch-to-activity-d9c3ed8c-7b6e-4c17-9087-84fef97451ac=none,none,Switch to activity "Default"
 switch-to-activity-e9c253db-ded5-451c-b874-5197fba1d0bd=none,none,Switch to activity "Default"
 
 [KDE Keyboard Layout Switcher]
 Switch to Last-Used Keyboard Layout=Meta+Alt+L,Meta+Alt+L,Switch to Last-Used Keyboard Layout
 Switch to Next Keyboard Layout=Meta+Alt+K,Meta+Alt+K,Switch to Next Keyboard Layout
 _k_friendly_name=Keyboard Layout Switcher
+
+[com.mitchellh.ghostty]
+F12=F12,F12,toggle_quick_terminal
+_k_friendly_name=Ghostty
 
 [kaccess]
 Toggle Screen Reader On and Off=Meta+Alt+S,Meta+Alt+S,Toggle Screen Reader On and Off

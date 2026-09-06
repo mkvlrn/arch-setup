@@ -5,3 +5,6 @@ font-size = 15
 window-decoration = "server"
 window-height = 34
 window-width = 128
+keybind = global:F12=toggle_quick_terminal
+quick-terminal-size = 40%,80%
+quick-terminal-autohide = true

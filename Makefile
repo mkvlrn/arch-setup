@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build
 
-.PHONY: setup dev lint format format-check test build
+.PHONY: setup dev lint format format-check test build sync-branch
 
 setup:
 	mise trust --yes
@@ -31,6 +31,11 @@ build:
 		fi; \
 		mkdir -p ./bin; \
 		go build -ldflags "-X github.com/mkvlrn/arch-setup/internal/revision.Commit=$$revision" -o ./bin/arch-setup .
+
+sync-branch:
+	@if command -v mise >/dev/null 2>&1; then mise prune -y; fi
+	@go mod tidy
+	@lefthook install
 
 %:
 	@:

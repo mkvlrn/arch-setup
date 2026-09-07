@@ -9,7 +9,7 @@ lint = { run = "make lint" }
 test = { run = "make test" }
 
 [post-checkout.commands]
-sync-branch = { run = "mise run sync-branch" }
+sync-branch = { run = "make sync-branch" }
 
 [post-merge.commands]
-sync-branch = { run = "mise run sync-branch" }
+sync-branch = { run = "make sync-branch" }

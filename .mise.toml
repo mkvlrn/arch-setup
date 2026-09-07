@@ -9,11 +9,3 @@ cocogitto = "7.0.0"
 disable_backends = ["asdf"]
 use_versions_host = false
 minimum_release_age = "1d"
-
-[tasks.sync-branch]
-description = "Sync package manager deps"
-run = """
-mise prune -y
-go mod tidy
-lefthook install
-"""

@@ -171,8 +171,12 @@ AppletOrder=110;130;111;112;129;131
 ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
 activityId=d9c3ed8c-7b6e-4c17-9087-84fef97451ac
+formfactor=0
+immutability=1
 lastScreen=0
-wallpaperplugin=org.kde.potd
+location=0
+plugin=org.kde.desktopcontainment
+wallpaperplugin=org.kde.image
 
 [Containments][134][ConfigDialog]
 DialogHeight=630
@@ -186,8 +190,12 @@ Provider=simonstalenhag
 ItemGeometries-2560x1080=
 ItemGeometriesHorizontal=
 activityId=d9c3ed8c-7b6e-4c17-9087-84fef97451ac
+formfactor=0
+immutability=1
 lastScreen=1
-wallpaperplugin=org.kde.potd
+location=0
+plugin=org.kde.desktopcontainment
+wallpaperplugin=org.kde.image
 
 [Containments][135][ConfigDialog]
 DialogHeight=630

@@ -9,11 +9,7 @@ lint = { run = "make lint" }
 test = { run = "make test" }
 
 [post-checkout.commands]
-sync-mise = { run = "mise install" }
-clean-mise = { run = "mise prune -y" }
-sync-go = { run = "go mod tidy" }
+sync-branch = { run = "mise run sync-branch" }
 
 [post-merge.commands]
-sync-mise = { run = "mise install" }
-clean-mise = { run = "mise prune -y" }
-sync-go = { run = "go mod tidy" }
+sync-branch = { run = "mise run sync-branch" }

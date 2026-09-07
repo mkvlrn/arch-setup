@@ -42,6 +42,7 @@
     "html": true,
     "ini": true,
     "make": true,
+    "tombi": true,
     "toml": true,
     "tsgo": true,
     "xml": true
@@ -161,6 +162,10 @@
           "arguments": ["-i", "2"]
         }
       }
+    },
+    "TOML": {
+      "formatter": { "language_server": { "name": "tombi" } },
+      "language_servers": ["tombi"]
     },
     "TSX": {
       "code_actions_on_format": {

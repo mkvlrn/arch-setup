@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "command": "biome check --write --assist-enabled=true --only=assist/source/useSortedKeys --json-parse-allow-comments=true \"$ZED_FILE\"",
+    "hide": "on_success",
+    "label": "Sort JSON"
+  }
+]

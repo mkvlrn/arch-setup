@@ -8,32 +8,28 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent": {
+    "default_model": {
+      "effort": "low",
+      "enable_thinking": true,
+      "model": "gpt-6-astra",
+      "provider": "openai-subscribed"
+    },
+    "default_profile": "write",
+    "dock": "right",
+    "favorite_models": [],
+    "flexible": false,
+    "model_parameters": [],
     "sandbox_permissions": {
       "allow_all_hosts": true
     },
-    "flexible": false,
-    "default_model": {
-      "provider": "openai-subscribed",
-      "model": "gpt-6-astra",
-      "enable_thinking": true,
-      "effort": "low"
-    },
-    "sidebar_side": "right",
-    "dock": "right",
-    "favorite_models": [],
-    "model_parameters": [],
-    "default_profile": "write"
-  },
-  "edit_predictions": {
-    "mode": "subtle",
-    "allow_data_collection": "no",
-    "provider": "zed"
+    "sidebar_side": "right"
   },
   "auto_indent_on_paste": false,
   "auto_install_extensions": {
     "biome": true,
     "catppuccin": true,
     "catppuccin-icons": true,
+    "docker-compose": true,
     "dockerfile": true,
     "editorconfig": true,
     "fish": true,
@@ -60,6 +56,11 @@
     "dock": "right"
   },
   "disable_ai": false,
+  "edit_predictions": {
+    "allow_data_collection": "no",
+    "mode": "subtle",
+    "provider": "zed"
+  },
   "experimental.theme_overrides": {
     "editor.gutter.background": "#0b0b11",
     "terminal.background": "#0b0b11"
@@ -67,8 +68,8 @@
   "file_types": {
     "dotenv": [".env", ".env.example", ".env.sample"],
     "git-rebase": [".gitconfig.work"],
-    "jsonc": ["**/settings.json"],
-    "ini": ["*.ghostty"]
+    "ini": ["*.ghostty"],
+    "jsonc": ["**/settings.json"]
   },
   "format_on_save": "on",
   "git_panel": {
@@ -100,6 +101,24 @@
         }
       },
       "language_servers": ["gopls", "golangci-lint"]
+    },
+    "JavaScript": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "!eslint",
+        "!vtsls",
+        "!typescript-language-server",
+        "!tailwindcss-language-server",
+        "..."
+      ]
     },
     "JSON": {
       "code_actions_on_format": {
@@ -137,29 +156,11 @@
         "..."
       ]
     },
-    "JavaScript": {
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      },
-      "formatter": {
-        "language_server": {
-          "name": "biome"
-        }
-      },
-      "language_servers": [
-        "!eslint",
-        "!vtsls",
-        "!typescript-language-server",
-        "!tailwindcss-language-server",
-        "..."
-      ]
-    },
     "Shell Script": {
       "formatter": {
         "external": {
-          "command": "shfmt",
-          "arguments": ["-i", "2"]
+          "arguments": ["-i", "2"],
+          "command": "shfmt"
         }
       }
     },
@@ -256,10 +257,10 @@
     "metrics": false
   },
   "terminal": {
-    "flexible": false,
     "blinking": "on",
     "cursor_shape": "bar",
     "dock": "right",
+    "flexible": false,
     "font_family": "IosevkaTerm Nerd Font",
     "font_size": 18
   },

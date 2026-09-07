@@ -167,27 +167,35 @@ show_requestShutDown=true
 [Containments][109][General]
 AppletOrder=110;130;111;112;129;131
 
-[Containments][132]
+[Containments][134]
 ItemGeometries-1920x1080=
 ItemGeometriesHorizontal=
 activityId=d9c3ed8c-7b6e-4c17-9087-84fef97451ac
-formfactor=0
-immutability=1
 lastScreen=0
-location=0
-plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.image
+wallpaperplugin=org.kde.potd
 
-[Containments][133]
+[Containments][134][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
+
+[Containments][134][Wallpaper][org.kde.potd][General]
+FillMode=2
+Provider=simonstalenhag
+
+[Containments][135]
 ItemGeometries-2560x1080=
 ItemGeometriesHorizontal=
 activityId=d9c3ed8c-7b6e-4c17-9087-84fef97451ac
-formfactor=0
-immutability=1
 lastScreen=1
-location=0
-plugin=org.kde.plasma.folder
-wallpaperplugin=org.kde.image
+wallpaperplugin=org.kde.potd
+
+[Containments][135][ConfigDialog]
+DialogHeight=630
+DialogWidth=810
+
+[Containments][135][Wallpaper][org.kde.potd][General]
+FillMode=2
+Provider=wcpotd
 
 [Containments][55]
 activityId=
@@ -352,5 +360,5 @@ showOnlyCurrentScreen=true
 AppletOrder=57;81;59;60;74;108
 
 [ScreenMapping]
-itemsOnDisabledScreens=0,e9c253db-ded5-451c-b874-5197fba1d0bd,1,desktop:/mkvlrn.png
-screenMapping=desktop:/brave-fnnddiokljlbkmeppnclajginnfbffgb-Default.desktop,0,d9c3ed8c-7b6e-4c17-9087-84fef97451ac
+itemsOnDisabledScreens=0,e9c253db-ded5-451c-b874-5197fba1d0bd,1,desktop:/mkvlrn.png,0,d9c3ed8c-7b6e-4c17-9087-84fef97451ac,1,desktop:/brave-fnnddiokljlbkmeppnclajginnfbffgb-Default.desktop
+screenMapping=

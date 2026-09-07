@@ -1,5 +1,6 @@
 {
   "file_types": {
-    "Shell Script": ["index.html"]
+    "Shell Script": ["index.html"],
+    "JSONC": ["**/settings.json", "**/keybindings.json"]
   }
 }

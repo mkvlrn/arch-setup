@@ -176,7 +176,7 @@ immutability=1
 lastScreen=0
 location=0
 plugin=org.kde.desktopcontainment
-wallpaperplugin=org.kde.image
+wallpaperplugin=org.kde.potd
 
 [Containments][134][ConfigDialog]
 DialogHeight=630
@@ -195,7 +195,7 @@ immutability=1
 lastScreen=1
 location=0
 plugin=org.kde.desktopcontainment
-wallpaperplugin=org.kde.image
+wallpaperplugin=org.kde.potd
 
 [Containments][135][ConfigDialog]
 DialogHeight=630

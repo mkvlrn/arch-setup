@@ -67,7 +67,7 @@
   },
   "file_types": {
     "dotenv": [".env", ".env.example", ".env.sample"],
-    "git-rebase": [".gitconfig.work"],
+    "Git Config": [".gitconfig.work"],
     "ini": ["*.ghostty"],
     "jsonc": ["**/settings.json"]
   },

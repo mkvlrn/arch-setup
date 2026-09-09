@@ -102,6 +102,9 @@
   "editor.renderWhitespace": "boundary",
   "editor.rulers": [80, 100],
   "editor.stickyScroll.enabled": false,
+  "catppuccin-icons.associations.files": {
+    ".gitconfig.work": "git"
+  },
   // appearance
 
   // behavior

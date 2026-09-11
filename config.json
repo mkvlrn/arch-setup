@@ -3,7 +3,7 @@
   "removePackages": ["vim"],
   "mainPackages": [
     "age",
-    "brave-origin-bin",
+    "ark",
     "bruno-bin",
     "deluge-gtk",
     "deluge",
@@ -30,7 +30,8 @@
     "unzip",
     "visual-studio-code-bin",
     "xdg-user-dirs",
-    "zed"
+    "zed",
+    "zen-browser-bin"
   ],
   "repoHttp": "https://github.com/mkvlrn/arch-setup",
   "repoSsh": "git@github.com:mkvlrn/arch-setup",

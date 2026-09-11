@@ -1,0 +1,9 @@
+[Unit]
+Description=Add sound to Zen notifications
+
+[Service]
+ExecStart=%h/.local/bin/zen-notification-sound
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

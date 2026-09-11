@@ -235,7 +235,7 @@
   "project_panel": {
     "auto_fold_dirs": false,
     "diagnostic_badges": true,
-    "dock": "left",
+    "dock": "right",
     "entry_spacing": "standard",
     "git_status_indicator": true,
     "hide_hidden": false,

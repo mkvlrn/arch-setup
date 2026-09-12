@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+dbus-monitor "interface='org.freedesktop.Notifications',member='Notify'" |
+awk '
+/method call/ { first = 1; next }
+first && /^[[:space:]]*string / {
+    if ($0 ~ /string "Zen"$/)
+        system("canberra-gtk-play -i message-new-instant >/dev/null 2>&1 &")
+    first = 0
+}'

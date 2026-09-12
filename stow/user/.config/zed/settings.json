@@ -11,7 +11,7 @@
     "default_model": {
       "effort": "low",
       "enable_thinking": true,
-      "model": "gpt-6-astra",
+      "model": "gpt-5.4-mini",
       "provider": "openai-subscribed"
     },
     "default_profile": "ask",

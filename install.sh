@@ -48,8 +48,9 @@ run() {
   if "$@" >"$output" 2>&1; then
     rm -f "$output"
     return 0
+  else
+    status=$?
   fi
-  status=$?
   printf 'Command failed: '
   printf '%q ' "$@"
   printf '\n'
@@ -101,7 +102,6 @@ run yay -Y --gendb
 run yay -Y --devel --save
 run sudo reflector --latest 20 --protocol https --sort rate --save "$MIRROR_LIST"
 run yay -Syu --noconfirm
-printf 'Removing debug packages, if any\n'
 debug_packages=$(yay -Qq | grep -- '-debug$' || true)
 if [[ -n $debug_packages ]]; then
   printf '%s\n' "$debug_packages" | xargs -r yay -Rnsu

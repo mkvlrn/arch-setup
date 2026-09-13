@@ -7,15 +7,6 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "agent_servers": {
-    "antigravity-acp": {
-      "default_config_options": {
-        "mode": "auto_edit",
-        "model": "gemini-3.8-flash-medium"
-      },
-      "type": "registry"
-    }
-  },
   "agent": {
     "default_model": {
       "effort": "low",
@@ -32,6 +23,15 @@
       "allow_all_hosts": true
     },
     "sidebar_side": "right"
+  },
+  "agent_servers": {
+    "antigravity-acp": {
+      "default_config_options": {
+        "mode": "auto_edit",
+        "model": "gemini-3.8-flash-medium"
+      },
+      "type": "registry"
+    }
   },
   "auto_indent_on_paste": false,
   "auto_install_extensions": {
@@ -57,7 +57,7 @@
   "buffer_font_size": 20,
   "buffer_line_height": "standard",
   "cli_default_open_behavior": "new_window",
-  "code_lens": "on",
+  "code_lens": "menu",
   "collaboration_panel": {
     "button": false
   },
@@ -90,15 +90,6 @@
   "hover_popover_delay": 500,
   "icon_theme": "Catppuccin Mocha",
   "languages": {
-    "Go": {
-      "formatter": {
-        "external": {
-          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"],
-          "command": "mise"
-        }
-      },
-      "language_servers": ["gopls", "golangci-lint"]
-    },
     "CSS": {
       "code_actions_on_format": {
         "source.fixAll.biome": true,
@@ -110,6 +101,15 @@
         }
       },
       "language_servers": ["!eslint", "..."]
+    },
+    "Go": {
+      "formatter": {
+        "external": {
+          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"],
+          "command": "mise"
+        }
+      },
+      "language_servers": ["gopls", "golangci-lint"]
     },
 
     "JavaScript": {
@@ -237,7 +237,7 @@
         "arguments": ["exec", "--", "gopls"],
         "path": "mise"
       }
-    },
+    }
   },
   "minimap": {
     "show": "never"

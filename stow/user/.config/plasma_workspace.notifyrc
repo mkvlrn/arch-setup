@@ -1,0 +1,3 @@
+[Event/notification]
+Action=Popup|Sound
+Sound=file:///usr/share/sounds/Oxygen-Im-Sms.ogg

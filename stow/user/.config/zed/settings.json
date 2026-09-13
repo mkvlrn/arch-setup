@@ -7,6 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {
+    "antigravity-acp": {
+      "default_config_options": {
+        "mode": "auto_edit",
+        "model": "gemini-3.8-flash-medium"
+      },
+      "type": "registry"
+    }
+  },
   "agent": {
     "default_model": {
       "effort": "low",
@@ -228,7 +237,7 @@
         "arguments": ["exec", "--", "gopls"],
         "path": "mise"
       }
-    }
+    },
   },
   "minimap": {
     "show": "never"

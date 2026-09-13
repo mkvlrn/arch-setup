@@ -8,3 +8,24 @@ cocogitto = "7.0.0"
 disable_backends = ["asdf"]
 use_versions_host = false
 minimum_release_age = "1d"
+
+[tasks.default]
+depends = ["lint"]
+
+[tasks.lint]
+run = [
+  "shellcheck config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh",
+  "bash -n config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh",
+]
+
+[tasks.format]
+run = "shfmt -w config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh"
+
+[tasks.format-check]
+run = "shfmt -d config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh"
+
+[tasks.sync-branch]
+run = """
+if command -v mise >/dev/null 2>&1; then mise prune -y; fi
+lefthook install
+"""

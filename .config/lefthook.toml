@@ -2,14 +2,14 @@
 cog-lint = { run = "cog verify --file {1}" }
 
 [pre-commit.commands]
-lint = { run = "make lint" }
+lint = { run = "mise run lint" }
 
 [pre-push.commands]
-lint = { run = "make lint" }
-format = { run = "make format-check" }
+lint = { run = "mise run lint" }
+format = { run = "mise run format-check" }
 
 [post-checkout.commands]
-sync-branch = { run = "make sync-branch" }
+sync-branch = { run = "mise run sync-branch" }
 
 [post-merge.commands]
-sync-branch = { run = "make sync-branch" }
+sync-branch = { run = "mise run sync-branch" }

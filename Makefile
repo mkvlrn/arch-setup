@@ -1,40 +1,19 @@
-.DEFAULT_GOAL := build
+.DEFAULT_GOAL := lint
 
-.PHONY: setup dev lint format format-check test build sync-branch
-
-setup:
-	mise trust --yes
-	mise install
-	lefthook install
-
-dev:
-	@go run . $(ARGS)
+.PHONY: lint format format-check sync-branch
 
 lint:
-	@golangci-lint run ./...
+	@shellcheck config.sh install.sh verify.sh .github/workflows/scripts/*.sh
+	@bash -n config.sh install.sh verify.sh .github/workflows/scripts/*.sh
 
 format:
-	@gofumpt -w .
+	@shfmt -w config.sh install.sh verify.sh .github/workflows/scripts/*.sh
 
-test:
-	@go test ./... -cover
-
-# Stamp the actual checkout, including Actions' synthetic PR merge commits.
-# Refuse dirty sources: their contents cannot be reproduced from a commit SHA.
-build:
-	@set -eu; \
-		revision=$$(git rev-parse --verify HEAD); \
-		state=$$(git --no-optional-locks status --porcelain --untracked-files=normal); \
-		if [ -n "$$state" ]; then \
-			printf 'Cannot build a revision-aligned installer from a dirty checkout.\n' >&2; \
-			exit 1; \
-		fi; \
-		mkdir -p ./bin; \
-		go build -ldflags "-X github.com/mkvlrn/arch-setup/internal/revision.Commit=$$revision" -o ./bin/arch-setup .
+format-check:
+	@shfmt -d config.sh install.sh verify.sh .github/workflows/scripts/*.sh
 
 sync-branch:
 	@if command -v mise >/dev/null 2>&1; then mise prune -y; fi
-	@go mod tidy
 	@lefthook install
 
 %:

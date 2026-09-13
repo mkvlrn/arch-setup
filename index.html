@@ -2,16 +2,23 @@
 
 set -eu
 
-tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+repo="$HOME/repos/arch-setup"
 
-curl -fsSL \
-  https://github.com/mkvlrn/arch-setup/releases/latest/download/arch-setup \
-  -o "$tmp/arch-setup"
+if [ -e "$repo" ]; then
+  printf 'Repository path already exists: %s\n' "$repo" >&2
+  exit 1
+fi
 
-chmod +x "$tmp/arch-setup"
+if ! command -v git >/dev/null 2>&1; then
+  sudo pacman -Sy --noconfirm git
+fi
 
-"$tmp/arch-setup"
+mkdir -p "$(dirname "$repo")"
+git clone https://github.com/mkvlrn/arch-setup "$repo"
+
+chmod +x "$repo/install.sh"
+
+SETUP_REPO_DIR="$repo" "$repo/install.sh"
 
 printf '\nRestoring machine secrets\n\n'
 

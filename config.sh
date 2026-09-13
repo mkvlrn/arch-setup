@@ -46,7 +46,6 @@ MAIN_PACKAGES=(
   zen-browser-bin
 )
 
-REPO_HTTP='https://github.com/mkvlrn/arch-setup'
 REPO_SSH='git@github.com:mkvlrn/arch-setup'
 MIRROR_LIST='/etc/pacman.d/mirrorlist'
 MIRROR_LIST_CHECK='# With:       reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'

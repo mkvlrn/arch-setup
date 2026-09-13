@@ -43,7 +43,7 @@ ssh_vm \
    MISE_GITHUB_TOKEN='$mise_github_token' \
    GITHUB_ACTIONS='$GITHUB_ACTIONS' \
    SETUP_REPO_DIR=\"\$HOME/repos/arch-setup\" \
-   \"\$HOME/repos/arch-setup/install.sh\" --ci"
+   \"\$HOME/repos/arch-setup/install.sh\""
 
 # Run verification in a new login session so changes such as supplementary
 # group membership are visible.
@@ -52,4 +52,4 @@ vm_step "Verifying machine state"
 ssh_vm \
   'SETUP_REPO_DIR="$HOME/repos/arch-setup" \
    ARCH_SETUP_EXPECTED_REVISION="$(git -C "$HOME/repos/arch-setup" rev-parse HEAD)" \
-   "$HOME/repos/arch-setup/verify.sh" --ci'
+   "$HOME/repos/arch-setup/verify.sh"'

@@ -81,6 +81,15 @@
   "hover_popover_delay": 500,
   "icon_theme": "Catppuccin Mocha",
   "languages": {
+    "Go": {
+      "formatter": {
+        "external": {
+          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"],
+          "command": "mise"
+        }
+      },
+      "language_servers": ["gopls", "golangci-lint"]
+    },
     "CSS": {
       "code_actions_on_format": {
         "source.fixAll.biome": true,
@@ -93,15 +102,7 @@
       },
       "language_servers": ["!eslint", "..."]
     },
-    "Go": {
-      "formatter": {
-        "external": {
-          "arguments": ["exec", "--", "golangci-lint", "fmt", "--stdin"],
-          "command": "mise"
-        }
-      },
-      "language_servers": ["gopls", "golangci-lint"]
-    },
+
     "JavaScript": {
       "code_actions_on_format": {
         "source.fixAll.biome": true,
@@ -205,6 +206,7 @@
       ]
     }
   },
+
   "lsp": {
     "golangci-lint": {
       "initialization_options": {

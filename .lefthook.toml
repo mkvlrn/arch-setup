@@ -6,7 +6,7 @@ lint = { run = "make lint" }
 
 [pre-push.commands]
 lint = { run = "make lint" }
-test = { run = "make test" }
+format = { run = "make format-check" }
 
 [post-checkout.commands]
 sync-branch = { run = "make sync-branch" }

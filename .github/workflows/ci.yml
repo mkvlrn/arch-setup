@@ -13,24 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  release-check:
-    permissions:
-      contents: read
-      pull-requests: read
-    runs-on: ubuntu-latest
-    outputs:
-      release: ${{ steps.check.outputs.release }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: check whether push merged a PR
-        id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: ./.github/workflows/scripts/check-release.sh
-
-  check-build:
-    needs: release-check
+  shell-check:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
@@ -39,16 +22,11 @@ jobs:
 
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4
 
-      - name: check and build
-        run: ./.github/workflows/scripts/check-build.sh
+      - name: check shell scripts
+        run: ./.github/workflows/scripts/check-shell.sh
 
   arch-test:
-    if: |
-      github.event_name == 'pull_request' ||
-      needs.release-check.outputs.release != 'true'
-    needs:
-      - check-build
-      - release-check
+    needs: shell-check
     env:
       MISE_GITHUB_TOKEN: ${{ github.token }}
     runs-on: ubuntu-latest
@@ -66,33 +44,3 @@ jobs:
       - name: stop arch VM
         if: always()
         run: ./.github/workflows/scripts/stop-vm.sh
-
-  release:
-    if: |
-      always() &&
-      github.event_name == 'push' &&
-      needs.check-build.result == 'success' &&
-      (
-        needs.release-check.outputs.release == 'true' ||
-        needs.arch-test.result == 'success'
-      )
-    needs:
-      - check-build
-      - release-check
-      - arch-test
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-
-      - name: download executable
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: arch-setup
-          path: ./bin
-
-      - name: release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: ./.github/workflows/scripts/release.sh

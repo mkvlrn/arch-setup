@@ -4,37 +4,25 @@ set -Eeuo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 SETUP_REPO_DIR=${SETUP_REPO_DIR:-"$HOME/repos/arch-setup"}
-CI_MODE=false
 
-usage() {
-  printf 'Usage: %s [--ci]\n' "${BASH_SOURCE[0]}"
-}
-
-while (($#)); do
+if (($#)); then
   case $1 in
-  --ci) CI_MODE=true ;;
   -h | --help)
-    usage
+    printf 'Usage: %s\n' "${BASH_SOURCE[0]}"
     exit 0
     ;;
   *)
-    printf 'Unknown option: %s\n' "$1" >&2
-    usage >&2
+    printf 'This script does not accept arguments.\n' >&2
     exit 2
     ;;
   esac
-  shift
-done
+fi
 
 export SETUP_REPO_DIR
 # shellcheck source=config.sh
 source "$SCRIPT_DIR/config.sh"
 
-if [[ $CI_MODE == true ]]; then
-  total_steps=9
-else
-  total_steps=10
-fi
+total_steps=10
 step_number=0
 
 log() {
@@ -67,28 +55,19 @@ fi
 log 'Installing base packages'
 run sudo pacman -Syu --noconfirm --needed "${BASE_PACKAGES[@]}"
 
-if [[ $CI_MODE == false ]]; then
-  log 'Removing unwanted packages'
-  run sudo pacman -Rns --noconfirm "${REMOVE_PACKAGES[@]}"
-
-  log 'Cloning setup repository'
-  if [[ -e "$SETUP_REPO_DIR" ]]; then
-    printf 'Repository path already exists: %s\n' "$SETUP_REPO_DIR" >&2
-    exit 1
+log 'Removing unwanted packages'
+for package in "${REMOVE_PACKAGES[@]}"; do
+  if pacman -Q "$package" >/dev/null 2>&1; then
+    run sudo pacman -Rns --noconfirm "$package"
   fi
-  run git clone "$REPO_HTTP" "$SETUP_REPO_DIR"
-  expected_revision=$(git -C "$SCRIPT_DIR" rev-parse HEAD)
-  run git -C "$SETUP_REPO_DIR" checkout -B main "$expected_revision"
-  run git -C "$SETUP_REPO_DIR" branch --set-upstream-to=origin/main main
-  run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
-else
-  log 'Validating CI repository'
-  [[ -d "$SETUP_REPO_DIR/.git" ]] || {
-    printf 'Missing repository: %s\n' "$SETUP_REPO_DIR" >&2
-    exit 1
-  }
-  run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
-fi
+done
+
+log 'Validating existing repository'
+[[ -d "$SETUP_REPO_DIR/.git" ]] || {
+  printf 'Missing repository: %s\n' "$SETUP_REPO_DIR" >&2
+  exit 1
+}
+run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
 
 log 'Stowing system files'
 run sudo rm -f /etc/pacman.conf /etc/makepkg.conf
@@ -138,5 +117,3 @@ run mkdir -p "$completion_dir"
 run "$HOME/.local/bin/mise" completion fish >"$completion_dir/mise.fish"
 run "$HOME/.local/share/mise/shims/gh" completion -s fish >"$completion_dir/gh.fish"
 run "$HOME/.local/share/mise/shims/glab" completion -s fish >"$completion_dir/glab.fish"
-
-printf '\nInstallation complete. Run %q to verify the machine.\n' "$SCRIPT_DIR/verify.sh"

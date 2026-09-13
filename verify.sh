@@ -4,27 +4,6 @@ set -Eeuo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 SETUP_REPO_DIR=${SETUP_REPO_DIR:-"$HOME/repos/arch-setup"}
-CI_MODE=false
-
-usage() {
-  printf 'Usage: %s [--ci]\n' "${BASH_SOURCE[0]}"
-}
-
-while (($#)); do
-  case $1 in
-  --ci) CI_MODE=true ;;
-  -h | --help)
-    usage
-    exit 0
-    ;;
-  *)
-    printf 'Unknown option: %s\n' "$1" >&2
-    usage >&2
-    exit 2
-    ;;
-  esac
-  shift
-done
 
 export SETUP_REPO_DIR
 # shellcheck source=config.sh
@@ -177,9 +156,7 @@ check 'system Stow links' check_stow_tree system /
 check 'user Stow links' check_stow_tree user "$HOME"
 check 'yay and mirror list' check_yay
 check 'installed packages' check_packages
-if [[ $CI_MODE == false ]]; then
-  check 'removed packages' check_removed_packages
-fi
+check 'removed packages' check_removed_packages
 check 'XDG directories' check_xdg
 check 'mise and managed tools' check_mise
 check 'user settings and services' check_user

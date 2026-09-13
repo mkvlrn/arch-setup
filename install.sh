@@ -30,12 +30,32 @@ export SETUP_REPO_DIR
 # shellcheck source=config.sh
 source "$SCRIPT_DIR/config.sh"
 
-log() { printf '\n==> %s\n' "$1"; }
+if [[ $CI_MODE == true ]]; then
+  total_steps=9
+else
+  total_steps=10
+fi
+step_number=0
+
+log() {
+  step_number=$((step_number + 1))
+  printf '[%d/%d] %s\n' "$step_number" "$total_steps" "$1"
+}
+
 run() {
-  printf '+ '
+  local output status
+  output=$(mktemp)
+  if "$@" >"$output" 2>&1; then
+    rm -f "$output"
+    return 0
+  fi
+  status=$?
+  printf 'Command failed: '
   printf '%q ' "$@"
   printf '\n'
-  "$@"
+  cat "$output" >&2
+  rm -f "$output"
+  return "$status"
 }
 
 if [[ $EUID -eq 0 ]]; then
@@ -81,9 +101,11 @@ run yay -Y --gendb
 run yay -Y --devel --save
 run sudo reflector --latest 20 --protocol https --sort rate --save "$MIRROR_LIST"
 run yay -Syu --noconfirm
-# shellcheck disable=SC2010
 printf 'Removing debug packages, if any\n'
-yay -Qq | grep -- '-debug$' | xargs -r yay -Rnsu
+debug_packages=$(yay -Qq | grep -- '-debug$' || true)
+if [[ -n $debug_packages ]]; then
+  printf '%s\n' "$debug_packages" | xargs -r yay -Rnsu
+fi
 
 log 'Installing main packages'
 run yay -S --noconfirm --needed "${MAIN_PACKAGES[@]}"

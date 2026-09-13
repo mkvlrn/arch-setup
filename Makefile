@@ -1,11 +1,6 @@
 .DEFAULT_GOAL := lint
 
-.PHONY: setup lint format format-check sync-branch
-
-setup:
-	mise trust --yes
-	mise install
-	lefthook install
+.PHONY: lint format format-check sync-branch
 
 lint:
 	@shellcheck config.sh install.sh verify.sh .github/workflows/scripts/*.sh

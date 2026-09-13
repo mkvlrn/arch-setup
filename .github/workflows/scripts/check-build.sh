@@ -1,8 +1,18 @@
 #!/bin/sh
 
-# Run all static checks, unit tests, and build the executable for downstream jobs.
+# Run static checks for the shell installer and verifier.
 set -eu
 
-make lint
-make test
-make build
+shellcheck \
+  ./config.sh \
+  ./install.sh \
+  ./verify.sh \
+  ./.github/workflows/scripts/*.sh
+
+bash -n \
+  ./config.sh \
+  ./install.sh \
+  ./verify.sh \
+  ./.github/workflows/scripts/*.sh
+
+git diff --check

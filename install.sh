@@ -87,6 +87,7 @@ else
     printf 'Missing repository: %s\n' "$SETUP_REPO_DIR" >&2
     exit 1
   }
+  run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
 fi
 
 log 'Stowing system files'
@@ -138,4 +139,4 @@ run "$HOME/.local/bin/mise" completion fish >"$completion_dir/mise.fish"
 run "$HOME/.local/share/mise/shims/gh" completion -s fish >"$completion_dir/gh.fish"
 run "$HOME/.local/share/mise/shims/glab" completion -s fish >"$completion_dir/glab.fish"
 
-printf '\nInstallation complete. Run %q --verify to verify the machine.\n' "$SCRIPT_DIR/verify.sh"
+printf '\nInstallation complete. Run %q to verify the machine.\n' "$SCRIPT_DIR/verify.sh"

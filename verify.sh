@@ -142,7 +142,7 @@ check_user() {
     systemctl is-enabled --quiet "$unit" || return 1
     systemctl is-active --quiet "$unit" || return 1
   done
-  for completion in mise gh glab; do
+  for completion in mise gh; do
     [[ -f "$HOME/.config/fish/completions/$completion.fish" ]] || {
       printf 'missing completion: %s\n' "$completion" >&2
       return 1

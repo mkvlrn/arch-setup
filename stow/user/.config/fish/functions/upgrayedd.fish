@@ -10,7 +10,6 @@ function upgrayedd --description "Update system, mise, tools, and completions"
     and mise upgrade -b
     and mise completion fish >~/.config/fish/completions/mise.fish
     and gh completion -s fish >~/.config/fish/completions/gh.fish
-    and glab completion -s fish >~/.config/fish/completions/glab.fish
 
     cd $old_pwd
 end

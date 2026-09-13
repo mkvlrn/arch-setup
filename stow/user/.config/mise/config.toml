@@ -1,7 +1,6 @@
 [tools]
 usage = "latest"
 jq = "latest"
-glab = "latest"
 github-cli = "latest"
 eza = "latest"
 fastfetch = "latest"

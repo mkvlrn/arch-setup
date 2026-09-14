@@ -31,7 +31,7 @@ Show Tabs Close Button=true
 Show Url Nav Bar=true
 Show output view for message type=1
 Show text for left and right sidebar=false
-Show welcome view for new window=true
+Show welcome view for new window=false
 Startup Session=manual
 Stash new unsaved files=true
 Stash unsaved file changes=false
@@ -125,7 +125,8 @@ RunPrefix=
 SetEditor=false
 
 [MainWindow]
-2 screens: Window-Maximized=true
+2 screens: Height=480
+2 screens: Width=1030
 
 [filetree]
 editShade=30,78,103

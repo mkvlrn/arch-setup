@@ -40,7 +40,6 @@ MAIN_PACKAGES=(
   ttf-noto-nerd
   ttf-zed-mono-nerd
   unzip
-  visual-studio-code-bin
   xdg-user-dirs
   zed
   zen-browser-bin
@@ -50,5 +49,19 @@ REPO_SSH='git@github.com:mkvlrn/arch-setup'
 MIRROR_LIST='/etc/pacman.d/mirrorlist'
 MIRROR_LIST_CHECK='# With:       reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 
-XDG_MKDIR=(repos work documents downloads media torrents)
-XDG_RMRF=(Desktop Documents Downloads Music Pictures Projects Public Templates Videos)
+XDG_MKDIR=(repos
+  work
+  documents
+  downloads
+  media
+  torrents
+)
+XDG_RMRF=(Desktop
+  Documents
+  Downloads
+  Music
+  Pictures
+  Projects
+  Public
+  Templates
+  Videos)

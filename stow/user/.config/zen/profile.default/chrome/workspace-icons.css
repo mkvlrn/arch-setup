@@ -1,0 +1,33 @@
+/* 1. Make the workspace icons bigger */
+toolbarbutton[zen-workspace-id] .zen-workspace-icon {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* 2. Increase the workspace button size */
+toolbarbutton[zen-workspace-id] {
+  width: 38px !important;
+  height: 38px !important;
+}
+
+/* 3. Expand the sidebar panel width to fit */
+#zen-workspaces-button,
+#sidebar-box {
+  min-width: 48px !important;
+}
+
+toolbarbutton[zen-workspace-id="{f50a28b7-250f-4e5f-ba55-9f2b91c599c5}"] .zen-workspace-icon {
+  content: url("workspace-icons/mkvlrn.png") !important;
+}
+
+toolbarbutton[zen-workspace-id="{6b228256-80fe-4a42-92c2-c64cdc9bb11e}"] .zen-workspace-icon {
+  content: url("workspace-icons/spread.jpg") !important;
+}
+
+toolbarbutton[zen-workspace-id="{fef11265-9153-49c1-af89-a0d582da48ea}"] .zen-workspace-icon {
+  content: url("workspace-icons/cb.png") !important;
+}
+
+toolbarbutton[zen-workspace-id="{b074114a-dc11-4d15-9b4c-baa912842c67}"] .zen-workspace-icon {
+  content: url("workspace-icons/banqi.jpg") !important;
+}

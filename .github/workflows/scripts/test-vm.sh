@@ -36,14 +36,14 @@ vm_step "Copying candidate repository to VM"
 
 # MISE_GITHUB_TOKEN belongs to the runner environment, so explicitly forward it
 # to the installer process inside the VM.
-vm_step "Running install.sh"
+vm_step "Running Arch installer"
 ssh_vm \
-  "chmod +x \"\$HOME/repos/arch-setup/install.sh\" \"\$HOME/repos/arch-setup/verify.sh\" &&
+  "chmod +x \"\$HOME/repos/arch-setup/arch/install.sh\" \"\$HOME/repos/arch-setup/arch/verify.sh\" &&
    printf '%s\n' arch | sudo -S -v &&
    MISE_GITHUB_TOKEN='$mise_github_token' \
    GITHUB_ACTIONS='$GITHUB_ACTIONS' \
    SETUP_REPO_DIR=\"\$HOME/repos/arch-setup\" \
-   \"\$HOME/repos/arch-setup/install.sh\""
+   \"\$HOME/repos/arch-setup/arch/install.sh\""
 
 # Run verification in a new login session so changes such as supplementary
 # group membership are visible.
@@ -52,4 +52,4 @@ vm_step "Verifying machine state"
 ssh_vm \
   'SETUP_REPO_DIR="$HOME/repos/arch-setup" \
    ARCH_SETUP_EXPECTED_REVISION="$(git -C "$HOME/repos/arch-setup" rev-parse HEAD)" \
-   "$HOME/repos/arch-setup/verify.sh"'
+   "$HOME/repos/arch-setup/arch/verify.sh"'

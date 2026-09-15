@@ -4,15 +4,17 @@
 set -eu
 
 shellcheck \
-  ./config.sh \
-  ./install.sh \
-  ./verify.sh \
+  ./index.html \
+  ./arch/*.sh \
+  ./ubuntu/*.sh \
+  ./secrets/*.sh \
   ./.github/workflows/scripts/*.sh
 
 bash -n \
-  ./config.sh \
-  ./install.sh \
-  ./verify.sh \
+  ./index.html \
+  ./arch/*.sh \
+  ./ubuntu/*.sh \
+  ./secrets/*.sh \
   ./.github/workflows/scripts/*.sh
 
 git diff --check

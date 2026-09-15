@@ -19,10 +19,10 @@ if (($#)); then
 fi
 
 export SETUP_REPO_DIR
-# shellcheck source=config.sh
+# shellcheck source=ubuntu/config.sh
 source "$SCRIPT_DIR/config.sh"
 
-total_steps=10
+total_steps=9
 step_number=0
 
 log() {
@@ -52,15 +52,9 @@ if [[ $EUID -eq 0 ]]; then
   exit 1
 fi
 
-log 'Installing base packages'
-run sudo pacman -Syu --noconfirm --needed "${BASE_PACKAGES[@]}"
-
-log 'Removing unwanted packages'
-for package in "${REMOVE_PACKAGES[@]}"; do
-  if pacman -Q "$package" >/dev/null 2>&1; then
-    run sudo pacman -Rns --noconfirm "$package"
-  fi
-done
+log 'Installing Ubuntu packages'
+run sudo apt-get update
+run sudo apt-get install -y --no-install-recommends "${APT_PACKAGES[@]}"
 
 log 'Validating existing repository'
 [[ -d "$SETUP_REPO_DIR/.git" ]] || {
@@ -69,26 +63,12 @@ log 'Validating existing repository'
 }
 run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
 
-log 'Stowing system files'
-run sudo rm -f /etc/pacman.conf /etc/makepkg.conf
-run sudo stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t / system
+log 'Deploying Ubuntu system files'
+run sudo stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t / system_ubuntu
 
-log 'Installing yay and updating mirrors'
-yay_dir=${TMPDIR:-/tmp}/yay-bin
-rm -rf "$yay_dir"
-run git clone https://aur.archlinux.org/yay-bin "$yay_dir"
-run makepkg -si --noconfirm -C -D "$yay_dir"
-run yay -Y --gendb
-run yay -Y --devel --save
-run sudo reflector --latest 20 --protocol https --sort rate --save "$MIRROR_LIST"
-run yay -Syu --noconfirm
-debug_packages=$(yay -Qq | grep -- '-debug$' || true)
-if [[ -n $debug_packages ]]; then
-  printf '%s\n' "$debug_packages" | xargs -r yay -Rnsu
-fi
-
-log 'Installing main packages'
-run yay -S --noconfirm --needed "${MAIN_PACKAGES[@]}"
+log 'Configuring Flatpak applications'
+run sudo flatpak remote-add --if-not-exists --system flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+run sudo flatpak install --system -y flathub "${FLATPAKS[@]}"
 
 log 'Updating XDG directories'
 run xdg-user-dirs-update
@@ -100,18 +80,23 @@ run stow -R --no-folding --adopt -d "$SETUP_REPO_DIR/stow" -t "$HOME" user
 run git -C "$SETUP_REPO_DIR" restore .
 run git -C "$SETUP_REPO_DIR" clean -fd
 
+log 'Installing Nerd Fonts'
+run sh -c 'curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash'
+run "$HOME/.local/bin/getnf" -i "${GETNF_FONTS// /,}"
+run fc-cache -f
+
 log 'Installing mise and managed tools'
+if [[ -z ${MISE_GITHUB_TOKEN:-} ]]; then
+  printf 'MISE_GITHUB_TOKEN is required to install mise-managed tools.\n' >&2
+  exit 1
+fi
 run sh -c 'curl https://mise.run | sh'
 GOPATH="$HOME/.go" run "$HOME/.local/bin/mise" install
 
 log 'Configuring user settings'
 run sudo chsh -s /usr/bin/fish "$USER"
 run sudo usermod -aG docker "$USER"
-run sudo usermod -d "$HOME/torrents" ftp
-run chmod o+x "$HOME"
-run sudo systemctl enable --now docker.socket
-run sudo systemctl enable --now pure-ftpd.service
-run sudo systemctl enable --now paccache.timer
+run sudo systemctl enable --now docker.service
 completion_dir="$HOME/.config/fish/completions"
 run mkdir -p "$completion_dir"
 run "$HOME/.local/bin/mise" completion fish >"$completion_dir/mise.fish"

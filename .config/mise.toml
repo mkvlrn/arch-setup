@@ -14,15 +14,15 @@ depends = ["lint"]
 
 [tasks.lint]
 run = [
-  "shellcheck config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh",
-  "bash -n config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh",
+  "shellcheck index.html arch/*.sh ubuntu/*.sh secrets/*.sh .github/workflows/scripts/*.sh",
+  "bash -n index.html arch/*.sh ubuntu/*.sh secrets/*.sh .github/workflows/scripts/*.sh",
 ]
 
 [tasks.format]
-run = "shfmt -w config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh"
+run = "shfmt -w index.html arch/*.sh ubuntu/*.sh secrets/*.sh .github/workflows/scripts/*.sh"
 
 [tasks.format-check]
-run = "shfmt -d config.sh install.sh verify.sh .github/workflows/scripts/*.sh secrets/*.sh"
+run = "shfmt -d index.html arch/*.sh ubuntu/*.sh secrets/*.sh .github/workflows/scripts/*.sh"
 
 [tasks.sync-branch]
 run = """

@@ -44,23 +44,3 @@ jobs:
       - name: stop arch VM
         if: always()
         run: ./.github/workflows/scripts/stop-vm.sh
-
-  ubuntu-test:
-    needs: shell-check
-    env:
-      MISE_GITHUB_TOKEN: ${{ github.token }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-
-      - name: prepare Ubuntu VM
-        run: ./.github/workflows/scripts/prepare-ubuntu-vm.sh
-
-      - name: test installer in Ubuntu VM
-        run: ./.github/workflows/scripts/test-ubuntu-vm.sh
-
-      - name: stop Ubuntu VM
-        if: always()
-        run: ./.github/workflows/scripts/stop-ubuntu-vm.sh

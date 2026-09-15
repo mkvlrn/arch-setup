@@ -18,6 +18,8 @@ MAIN_PACKAGES=(
   age
   ark
   bruno-bin
+  deluge-gtk
+  deluge
   docker-buildx
   docker-compose
   docker
@@ -31,6 +33,7 @@ MAIN_PACKAGES=(
   openssh
   pacman-contrib
   power-profiles-daemon
+  pure-ftpd
   qalculate-qt
   ttf-hack-nerd
   ttf-iosevkaterm-nerd
@@ -46,15 +49,14 @@ REPO_SSH='git@github.com:mkvlrn/arch-setup'
 MIRROR_LIST='/etc/pacman.d/mirrorlist'
 MIRROR_LIST_CHECK='# With:       reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 
-XDG_MKDIR=(
-  repos
+XDG_MKDIR=(repos
   work
   documents
   downloads
   media
+  torrents
 )
-XDG_RMRF=(
-  Desktop
+XDG_RMRF=(Desktop
   Documents
   Downloads
   Music
@@ -62,5 +64,4 @@ XDG_RMRF=(
   Projects
   Public
   Templates
-  Videos
-)
+  Videos)

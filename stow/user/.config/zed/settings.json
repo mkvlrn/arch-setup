@@ -14,7 +14,7 @@
       "model": "gpt-5.6-luna",
       "provider": "zed.dev"
     },
-    "default_profile": "ask",
+    "default_profile": "write",
     "dock": "right",
     "favorite_models": [],
     "flexible": false,

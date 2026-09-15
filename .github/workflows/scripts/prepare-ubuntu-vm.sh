@@ -41,8 +41,8 @@ cloud-localds ubuntu-seed.img ubuntu-user-data ubuntu-meta-data
 qemu-img create -f qcow2 -F qcow2 -b ubuntu.qcow2 ubuntu-test.qcow2 32G
 
 qemu-system-x86_64 \
-  -enable-kvm \
-  -cpu host \
+  -accel tcg,thread=multi \
+  -cpu max \
   -m 4G \
   -smp 2 \
   -drive file=ubuntu-test.qcow2,format=qcow2 \

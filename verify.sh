@@ -16,6 +16,8 @@ if ((${#verify_steps[@]} == 0)); then
   exit 1
 fi
 
+total_steps=${#verify_steps[@]}
+step_number=0
 failures=0
 failure_output=$(mktemp)
 trap 'rm -f "$failure_output"' EXIT
@@ -24,6 +26,7 @@ check() {
   local name=$1 output status
   shift
   output=$(mktemp)
+  printf '[%d/%d] %s\n' "$step_number" "$total_steps" "$name"
 
   if "$@" >"$output" 2>&1; then
     rm -f "$output"
@@ -176,6 +179,7 @@ check_user() {
 }
 
 for step_file in "${verify_steps[@]}"; do
+  step_number=$((step_number + 1))
   unset CHECK_NAME
   unset -f check_run 2>/dev/null || true
 

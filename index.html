@@ -9,8 +9,8 @@ if [ -e "$repo" ]; then
   exit 1
 fi
 
-if ! command -v git >/dev/null 2>&1; then
-  sudo pacman -Sy --noconfirm git
+if ! command -v git >/dev/null 2>&1 || ! command -v age >/dev/null 2>&1; then
+  sudo pacman -Sy --noconfirm git age
 fi
 
 mkdir -p "$(dirname "$repo")"
@@ -18,8 +18,37 @@ git clone https://github.com/mkvlrn/arch-setup "$repo"
 
 chmod +x "$repo/install.sh"
 
-SETUP_REPO_DIR="$repo" "$repo/install.sh"
-
 printf '\nRestoring machine secrets\n\n'
 
-age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" | tar -C "$HOME" -xf -
+mkdir -p "$HOME/.config/environment.d"
+secrets_archive=$(mktemp)
+chmod 600 "$secrets_archive"
+trap 'rm -f "$secrets_archive"' EXIT HUP INT TERM
+
+secrets_restored=false
+attempt=1
+while [ "$attempt" -le 3 ]; do
+  printf 'Decrypting secrets (attempt %s/3)\n' "$attempt"
+  if age -d "$repo/secrets/secrets.tar.age" >"$secrets_archive" &&
+    tar -tf "$secrets_archive" >/dev/null 2>&1 &&
+    tar -C "$HOME" -xf "$secrets_archive"; then
+    secrets_restored=true
+    break
+  fi
+  : >"$secrets_archive"
+  attempt=$((attempt + 1))
+done
+
+if [ "$secrets_restored" != true ]; then
+  printf 'Unable to decrypt machine secrets after 3 attempts.\n' >&2
+  exit 1
+fi
+
+chmod 600 "$HOME/.config/environment.d/10-secrets.conf"
+
+set -a
+# shellcheck disable=SC1090
+. "$HOME/.config/environment.d/10-secrets.conf"
+set +a
+
+SETUP_REPO_DIR="$repo" "$repo/install.sh"

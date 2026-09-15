@@ -11,7 +11,7 @@ tar -C "$HOME" -cf - \
   --exclude='.ssh/agent' \
   .ssh \
   .aws \
-  .config/fish/conf.d/secrets.fish |
+  .config/environment.d/10-secrets.conf |
   age -p -o "$output"
 
 printf '\nSecrets written to %s\n' "$output"

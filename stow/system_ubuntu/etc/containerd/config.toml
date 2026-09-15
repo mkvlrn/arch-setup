@@ -1,4 +1,0 @@
-version = 2
-
-root = "/home/mkvlrn/.containerd-data"
-state = "/run/containerd"

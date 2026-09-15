@@ -9,48 +9,17 @@ if [ -e "$repo" ]; then
   exit 1
 fi
 
-# Detect the operating system before cloning so bootstrap prerequisites use the
-# correct native package manager.
-# shellcheck disable=SC1091
-. /etc/os-release
-case ${ID:-} in
-arch)
-  os_dir=arch
-  package_manager=pacman
-  ;;
-ubuntu)
-  os_dir=ubuntu
-  package_manager=apt-get
-  ;;
-*)
-  printf 'Unsupported operating system: %s\n' "${PRETTY_NAME:-unknown}" >&2
-  exit 1
-  ;;
-esac
-
 if ! command -v git >/dev/null 2>&1; then
-  case $package_manager in
-  pacman)
-    sudo pacman -Sy --noconfirm git
-    ;;
-  apt-get)
-    sudo apt-get update
-    sudo apt-get install -y git
-    ;;
-  esac
+  sudo pacman -Sy --noconfirm git
 fi
 
 mkdir -p "$(dirname "$repo")"
 git clone https://github.com/mkvlrn/arch-setup "$repo"
 
-setup_dir="$repo/$os_dir"
-if [ ! -d "$setup_dir" ]; then
-  printf 'No setup implementation exists for %s.\n' "$os_dir" >&2
-  exit 1
-fi
+chmod +x "$repo/install.sh"
 
-chmod +x "$setup_dir/install.sh"
-SETUP_REPO_DIR="$repo" "$setup_dir/install.sh"
+SETUP_REPO_DIR="$repo" "$repo/install.sh"
 
 printf '\nRestoring machine secrets\n\n'
-age -d "$repo/secrets/secrets.tar.age" | tar -C "$HOME" -xf -
+
+age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" | tar -C "$HOME" -xf -

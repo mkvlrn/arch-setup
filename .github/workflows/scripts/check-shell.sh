@@ -7,12 +7,16 @@ shellcheck \
   ./config.sh \
   ./install.sh \
   ./verify.sh \
+  ./install_steps/*.sh \
+  ./verify_steps/*.sh \
   ./.github/workflows/scripts/*.sh
 
 bash -n \
   ./config.sh \
   ./install.sh \
   ./verify.sh \
+  ./install_steps/*.sh \
+  ./verify_steps/*.sh \
   ./.github/workflows/scripts/*.sh
 
 git diff --check

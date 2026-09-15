@@ -17,46 +17,45 @@ REMOVE_PACKAGES=(
 MAIN_PACKAGES=(
   age
   ark
-  bruno-bin
-  deluge-gtk
-  deluge
+  bruno-bin # export in distrobox
   docker-buildx
   docker-compose
   docker
   dolphin
-  ferdium-bin
+  ferdium-bin # export in distrobox
   fish
-  ghostty
+  ghostty # export in distrobox
   kate
+  kcalc
   less
   okular
   openssh
   pacman-contrib
   power-profiles-daemon
-  pure-ftpd
-  qalculate-qt
-  ttf-hack-nerd
-  ttf-iosevkaterm-nerd
-  ttf-noto-nerd
-  ttf-zed-mono-nerd
   unzip
   xdg-user-dirs
-  zed
-  zen-browser-bin
+  zed             # export in distrobox
+  zen-browser-bin # export in distrobox
+)
+
+GETNF_FONTS=(
+  Hack
+  IosevkaTerm
+  Noto
+  ZedMono
 )
 
 REPO_SSH='git@github.com:mkvlrn/arch-setup'
-MIRROR_LIST='/etc/pacman.d/mirrorlist'
-MIRROR_LIST_CHECK='# With:       reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist'
 
-XDG_MKDIR=(repos
+XDG_MKDIR=(
+  repos
   work
   documents
   downloads
   media
-  torrents
 )
-XDG_RMRF=(Desktop
+XDG_RMRF=(
+  Desktop
   Documents
   Downloads
   Music
@@ -64,4 +63,5 @@ XDG_RMRF=(Desktop
   Projects
   Public
   Templates
-  Videos)
+  Videos
+)

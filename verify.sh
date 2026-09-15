@@ -16,19 +16,28 @@ if ((${#verify_steps[@]} == 0)); then
   exit 1
 fi
 
-total_steps=${#verify_steps[@]}
-step_number=0
 failures=0
+failure_output=$(mktemp)
+trap 'rm -f "$failure_output"' EXIT
+
 check() {
-  local name=$1
+  local name=$1 output status
   shift
-  printf '[%d/%d] %-45s' "$step_number" "$total_steps" "$name"
-  if "$@"; then
-    printf ' OK\n'
-  else
-    printf ' FAIL\n'
-    failures=$((failures + 1))
+  output=$(mktemp)
+
+  if "$@" >"$output" 2>&1; then
+    rm -f "$output"
+    return 0
   fi
+
+  status=$?
+  failures=$((failures + 1))
+  {
+    printf '%s\n' "$name"
+    cat "$output"
+  } >>"$failure_output"
+  rm -f "$output"
+  return "$status"
 }
 
 check_repository() {
@@ -166,7 +175,6 @@ check_user() {
   done
 }
 
-printf 'Verifying repository\n'
 for step_file in "${verify_steps[@]}"; do
   unset CHECK_NAME
   unset -f check_run 2>/dev/null || true
@@ -183,12 +191,11 @@ for step_file in "${verify_steps[@]}"; do
     exit 1
   }
 
-  step_number=$((step_number + 1))
-  check "$CHECK_NAME" check_run
+  check "$CHECK_NAME" check_run || true
 done
 
 if ((failures)); then
-  printf '\n%d verification check(s) failed.\n' "$failures" >&2
+  cat "$failure_output" >&2
+  printf '%d verification check(s) failed.\n' "$failures" >&2
   exit 1
 fi
-printf '\nAll verification checks passed.\n'

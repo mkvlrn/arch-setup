@@ -1,4 +1,4 @@
-function upgrayedd --description "Update system, mise, tools, and completions"
+function upgrayedd --description "Update system, mise, tools, completions, and fonts"
     set -l old_pwd $PWD
     cd ~
     or return
@@ -10,6 +10,8 @@ function upgrayedd --description "Update system, mise, tools, and completions"
     and mise upgrade -b
     and mise completion fish >~/.config/fish/completions/mise.fish
     and gh completion -s fish >~/.config/fish/completions/gh.fish
+    and curl -fsSL https://raw.githubusercontent.com/getnf/getnf/main/install.sh | bash
+    and getnf -U
 
     cd $old_pwd
 end

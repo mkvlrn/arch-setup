@@ -18,18 +18,12 @@ users:
     groups: [adm, sudo]
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
+    plain_text_passwd: ubuntu
     lock_passwd: false
-chpasswd:
-  list: |
-    mkvlrn: ubuntu
-  expire: false
 ssh_pwauth: true
 growpart:
   mode: auto
 resize_rootfs: true
-package_update: true
-packages:
-  - openssh-server
 EOF
 
 cat >ubuntu-meta-data <<'EOF'

@@ -15,6 +15,9 @@ ssh_vm() {
     "$@"
 }
 
+# Confirm the downloaded image is the intended Ubuntu LTS before changing it.
+ssh_vm '. /etc/os-release && test "$VERSION_ID" = 26.04'
+
 # Copy the exact repository contents, including Git metadata required by the
 # repository verification step.
 {

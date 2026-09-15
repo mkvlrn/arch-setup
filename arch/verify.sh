@@ -118,7 +118,7 @@ check_mise() {
 }
 
 check_user() {
-  local shell ftp_home groups completion unit
+  local shell groups completion unit
   shell=$(getent passwd "$USER" | cut -d: -f7)
   [[ $shell == /usr/bin/fish ]] || {
     printf 'shell is %s\n' "$shell" >&2
@@ -129,16 +129,12 @@ check_user() {
     printf 'user is not in docker group\n' >&2
     return 1
   }
-  ftp_home=$(getent passwd ftp | cut -d: -f6)
-  [[ $ftp_home == "$HOME/torrents" ]] || {
-    printf 'ftp home is %s\n' "$ftp_home" >&2
-    return 1
-  }
+
   [[ $(stat -c '%a' "$HOME") =~ [13579]$ ]] || {
     printf 'home is not traversable\n' >&2
     return 1
   }
-  for unit in docker.socket pure-ftpd.service paccache.timer; do
+  for unit in docker.socket paccache.timer; do
     systemctl is-enabled --quiet "$unit" || return 1
     systemctl is-active --quiet "$unit" || return 1
   done

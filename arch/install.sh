@@ -107,10 +107,10 @@ GOPATH="$HOME/.go" run "$HOME/.local/bin/mise" install
 log 'Configuring user settings'
 run sudo chsh -s /usr/bin/fish "$USER"
 run sudo usermod -aG docker "$USER"
-run sudo usermod -d "$HOME/torrents" ftp
+
 run chmod o+x "$HOME"
 run sudo systemctl enable --now docker.socket
-run sudo systemctl enable --now pure-ftpd.service
+
 run sudo systemctl enable --now paccache.timer
 completion_dir="$HOME/.config/fish/completions"
 run mkdir -p "$completion_dir"

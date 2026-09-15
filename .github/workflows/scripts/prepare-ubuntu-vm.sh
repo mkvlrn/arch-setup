@@ -52,7 +52,7 @@ qemu-system-x86_64 \
   >ubuntu-vm.log 2>&1 &
 printf '%s\n' "$!" >ubuntu-qemu.pid
 
-for _ in $(seq 1 90); do
+for _ in $(seq 1 180); do
   if sshpass -p ubuntu ssh \
     -p 2223 \
     -o StrictHostKeyChecking=no \
@@ -65,5 +65,6 @@ for _ in $(seq 1 90); do
   sleep 2
 done
 
-printf 'Ubuntu VM did not become ready.\n' >&2
+printf 'Ubuntu VM did not become ready. QEMU log:\n' >&2
+cat ubuntu-vm.log >&2 || true
 exit 1

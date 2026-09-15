@@ -6,7 +6,7 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 SETUP_REPO_DIR=${SETUP_REPO_DIR:-"$HOME/repos/arch-setup"}
 
 export SETUP_REPO_DIR
-# shellcheck source=config.sh
+# shellcheck source=arch/config.sh
 source "$SCRIPT_DIR/config.sh"
 
 failures=0
@@ -47,10 +47,10 @@ check_repository() {
 }
 
 check_stow_tree() {
-  local package=$1 target=$2 source relative destination source_real destination_real
+  local package=$1 target=$2 stow_root=$3 source relative destination source_real destination_real
   while IFS= read -r -d '' source; do
     case ${source##*/} in .gitkeep | .stow-local-ignore) continue ;; esac
-    relative=${source#"$SETUP_REPO_DIR/stow/$package/"}
+    relative=${source#"$stow_root/$package/"}
     destination="$target/$relative"
     [[ -L "$destination" ]] || {
       printf '%s is not a symlink\n' "$destination" >&2
@@ -62,7 +62,7 @@ check_stow_tree() {
       printf '%s points to %s instead of %s\n' "$destination" "$destination_real" "$source_real" >&2
       return 1
     }
-  done < <(find "$SETUP_REPO_DIR/stow/$package" -type f -print0)
+  done < <(find "$stow_root/$package" -type f -print0)
 }
 
 check_packages() {
@@ -152,8 +152,8 @@ check_user() {
 
 printf 'Verifying repository\n'
 check 'repository state' check_repository
-check 'system Stow links' check_stow_tree system /
-check 'user Stow links' check_stow_tree user "$HOME"
+check 'system Stow links' check_stow_tree system_arch / "$SETUP_REPO_DIR/stow"
+check 'user Stow links' check_stow_tree user "$HOME" "$SETUP_REPO_DIR/stow"
 check 'yay and mirror list' check_yay
 check 'installed packages' check_packages
 check 'removed packages' check_removed_packages

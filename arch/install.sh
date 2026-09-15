@@ -19,7 +19,7 @@ if (($#)); then
 fi
 
 export SETUP_REPO_DIR
-# shellcheck source=config.sh
+# shellcheck source=arch/config.sh
 source "$SCRIPT_DIR/config.sh"
 
 total_steps=10
@@ -71,7 +71,7 @@ run git -C "$SETUP_REPO_DIR" remote set-url origin "$REPO_SSH"
 
 log 'Stowing system files'
 run sudo rm -f /etc/pacman.conf /etc/makepkg.conf
-run sudo stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t / system
+run sudo stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t / system_arch
 
 log 'Installing yay and updating mirrors'
 yay_dir=${TMPDIR:-/tmp}/yay-bin

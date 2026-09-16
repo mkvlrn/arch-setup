@@ -22,22 +22,6 @@ export SETUP_REPO_DIR
 # shellcheck source=config.sh
 source "$SCRIPT_DIR/config.sh"
 
-export_distrobox_apps() {
-  command -v distrobox-export >/dev/null 2>&1 || return 0
-
-  local package
-  while IFS= read -r package; do
-    [[ -n $package ]] || continue
-    run distrobox-export --app "$package"
-  done < <(
-    awk '
-      /^MAIN_PACKAGES=\(/ { in_packages = 1; next }
-      in_packages && /^\)/ { exit }
-      in_packages && /# export in distrobox/ { print $1 }
-    ' "$SCRIPT_DIR/config.sh"
-  )
-}
-
 shopt -s nullglob
 step_files=("$SCRIPT_DIR/install_steps"/[0-9][0-9]-*.sh)
 if ((${#step_files[@]} == 0)); then
@@ -89,8 +73,4 @@ for step_file in "${step_files[@]}"; do
   step_number=$((step_number + 1))
   printf '[%d/%d] %s\n' "$step_number" "$total_steps" "$STEP_NAME"
   step_run
-
-  if [[ $step_file == *'/06-main-packages.sh' ]]; then
-    export_distrobox_apps
-  fi
 done

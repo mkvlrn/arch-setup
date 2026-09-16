@@ -118,8 +118,8 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][109][Applets][112][General]
-extraItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller
-knownItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller
+extraItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller,org.kde.kupapplet
+knownItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller,org.kde.kupapplet
 
 [Containments][109][Applets][129]
 immutability=1
@@ -172,6 +172,7 @@ show_requestShutDown=true
 AppletOrder=110;130;111;112;129;131
 
 [Containments][134]
+ItemGeometries-0x0=
 ItemGeometries-1920x1080=
 ItemGeometries-2560x1080=
 ItemGeometriesHorizontal=
@@ -192,6 +193,7 @@ FillMode=2
 Provider=simonstalenhag
 
 [Containments][135]
+ItemGeometries-0x0=
 ItemGeometries-1920x1080=
 ItemGeometries-2560x1080=
 ItemGeometriesHorizontal=
@@ -339,8 +341,8 @@ DialogHeight=630
 DialogWidth=810
 
 [Containments][55][Applets][60][General]
-extraItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller
-knownItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller
+extraItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller,org.kde.kupapplet
+knownItems=org.kde.plasma.vault,org.kde.plasma.clipboard,org.kde.plasma.bluetooth,org.kde.plasma.keyboardindicator,org.kde.plasma.notifications,org.kde.kscreen,org.kde.plasma.volume,org.kde.plasma.brightness,org.kde.plasma.networkmanagement,org.kde.plasma.keyboardlayout,org.kde.plasma.battery,org.kde.plasma.manage-inputmethod,org.kde.plasma.weather,org.kde.plasma.cameraindicator,org.kde.plasma.devicenotifier,org.kde.plasma.printmanager,org.kde.plasma.mediacontroller,org.kde.kupapplet
 
 [Containments][55][Applets][74]
 immutability=1

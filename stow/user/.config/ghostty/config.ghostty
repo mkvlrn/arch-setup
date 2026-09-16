@@ -3,9 +3,5 @@ theme = "Catppuccin Mocha"
 background-opacity = 0.9
 font-size = 15
 window-decoration = "server"
-window-height = 34
-window-width = 128
-keybind = global:F12=toggle_quick_terminal
-quick-terminal-size = 40%,80%
-quick-terminal-autohide = true
-command = /bin/sh -c 'if command -v distrobox >/dev/null 2>&1 && [ -z "$CONTAINER_ID" ]; then exec distrobox enter arch; else exec ${SHELL:-bash}; fi'
+window-width = 132
+window-height = 28

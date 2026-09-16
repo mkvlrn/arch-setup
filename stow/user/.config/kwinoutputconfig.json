@@ -2,15 +2,9 @@
     {
         "data": [
             {
-                "abmLevel": 0,
                 "allowDdcCi": true,
                 "allowSdrSoftwareBrightness": false,
                 "autoBrightnessCurve": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
                     0,
                     0,
                     0,
@@ -30,8 +24,6 @@
                 "edidHash": "e8ce6993b89f70a8d19ba48308ee1487",
                 "edidIdentifier": "BOE 2812 0 13 2020 0",
                 "edrPolicy": "always",
-                "hdrColorProfileSource": "EDID",
-                "hdrIccProfilePath": "",
                 "highDynamicRange": false,
                 "iccProfilePath": "",
                 "maxBitsPerColor": 0,
@@ -48,20 +40,14 @@
                 "sdrGamutWideness": 0,
                 "sharpness": 0,
                 "transform": "Normal",
-                "uuid": "f9b57ffc-dcdb-41e3-8285-18bd809c15fb",
+                "uuid": "06931935-63fd-4d69-8a93-db49ecd71158",
                 "vrrPolicy": "Never",
                 "wideColorGamut": false
             },
             {
-                "abmLevel": 0,
                 "allowDdcCi": true,
-                "allowSdrSoftwareBrightness": false,
+                "allowSdrSoftwareBrightness": true,
                 "autoBrightnessCurve": [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
                     0,
                     0,
                     0,
@@ -77,12 +63,10 @@
                 "connectorName": "HDMI-A-1",
                 "customModes": [
                 ],
-                "detectedDdcCi": true,
+                "detectedDdcCi": false,
                 "edidHash": "e6b4842c0d1251ff530b5b93edface7a",
                 "edidIdentifier": "GSM 23448 16843009 1 2015 0",
                 "edrPolicy": "always",
-                "hdrColorProfileSource": "EDID",
-                "hdrIccProfilePath": "",
                 "highDynamicRange": false,
                 "iccProfilePath": "",
                 "maxBitsPerColor": 0,
@@ -99,7 +83,7 @@
                 "sdrGamutWideness": 0,
                 "sharpness": 0,
                 "transform": "Normal",
-                "uuid": "f7e41c83-fa30-47e7-af9b-e5af7dbb85a6",
+                "uuid": "654f004a-17f2-4eb4-b388-07daf682b86b",
                 "vrrPolicy": "Never",
                 "wideColorGamut": false
             }

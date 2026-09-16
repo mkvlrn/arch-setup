@@ -33,6 +33,7 @@ MAIN_PACKAGES=(
   pacman-contrib
   power-profiles-daemon
   unzip
+  wl-clipboard
   xdg-user-dirs
   zed             # export in distrobox
   zen-browser-bin # export in distrobox

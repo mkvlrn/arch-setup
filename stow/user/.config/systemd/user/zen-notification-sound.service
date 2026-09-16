@@ -3,6 +3,7 @@ Description=Add sound to Zen notifications
 
 [Service]
 ExecStart=%h/.local/bin/zen-notification-sound
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus
 Restart=on-failure
 
 [Install]

@@ -8,8 +8,14 @@ step_run() {
   run sudo chsh -s /usr/bin/fish "$USER"
   run sudo usermod -aG docker "$USER"
   run chmod o+x "$HOME"
+
   run sudo systemctl enable --now docker.socket
   run sudo systemctl enable --now paccache.timer
+  run systemctl --user enable --now zen-notification-sound
+  run systemctl --user enable --now ssh-agent.socket
+
+  run ssh-add "$HOME/.ssh/dev"
+  run ssh-add "$HOME/.ssh/cb"
 
   local completion_dir="$HOME/.config/fish/completions"
   run mkdir -p "$completion_dir"

@@ -4,8 +4,8 @@
 # shellcheck disable=SC2034
 
 BASE_PACKAGES=(
-  git
   base-devel
+  git
   reflector
   stow
 )
@@ -17,16 +17,17 @@ REMOVE_PACKAGES=(
 MAIN_PACKAGES=(
   age
   ark
-  bruno-bin # export in distrobox
+  bruno-bin
+  docker
   docker-buildx
   docker-compose
-  docker
   dolphin
-  ferdium-bin # export in distrobox
+  ferdium-bin
   fish
-  ghostty # export in distrobox
+  ghostty
   kate
   kcalc
+  ksshaskpass
   less
   okular
   openssh
@@ -35,8 +36,8 @@ MAIN_PACKAGES=(
   unzip
   wl-clipboard
   xdg-user-dirs
-  zed             # export in distrobox
-  zen-browser-bin # export in distrobox
+  zed
+  zen-browser-bin
 )
 
 GETNF_FONTS=(
@@ -49,11 +50,11 @@ GETNF_FONTS=(
 REPO_SSH='git@github.com:mkvlrn/arch-setup'
 
 XDG_MKDIR=(
-  repos
-  work
   documents
   downloads
   media
+  repos
+  work
 )
 XDG_RMRF=(
   Desktop

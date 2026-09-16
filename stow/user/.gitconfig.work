@@ -4,4 +4,3 @@
   signingkey = "~/.ssh/cb_signing"
 [core]
   sshCommand = ssh -i ~/.ssh/cb -o IdentitiesOnly=yes
-  excludesFile = "~/work/.gitignore_global"

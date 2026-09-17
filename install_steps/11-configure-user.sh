@@ -15,8 +15,10 @@ step_run() {
   run systemctl --user enable --now ssh-agent.socket
   run systemctl --user enable --now proton-drive.service
 
-  run ssh-add -q "$HOME/.ssh/dev" </dev/null
-  run ssh-add -q "$HOME/.ssh/cb" </dev/null
+  if [[ -S "${SSH_AUTH_SOCK:-}" ]]; then
+    run ssh-add -q "$HOME/.ssh/dev" </dev/null
+    run ssh-add -q "$HOME/.ssh/cb" </dev/null
+  fi
 
   local completion_dir="$HOME/.config/fish/completions"
   run mkdir -p "$completion_dir"

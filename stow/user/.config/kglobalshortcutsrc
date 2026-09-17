@@ -279,5 +279,12 @@ _launch=Meta+Return
 [services][com.mitchellh.ghostty.desktop]
 _launch=Ctrl+Alt+T\tMeta+Return
 
+[services][org.kde.konsole.desktop]
+_launch=
+
 [services][org.kde.krunner.desktop]
 _launch=Meta\tSearch\tAlt+Space\tAlt+F2
+
+[services][org.kde.spectacle.desktop]
+CurrentMonitorScreenShot=
+OpenWithoutScreenshot=

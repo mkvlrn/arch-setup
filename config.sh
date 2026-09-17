@@ -27,7 +27,6 @@ MAIN_PACKAGES=(
   ghostty
   kate
   kcalc
-  ksshaskpass
   less
   okular
   openssh
@@ -53,6 +52,7 @@ XDG_MKDIR=(
   documents
   downloads
   media
+  proton
   repos
   work
 )

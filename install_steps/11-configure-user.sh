@@ -11,11 +11,12 @@ step_run() {
 
   run sudo systemctl enable --now docker.socket
   run sudo systemctl enable --now paccache.timer
-  run systemctl --user enable --now zen-notification-sound
+  run systemctl --user daemon-reload
   run systemctl --user enable --now ssh-agent.socket
+  run systemctl --user enable --now proton-drive.service
 
-  run ssh-add "$HOME/.ssh/dev"
-  run ssh-add "$HOME/.ssh/cb"
+  run ssh-add -q "$HOME/.ssh/dev" </dev/null
+  run ssh-add -q "$HOME/.ssh/cb" </dev/null
 
   local completion_dir="$HOME/.config/fish/completions"
   run mkdir -p "$completion_dir"

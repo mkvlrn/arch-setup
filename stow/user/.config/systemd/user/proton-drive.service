@@ -1,0 +1,14 @@
+[Unit]
+Description=Proton Drive mount
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/mkvlrn/.local/share/mise/shims/rclone mount proton: %h/proton --vfs-cache-mode full --vfs-cache-max-size 10G
+ExecStop=/bin/fusermount3 -u %h/proton
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

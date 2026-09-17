@@ -19,6 +19,7 @@ go = "latest"
 shfmt = "latest"
 shellcheck = "latest"
 yq = "latest"
+rclone = "latest"
 
 [settings]
 auto_update = true

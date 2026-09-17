@@ -124,11 +124,6 @@ RemoveExtension=false
 RunPrefix=
 SetEditor=false
 
-[MainWindow]
-2 screens: Height=480
-2 screens: Width=1030
-2 screens: Window-Maximized=true
-
 [filetree]
 editShade=30,78,103
 listMode=false

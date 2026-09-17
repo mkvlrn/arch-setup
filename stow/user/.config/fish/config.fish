@@ -13,7 +13,7 @@ if status is-interactive
 
     # aliases
     # zed
-    alias zed zeditor
+    # alias zed zeditor
     # eza to ls
     alias ls eza
     # repo eza to k

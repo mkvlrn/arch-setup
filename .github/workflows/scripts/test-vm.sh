@@ -36,7 +36,7 @@ vm_step "Copying candidate repository to VM"
 
 # MISE_GITHUB_TOKEN belongs to the runner environment, so explicitly forward it
 # to the installer process inside the VM.
-vm_step "Running install.sh"
+vm_step "Running installer"
 ssh_vm \
   "chmod +x \"\$HOME/repos/arch-setup/install.sh\" \"\$HOME/repos/arch-setup/verify.sh\" &&
    printf '%s\n' arch | sudo -S -v &&

@@ -2,7 +2,8 @@
 
 mkdir -p bin
 cd bin
-makepkg -p ../cb/PKGBUILD -si
+cp ../cb/PKGBUILD .
+makepkg -si
 cd ..
-sudo systemctl enable --now systemd-resolved
+sudo systemctl enable --now systemd-resolved gpaservice.service gpawatchdog.service wapptunnel.service
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf

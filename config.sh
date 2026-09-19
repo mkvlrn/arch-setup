@@ -32,6 +32,7 @@ MAIN_PACKAGES=(
   openssh
   pacman-contrib
   power-profiles-daemon
+  rclone
   unzip
   wl-clipboard
   xdg-user-dirs

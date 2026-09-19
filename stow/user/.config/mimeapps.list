@@ -1,0 +1,9 @@
+[Added Associations]
+application/pdf=okularApplication_pdf.desktop;app.zen_browser.zen.desktop;
+x-scheme-handler/http=app.zen_browser.zen.desktop;
+x-scheme-handler/https=app.zen_browser.zen.desktop;
+
+[Default Applications]
+application/pdf=okularApplication_pdf.desktop;
+x-scheme-handler/http=app.zen_browser.zen.desktop;
+x-scheme-handler/https=app.zen_browser.zen.desktop;

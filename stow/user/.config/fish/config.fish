@@ -15,7 +15,9 @@ if status is-interactive
     # zed
     # alias zed zeditor
     # eza to ls
-    alias ls eza
+    alias ls 'eza --git --git-repos --group-directories-first'
     # repo eza to k
-    alias k 'eza -al --git --git-repos --group-directories-first'
+    alias k 'eza -la --git --git-repos --group-directories-first'
+    # gpa_vm ssh
+    alias gpa-vm 'ssh -i ~/.ssh/gpa_vm -p 22220 mkvlrn@127.0.0.1'
 end

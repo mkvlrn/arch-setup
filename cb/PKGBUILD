@@ -1,0 +1,63 @@
+pkgname=akamai-vpn-client
+pkgver=7.2.1
+pkgrel=1
+pkgdesc="Akamai VPN Client"
+arch=('x86_64')
+url="https://github.com/mkvlrn/arch-setup"
+license=('custom')
+depends=('glibc' 'systemd' 'libnsl' 'xcb-util-cursor' 'xcb-util-wm')
+source=("akamai.sh::https://github.com/mkvlrn/arch-setup/raw/refs/heads/main/cb/akamai.sh")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "$srcdir"
+
+  # Extract the embedded tarball
+  sed -n '/^__BIN_DATA__$/,$p' akamai.sh | tail -n +2 >payload.tar.gz
+
+  # Unpack the tarball to access the .deb files
+  mkdir -p debs payload
+  bsdtar -xf payload.tar.gz -C debs/
+
+  # Unpack all .deb files into the payload directory
+  cd debs
+  for deb in *.deb; do
+    bsdtar -xf "$deb"
+    bsdtar -xf data.tar.* -C ../payload/
+    rm -f data.tar.* control.tar.* debian-binary
+  done
+}
+
+package() {
+  cd "$srcdir/payload"
+
+  cp -r * "$pkgdir/"
+
+  if [ -d "$pkgdir/lib/systemd" ]; then
+    install -d "$pkgdir/usr/lib"
+    mv "$pkgdir/lib/systemd" "$pkgdir/usr/lib/"
+    rm -rf "$pkgdir/lib"
+  fi
+
+  # Apply base directory permissions first so it doesn't overwrite strict permissions below
+  find "$pkgdir" -type d -exec chmod 755 {} \;
+
+  # Create runtime data directory with strictly required root-only permissions
+  install -d -m 700 "$pkgdir/opt/GuardicorePlatformAgent/client/data"
+
+  # Generate the required aztc_mode.json configuration
+  cat >"$pkgdir/opt/GuardicorePlatformAgent/aztc_mode.json" <<'EOF'
+{
+    "with_eaa": true,
+    "with_apa": false,
+    "with_etp": false,
+    "with_gc": false,
+    "with_gui": true
+}
+EOF
+  chmod 644 "$pkgdir/opt/GuardicorePlatformAgent/aztc_mode.json"
+
+  # Create compatibility symlink for older libnsl expected by the binary
+  install -d "$pkgdir/usr/lib"
+  ln -s libnsl.so.3 "$pkgdir/usr/lib/libnsl.so.2"
+}

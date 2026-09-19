@@ -57,6 +57,18 @@ package() {
 EOF
   chmod 644 "$pkgdir/opt/GuardicorePlatformAgent/aztc_mode.json"
 
+  # Generate the required gpa.conf configuration matching aztc_mode.json
+  install -d "$pkgdir/etc/gpa"
+  cat >"$pkgdir/etc/gpa/gpa.conf" <<'EOF'
+ACCESS_DPOP=true
+THREAT_PROTECTION=false
+SEGMENTATION=true
+ACCESS_EDGE=true
+GUI_APP=true
+PROXY_ENABLE=false
+EOF
+  chmod 644 "$pkgdir/etc/gpa/gpa.conf"
+
   # Create compatibility symlink for older libnsl expected by the binary
   install -d "$pkgdir/usr/lib"
   ln -s libnsl.so.3 "$pkgdir/usr/lib/libnsl.so.2"

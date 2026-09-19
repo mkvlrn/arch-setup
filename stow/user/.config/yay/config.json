@@ -44,5 +44,6 @@
   "debug": false,
   "rpc": true,
   "doubleconfirm": true,
-  "rebuild": "no"
+  "rebuild": "no",
+  "color": "always"
 }

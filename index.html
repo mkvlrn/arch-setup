@@ -13,6 +13,7 @@ if ! command -v git >/dev/null 2>&1 || ! command -v age >/dev/null 2>&1; then
   sudo pacman -Sy --noconfirm git age
 fi
 
+sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 mkdir -p "$(dirname "$repo")"
 git clone https://github.com/mkvlrn/arch-setup "$repo"
 

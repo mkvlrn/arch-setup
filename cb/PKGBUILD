@@ -60,4 +60,10 @@ EOF
   # Create compatibility symlink for older libnsl expected by the binary
   install -d "$pkgdir/usr/lib"
   ln -s libnsl.so.3 "$pkgdir/usr/lib/libnsl.so.2"
+
+  # Inject WorkingDirectory into wapptunnel.service to fix dbstore nil pointer crash
+  sed -i '/^\[Service\]/a WorkingDirectory=/opt/wapp' $(find "$pkgdir" -name wapptunnel.service)
+
+  # Symlink uconfig.json so wapptunneld can find its configuration
+  ln -sf /opt/wapp/run/uconfig.json "$pkgdir/opt/wapp/uconfig.json"
 }

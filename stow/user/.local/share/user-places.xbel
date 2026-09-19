@@ -1,5 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xbel xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks" xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info">
+<?xml version="1.0" encoding="UTF-8" ?>
+<xbel
+  xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+  xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
  <bookmark href="file:///home/mkvlrn">
   <title>Home</title>
   <info>
@@ -15,7 +18,7 @@
     <ID>1788637592/19</ID>
    </metadata>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-documents"/>
+    <bookmark:icon name="folder-documents" />
    </metadata>
   </info>
  </bookmark>
@@ -26,7 +29,7 @@
     <ID>1788637592/20</ID>
    </metadata>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-downloads"/>
+    <bookmark:icon name="folder-downloads" />
    </metadata>
   </info>
  </bookmark>
@@ -37,7 +40,7 @@
     <ID>1788637592/21</ID>
    </metadata>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-pictures"/>
+    <bookmark:icon name="folder-pictures" />
    </metadata>
   </info>
  </bookmark>
@@ -48,18 +51,7 @@
     <ID>1788637592/22</ID>
    </metadata>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-text"/>
-   </metadata>
-  </info>
- </bookmark>
- <bookmark href="file:///home/mkvlrn/torrents">
-  <title>torrents</title>
-  <info>
-   <metadata owner="http://www.kde.org">
-    <ID>1788637592/23</ID>
-   </metadata>
-   <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-videos"/>
+    <bookmark:icon name="folder-text" />
    </metadata>
   </info>
  </bookmark>
@@ -70,7 +62,7 @@
     <ID>1788637592/24</ID>
    </metadata>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="certificate-server"/>
+    <bookmark:icon name="certificate-server" />
    </metadata>
   </info>
  </bookmark>
@@ -96,7 +88,7 @@
   <title>Network</title>
   <info>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-network"/>
+    <bookmark:icon name="folder-network" />
    </metadata>
    <metadata owner="http://www.kde.org">
     <ID>1788637794/0</ID>
@@ -108,7 +100,7 @@
   <title>Trash</title>
   <info>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="user-trash"/>
+    <bookmark:icon name="user-trash" />
    </metadata>
    <metadata owner="http://www.kde.org">
     <ID>1788637794/1</ID>
@@ -120,7 +112,7 @@
   <title>Recent Files</title>
   <info>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="document-open-recent"/>
+    <bookmark:icon name="document-open-recent" />
    </metadata>
    <metadata owner="http://www.kde.org">
     <ID>1788637794/2</ID>
@@ -132,7 +124,7 @@
   <title>Recent Locations</title>
   <info>
    <metadata owner="http://freedesktop.org">
-    <bookmark:icon name="folder-open-recent"/>
+    <bookmark:icon name="folder-open-recent" />
    </metadata>
    <metadata owner="http://www.kde.org">
     <ID>1788637794/3</ID>

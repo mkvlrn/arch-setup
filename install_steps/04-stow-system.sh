@@ -5,6 +5,6 @@
 STEP_NAME='Stowing system files'
 
 step_run() {
-  run sudo rm -f /etc/pacman.conf /etc/makepkg.conf
+  run stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t "$HOME" makepkg
   run sudo stow -R --no-folding -d "$SETUP_REPO_DIR/stow" -t / system
 }

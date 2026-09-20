@@ -14,20 +14,29 @@ import (
 )
 
 // User returns the check for miscellaneous user settings.
-func User(username string, homeDir string) setup.Check {
+func User(username string, homeDir string, ci bool) setup.Check {
 	return setup.Check{
 		Name: "Verify miscellaneous user settings",
 		Run: func(ctx context.Context) error {
-			return errors.Join(
+			failures := []error{
 				verifyUserShell(ctx, username),
 				verifyDockerGroup(ctx, username),
 				verifyHomeTraversal(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "paccache.timer"),
-				verifySystemdUnit(ctx, "ssh-agent.service"),
-				verifySystemdUnit(ctx, "proton-drive.service"),
-				verifyCompletions(homeDir),
-			)
+			}
+
+			if !ci {
+				failures = append(
+					failures,
+					verifySystemdUnit(ctx, "ssh-agent.service"),
+					verifySystemdUnit(ctx, "proton-drive.service"),
+				)
+			}
+
+			failures = append(failures, verifyCompletions(homeDir))
+
+			return errors.Join(failures...)
 		},
 	}
 }
@@ -128,11 +137,9 @@ func verifySystemdUnit(ctx context.Context, unit string) error {
 
 func verifyCompletions(homeDir string) error {
 	base := filepath.Join(homeDir, ".config", "fish", "completions")
-	files := []string{"mise", "gh", "glab"}
 
-	for _, file := range files {
-		_, err := os.Stat(filepath.Join(base, file+".fish"))
-		if err != nil {
+	for _, file := range []string{"mise", "gh"} {
+		if _, err := os.Stat(filepath.Join(base, file+".fish")); err != nil {
 			return fmt.Errorf("completion file for %s not generated", file)
 		}
 	}

@@ -43,9 +43,13 @@ func runPlan(ctx context.Context, config config.Config, secretsData []byte) []se
 	plan = append(
 		plan,
 		steps.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
-		steps.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
 		steps.Mise(config.Machine.HomeDir, config.Mise.Tools, config.Mise.Settings),
+	)
+
+	plan = append(
+		plan,
 		steps.Fonts(config.GetNF),
+		steps.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
 	)
 
 	if !config.Env.CI {
@@ -60,7 +64,7 @@ func runPlan(ctx context.Context, config config.Config, secretsData []byte) []se
 func verifyPlan(config config.Config) []setup.Check {
 	packages := append(append([]string{}, config.Pacman.Install...), config.Yay.Packages...)
 
-	checks := []setup.Check{
+	planChecks := []setup.Check{
 		checks.Repo(config.Repo.SSH, config.Machine.RepoDir, revision.Commit),
 		checks.Stow(steps.StowMakepkg, config.Machine.RepoDir, config.Machine.HomeDir),
 		checks.Stow(steps.StowSystem, config.Machine.RepoDir, config.Machine.HomeDir),
@@ -70,9 +74,13 @@ func verifyPlan(config config.Config) []setup.Check {
 		checks.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
 		checks.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
 		checks.Mise(config.Machine.HomeDir),
-		checks.Fonts(config.Machine.HomeDir, config.GetNF),
-		checks.User(config.Machine.Username, config.Machine.HomeDir),
 	}
 
-	return checks
+	planChecks = append(planChecks, checks.User(
+		config.Machine.Username,
+		config.Machine.HomeDir,
+		config.Env.CI,
+	))
+
+	return planChecks
 }

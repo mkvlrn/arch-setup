@@ -3,7 +3,6 @@ package checks
 import (
 	"context"
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"github.com/mkvlrn/arch-setup/internal/setup"
@@ -11,16 +10,14 @@ import (
 )
 
 // Fonts returns a check for the Nerd Fonts managed by getnf.
-func Fonts(homeDir string, fonts []string) setup.Check {
-	getnfPath := filepath.Join(homeDir, ".local", "bin", "getnf")
-
+func Fonts(fonts []string) setup.Check {
 	return setup.Check{
 		Name: "Verify installed Nerd Fonts",
 		Run: func(ctx context.Context) error {
 			results, err := shell.Run(ctx, []shell.Command{
 				{
 					Name: "list installed Nerd Fonts",
-					Path: getnfPath,
+					Path: "getnf",
 					Args: []string{"-l"},
 				},
 			})

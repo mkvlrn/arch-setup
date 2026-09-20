@@ -14,7 +14,7 @@
       "model": "gpt-5.6-luna",
       "provider": "zed.dev"
     },
-    "default_profile": "ask",
+    "default_profile": "minimal",
     "dock": "right",
     "favorite_models": [],
     "flexible": false,
@@ -25,7 +25,9 @@
     "sidebar_side": "right"
   },
   "agent_servers": {
-    
+    "github-copilot-cli": {
+      "type": "registry"
+    }
   },
   "auto_indent_on_paste": false,
   "auto_install_extensions": {

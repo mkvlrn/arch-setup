@@ -1,0 +1,15 @@
+[commit-msg.commands]
+cog-lint = { run = "cog verify --file {1}" }
+
+[pre-commit.commands]
+lint = { run = "mise lint" }
+
+[pre-push.commands]
+lint = { run = "mise lint" }
+test = { run = "mise test" }
+
+[post-checkout.commands]
+sync-branch = { run = "mise sync-branch" }
+
+[post-merge.commands]
+sync-branch = { run = "mise sync-branch" }

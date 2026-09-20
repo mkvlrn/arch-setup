@@ -1,0 +1,45 @@
+[tools]
+golangci-lint = "2.13.2"
+go = "1.27.1"
+gofumpt = "0.12.0"
+lefthook = "2.1.14"
+cocogitto = "7.0.0"
+
+[hooks]
+postinstall = "lefthook install"
+
+[settings]
+disable_backends = ["asdf"]
+use_versions_host = false
+minimum_release_age = "1d"
+
+[tasks]
+# mise lint
+lint.description = "Run linter"
+lint.run = "golangci-lint run ./..."
+# mise format
+format.description = "Format code using gofumpt"
+format.run = "gofumpt -w ."
+# mise test
+test.description = "Run tests with coverage"
+test.run = "go test ./... -cover"
+# mise build
+build.description = "Build the application binary"
+build.run = """
+set -eu
+revision=$(git rev-parse --verify HEAD)
+state=$(git --no-optional-locks status --porcelain --untracked-files=normal)
+if [ -n "$$state" ]; then
+  printf 'Cannot build a revision-aligned installer from a dirty checkout.\n' >&2
+  exit 1
+fi;
+mkdir -p ./bin
+go build -ldflags "-X github.com/mkvlrn/arch-setup/internal/revision.Commit=$revision" -o ./bin/arch-setup ./cmd/arch-setup
+"""
+# mise sync-branch
+sync-branch.description = "Sync branch dependencies and tools"
+sync-branch.run = """
+mise install
+mise prune -y
+go mod tidy
+"""

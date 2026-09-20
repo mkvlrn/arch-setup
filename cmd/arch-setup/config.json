@@ -1,0 +1,93 @@
+{
+  "repo": {
+    "http": "https://github.com/mkvlrn/arch-setup",
+    "ssh": "git@github.com:mkvlrn/arch-setup"
+  },
+  "mise": {
+    "tools": [
+      "aws-cli",
+      "biome",
+      "bun",
+      "devcontainer-cli",
+      "eza",
+      "fastfetch",
+      "github-cli",
+      "github:o2sh/onefetch",
+      "go",
+      "go:github.com/go-delve/delve/cmd/dlv",
+      "go:github.com/josharian/impl",
+      "go:golang.org/x/tools/gopls",
+      "jq",
+      "lazydocker",
+      "node",
+      "npm:npm-check-updates",
+      "oh-my-posh",
+      "rclone",
+      "shellcheck",
+      "shfmt",
+      "usage",
+      "yq"
+    ],
+    "settings": [
+      ["auto_update", "true"],
+      ["auto_update_check_duration", "3d"],
+      ["color_theme", "catppuccin"],
+      ["disable_backends", "[\"asdf\"]"],
+      ["fetch_remote_versions_cache", "1h"],
+      ["go.set_gobin", "false"],
+      ["go.set_goroot", "false"],
+      ["minimum_release_age", "1d"],
+      ["not_found_auto_install", "false"],
+      ["trusted_config_paths", "[\"~/repos\", \"~/work\"]"],
+      ["use_versions_host", "false"]
+    ]
+  },
+  "pacman": {
+    "install": ["base-devel", "git", "reflector", "stow"],
+    "uninstall": ["vim"]
+  },
+  "yay": {
+    "mirrorListPath": "/etc/pacman.d/mirrorlist",
+    "mirrorListCheck": "# With:       reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist",
+    "packages": [
+      "age",
+      "ark",
+      "bruno-bin",
+      "docker",
+      "docker-buildx",
+      "docker-compose",
+      "dolphin",
+      "ferdium-bin",
+      "fish",
+      "getnf",
+      "ghostty",
+      "kate",
+      "kcalc",
+      "less",
+      "okular",
+      "openssh",
+      "pacman-contrib",
+      "power-profiles-daemon",
+      "unzip",
+      "wl-clipboard",
+      "xdg-user-dirs",
+      "zed",
+      "zen-browser-bin"
+    ]
+  },
+  "xdg": {
+    "mkdir": ["documents", "downloads", "media", "proton", "repos", "work"],
+    "rmrf": [
+      "Desktop",
+      "Documents",
+      "Downloads",
+      "Music",
+      "Pictures",
+      "Projects",
+      "Public",
+      "Templates",
+      "Videos"
+    ]
+  },
+  "getnf": ["Hack", "IosevkaTerm", "Noto", "ZedMono"]
+}

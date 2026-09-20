@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  shell-check:
+  check-build:
     env:
       MISE_GITHUB_TOKEN: ${{ secrets.MISE_GITHUB_TOKEN }}
     runs-on: ubuntu-latest
@@ -22,11 +22,18 @@ jobs:
 
       - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4
 
-      - name: check shell scripts
-        run: ./.github/workflows/scripts/check-shell.sh
+      - name: check and build
+        run: ./.github/workflows/scripts/check-build.sh
+
+      - name: upload executable
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: arch-setup
+          path: ./bin/arch-setup
+          if-no-files-found: error
 
   arch-test:
-    needs: shell-check
+    needs: check-build
     env:
       MISE_GITHUB_TOKEN: ${{ github.token }}
     runs-on: ubuntu-latest
@@ -35,12 +42,40 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: download executable
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: arch-setup
+          path: ./bin
+
       - name: prepare arch VM
         run: ./.github/workflows/scripts/prepare-vm.sh
 
-      - name: test installer in Arch VM
+      - name: test executable
         run: ./.github/workflows/scripts/test-vm.sh
 
       - name: stop arch VM
         if: always()
         run: ./.github/workflows/scripts/stop-vm.sh
+
+  release:
+    if: github.event_name == 'push'
+    needs:
+      - check-build
+      - arch-test
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: download executable
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: arch-setup
+          path: ./bin
+
+      - name: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/workflows/scripts/release.sh

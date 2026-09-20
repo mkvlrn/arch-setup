@@ -44,7 +44,7 @@ func runPlan(ctx context.Context, config config.Config, secretsData []byte) []se
 		plan,
 		steps.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
 		steps.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
-		steps.Mise(config.Machine.HomeDir, config.Mise.Tools),
+		steps.Mise(config.Machine.HomeDir, config.Mise.Tools, config.Mise.Settings),
 		steps.Fonts(config.GetNF),
 	)
 

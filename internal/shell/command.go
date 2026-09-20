@@ -1,5 +1,7 @@
 package shell
 
+import "io"
+
 // Command describes an external command to execute.
 type Command struct {
 	// Name identifies the command in errors and diagnostic output.
@@ -16,6 +18,9 @@ type Command struct {
 
 	// Env adds or replaces environment variables for the command.
 	Env []string
+
+	// Stdin supplies input to the command when non-nil.
+	Stdin io.Reader
 
 	// Sudo runs the command through sudo.
 	Sudo bool

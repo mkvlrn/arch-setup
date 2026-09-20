@@ -10,7 +10,7 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
-func runPlan(ctx context.Context, config config.Config) []setup.Step {
+func runPlan(ctx context.Context, config config.Config, secretsData []byte) []setup.Step {
 	plan := []setup.Step{
 		steps.InstallPkg(steps.UsePacman, config.Pacman.Install),
 		steps.RemovePkg(config.Pacman.Uninstall),
@@ -34,6 +34,14 @@ func runPlan(ctx context.Context, config config.Config) []setup.Step {
 		steps.Stow(steps.StowSystem, config.Machine.RepoDir, config.Machine.HomeDir),
 		steps.Yay(config.Machine.TempDir, config.Yay.MirrorListPath),
 		steps.InstallPkg(steps.UseYay, config.Yay.Packages),
+	)
+
+	if !config.Env.CI {
+		plan = append(plan, steps.Secrets(secretsData, config.Machine.HomeDir))
+	}
+
+	plan = append(
+		plan,
 		steps.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
 		steps.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
 		steps.Mise(config.Machine.HomeDir, config.Mise.Tools),

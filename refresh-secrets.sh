@@ -3,7 +3,7 @@
 set -eu
 
 dir="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)"
-output="$dir/secrets.tar.age"
+output="$dir/cmd/arch-setup/secrets.tar.age"
 
 printf '\nEncrypting machine secrets\n\n'
 

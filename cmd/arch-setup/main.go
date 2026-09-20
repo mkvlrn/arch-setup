@@ -14,12 +14,15 @@ import (
 //go:embed config.json
 var configData []byte
 
+//go:embed secrets.tar.age
+var secretsData []byte
+
 func main() {
 	verifyOnly := flag.Bool("verify", false, "verify the installed system without modifying it")
 
 	flag.Parse()
 
-	if err := execution.Run(context.Background(), configData, *verifyOnly); err != nil {
+	if err := execution.Run(context.Background(), configData, secretsData, *verifyOnly); err != nil {
 		_, _ = fmt.Fprintln(os.Stderr, err)
 
 		os.Exit(1)

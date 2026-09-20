@@ -12,7 +12,3 @@ curl -fsSL \
 chmod +x "$tmp/arch-setup"
 
 "$tmp/arch-setup"
-
-printf '\nRestoring machine secrets\n\n'
-
-age -d "$HOME/repos/arch-setup/secrets/secrets.tar.age" | tar -C "$HOME" -xf -

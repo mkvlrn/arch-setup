@@ -30,6 +30,7 @@ func Run(ctx context.Context, commands []Command) ([]Result, error) {
 
 		cmd.Dir = command.Dir
 		cmd.Env = append(os.Environ(), command.Env...)
+		cmd.Stdin = command.Stdin
 		cmd.Stdout = &stdout
 		cmd.Stderr = &stderr
 

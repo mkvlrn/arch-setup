@@ -28,8 +28,7 @@ build.description = "Build the application binary"
 build.run = """
 set -eu
 revision=$(git rev-parse --verify HEAD)
-state=$(git --no-optional-locks status --porcelain --untracked-files=normal)
-if [ -n "$$state" ]; then
+if [ -n "$(git --no-optional-locks status --porcelain --untracked-files=normal)" ]; then
   printf 'Cannot build a revision-aligned installer from a dirty checkout.\n' >&2
   exit 1
 fi;

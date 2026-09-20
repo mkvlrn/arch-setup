@@ -20,7 +20,13 @@ func Mise(homeDir string, tools []string, settings [][]string) setup.Step {
 		{
 			Name: "install mise",
 			Path: "sh",
-			Args: []string{"-c", "curl https://mise.run | sh"},
+			Args: []string{
+				"-c",
+				`export MISE_INSTALL_PATH="$1"
+curl https://mise.run | sh`,
+				"install-mise",
+				misePath,
+			},
 		},
 	}
 	commands = append(commands, settingsCmds...)

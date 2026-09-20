@@ -35,7 +35,9 @@ func TestLoadConfig(t *testing.T) {
 	}
 
 	want := config.Config{
-		Env: config.Env{CI: false},
+		Env: config.Env{
+			CI: false,
+		},
 		Repo: config.Repo{
 			HTTP: "https://github.com/mkvlrn/arch-setup",
 			SSH:  "git@github.com:mkvlrn/arch-setup",

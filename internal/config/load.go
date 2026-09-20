@@ -26,7 +26,7 @@ func Load(configData []byte) (Config, error) {
 		return Config{}, fmt.Errorf("get username: %w", err)
 	}
 
-	config.Env.CI = os.Getenv("CI") != ""
+	config.Env.CI = os.Getenv("CI") == "true"
 	config.Machine.HomeDir = homeDir
 	config.Machine.Username = currentUser.Username
 	config.Machine.RepoDir = filepath.Join(homeDir, "repos", "arch-setup")

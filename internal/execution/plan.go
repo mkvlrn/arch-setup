@@ -52,7 +52,11 @@ func runPlan(ctx context.Context, config config.Config, secretsData []byte) []se
 		plan = append(plan, steps.RcloneProton(ctx, config.Machine.HomeDir))
 	}
 
-	plan = append(plan, steps.User(config.Machine.Username, config.Machine.HomeDir))
+	plan = append(plan, steps.User(
+		config.Machine.Username,
+		config.Machine.HomeDir,
+		config.Env.CI,
+	))
 
 	return plan
 }

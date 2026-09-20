@@ -66,4 +66,4 @@ ssh_vm \
 # group membership are visible.
 vm_step "Verifying machine state"
 ssh_vm \
-  '/tmp/arch-setup --verify'
+  'CI=true /tmp/arch-setup --verify'

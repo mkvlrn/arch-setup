@@ -11,7 +11,7 @@ import (
 // User configures settings needed for normal usage after install.
 //
 //nolint:funlen // The function is long because it declaratively lists setup commands.
-func User(username string, homeDir string) setup.Step {
+func User(username string, homeDir string, ci bool) setup.Step {
 	baseCompletion := filepath.Join(homeDir, ".config", "fish", "completions")
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	devKey := filepath.Join(homeDir, ".ssh", "dev")
@@ -50,21 +50,6 @@ func User(username string, homeDir string) setup.Step {
 				Sudo: true,
 			},
 			{
-				Name: "reload services daemon",
-				Path: "systemctl",
-				Args: []string{"--user", "daemon-reload"},
-			},
-			{
-				Name: "start ssh-agent service",
-				Path: "systemctl",
-				Args: []string{"--user", "enable", "--now", "ssh-agent.service"},
-			},
-			{
-				Name: "start proton drive rclone service",
-				Path: "systemctl",
-				Args: []string{"--user", "enable", "--now", "proton-drive.service"},
-			},
-			{
 				Name: "create completions directory",
 				Path: "mkdir",
 				Args: []string{"-p", baseCompletion},
@@ -86,6 +71,29 @@ func User(username string, homeDir string) setup.Step {
 				},
 			},
 		},
+	}
+
+	if !ci {
+		commands := userSteps.Commands
+		userSteps.Commands = append([]shell.Command{}, commands[:6]...)
+		userSteps.Commands = append(userSteps.Commands, []shell.Command{
+			{
+				Name: "reload services daemon",
+				Path: "systemctl",
+				Args: []string{"--user", "daemon-reload"},
+			},
+			{
+				Name: "start ssh-agent service",
+				Path: "systemctl",
+				Args: []string{"--user", "enable", "--now", "ssh-agent.service"},
+			},
+			{
+				Name: "start proton drive rclone service",
+				Path: "systemctl",
+				Args: []string{"--user", "enable", "--now", "proton-drive.service"},
+			},
+		}...)
+		userSteps.Commands = append(userSteps.Commands, commands[6:]...)
 	}
 
 	if os.Getenv("SSH_AUTH_SOCK") != "" {

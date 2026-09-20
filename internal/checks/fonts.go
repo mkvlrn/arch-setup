@@ -5,12 +5,15 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Fonts returns a check for the Nerd Fonts managed by getnf.
-func Fonts(fonts []string) setup.Check {
+func Fonts(cfg *config.Config) setup.Check {
+	fonts := cfg.GetNF
+
 	return setup.Check{
 		Name: "Verify installed Nerd Fonts",
 		Run: func(ctx context.Context) error {

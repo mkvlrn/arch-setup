@@ -9,12 +9,15 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // User returns the check for miscellaneous user settings.
-func User(username string, homeDir string, ci bool) setup.Check {
+func User(cfg *config.Config) setup.Check {
+	username, homeDir, ci := cfg.Machine.Username, cfg.Machine.HomeDir, cfg.Env.CI
+
 	return setup.Check{
 		Name: "Verify miscellaneous user settings",
 		Run: func(ctx context.Context) error {

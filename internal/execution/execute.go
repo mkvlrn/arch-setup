@@ -22,7 +22,7 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	}
 
 	if verifyOnly {
-		return setup.Verify(ctx, os.Stdout, verifyPlan(config))
+		return setup.Verify(ctx, os.Stdout, verifyPlan(&config))
 	}
 
 	stopSudo, err := sudo.KeepAlive(ctx)
@@ -31,5 +31,5 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	}
 	defer stopSudo()
 
-	return setup.Run(ctx, os.Stdout, runPlan(ctx, config, secretsData))
+	return setup.Run(ctx, os.Stdout, runPlan(ctx, &config, secretsData))
 }

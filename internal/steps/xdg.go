@@ -3,13 +3,16 @@ package steps
 import (
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Xdg returns the step that replaces the default XDG directories.
-func Xdg(mkdir []string, rmrf []string, homeDir string) setup.Step {
+func Xdg(cfg *config.Config) setup.Step {
+	mkdir, rmrf, homeDir := cfg.Xdg.MkDir, cfg.Xdg.RmRf, cfg.Machine.HomeDir
 	createPaths := make([]string, 0, len(mkdir))
+
 	for _, directory := range mkdir {
 		createPaths = append(createPaths, filepath.Join(homeDir, directory))
 	}

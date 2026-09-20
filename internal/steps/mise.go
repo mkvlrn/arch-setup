@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Mise installs the mise binary and uses it to globally install the tools in its manifest.
-func Mise(homeDir string, tools []string, settings [][]string) setup.Step {
+func Mise(cfg *config.Config) setup.Step {
+	homeDir, tools, settings := cfg.Machine.HomeDir, cfg.Mise.Tools, cfg.Mise.Settings
 	stepName := fmt.Sprintf("Installing mise and %d tools", len(tools))
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	settingsCmds := configSettings(settings, misePath)

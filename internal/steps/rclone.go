@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
@@ -19,7 +20,13 @@ type protonSecrets struct {
 }
 
 // RcloneProton sets up the rclone configuration for the proton drive.
-func RcloneProton(ctx context.Context, homeDir string) setup.Step {
+func RcloneProton(ctx context.Context, cfg *config.Config) setup.Step {
+	if cfg.Env.CI {
+		return setup.Step{Name: "rclone-proton"}
+	}
+
+	homeDir := cfg.Machine.HomeDir
+
 	secrets, err := loadSecrets(filepath.Join(homeDir, ".config", "rclone", "proton-secrets"))
 	if err != nil {
 		panic(err)

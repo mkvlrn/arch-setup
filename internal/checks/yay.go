@@ -7,12 +7,15 @@ import (
 	"os"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Yay returns the check for the Yay installation and mirror configuration.
-func Yay(mirrorListPath string, mirrorListCheck string) setup.Check {
+func Yay(cfg *config.Config) setup.Check {
+	mirrorListPath, mirrorListCheck := cfg.Yay.MirrorListPath, cfg.Yay.MirrorListCheck
+
 	return setup.Check{
 		Name: "Verify Yay and mirrors",
 		Run: func(ctx context.Context) error {

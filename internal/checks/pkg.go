@@ -5,12 +5,15 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // InstalledPkg returns the check for packages installed as base and main packages.
-func InstalledPkg(packages []string) setup.Check {
+func InstalledPkg(cfg *config.Config) setup.Check {
+	packages := append(append([]string{}, cfg.Pacman.Install...), cfg.Yay.Packages...)
+
 	return setup.Check{
 		Name: "Verify installed packages",
 		Run: func(ctx context.Context) error {
@@ -35,7 +38,9 @@ func InstalledPkg(packages []string) setup.Check {
 }
 
 // RemovedPkg returns the check for packages that should not be installed.
-func RemovedPkg(packages []string) setup.Check {
+func RemovedPkg(cfg *config.Config) setup.Check {
+	packages := cfg.Pacman.Uninstall
+
 	return setup.Check{
 		Name: "Verify removed packages",
 		Run: func(ctx context.Context) error {

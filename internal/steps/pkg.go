@@ -3,6 +3,7 @@ package steps
 import (
 	"fmt"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
@@ -17,7 +18,12 @@ const (
 )
 
 // InstallPkg returns a package installation step.
-func InstallPkg(pm packageManager, packages []string) setup.Step {
+func InstallPkg(cfg *config.Config, pm packageManager) setup.Step {
+	packages := cfg.Pacman.Install
+	if pm == UseYay {
+		packages = cfg.Yay.Packages
+	}
+
 	stepName := fmt.Sprintf("Installing %d packages with %s", len(packages), string(pm))
 	operation := "-S"
 	sudo := false
@@ -41,7 +47,8 @@ func InstallPkg(pm packageManager, packages []string) setup.Step {
 }
 
 // RemovePkg returns a package-removal step.
-func RemovePkg(packages []string) setup.Step {
+func RemovePkg(cfg *config.Config) setup.Step {
+	packages := cfg.Pacman.Uninstall
 	args := []string{
 		"-c",
 		`set -eu

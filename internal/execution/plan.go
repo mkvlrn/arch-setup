@@ -10,75 +10,39 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
-func runPlan(ctx context.Context, config config.Config, secretsData []byte) []setup.Step {
-	repoStep := steps.CloneRepo(
-		config.Repo.HTTP,
-		config.Repo.SSH,
-		config.Machine.RepoDir,
-		revision.Commit,
-	)
-
-	if config.Env.CI {
-		repoStep = steps.ExistingRepo(
-			config.Repo.SSH,
-			config.Machine.RepoDir,
-			revision.Commit,
-		)
-	}
-
+func runPlan(ctx context.Context, cfg *config.Config, secretsData []byte) []setup.Step {
 	plan := []setup.Step{
-		steps.InstallPkg(steps.UsePacman, config.Pacman.Install),
-		steps.RemovePkg(config.Pacman.Uninstall),
-		repoStep,
-		steps.Stow(steps.StowMakepkg, config.Machine.RepoDir, config.Machine.HomeDir),
-		steps.Stow(steps.StowSystem, config.Machine.RepoDir, config.Machine.HomeDir),
-		steps.Yay(config.Machine.TempDir, config.Yay.MirrorListPath),
-		steps.InstallPkg(steps.UseYay, config.Yay.Packages),
+		steps.InstallPkg(cfg, steps.UsePacman),
+		steps.RemovePkg(cfg),
+		steps.Repo(cfg, revision.Commit),
+		steps.Stow(cfg, steps.StowMakepkg),
+		steps.Stow(cfg, steps.StowSystem),
+		steps.Yay(cfg),
+		steps.InstallPkg(cfg, steps.UseYay),
+		steps.Secrets(cfg, secretsData),
+		steps.Xdg(cfg),
+		steps.Mise(cfg),
+		steps.Fonts(cfg),
+		steps.Stow(cfg, steps.StowUser),
+		steps.RcloneProton(ctx, cfg),
+		steps.User(cfg),
 	}
-
-	if !config.Env.CI {
-		plan = append(plan, steps.Secrets(secretsData, config.Machine.HomeDir))
-	}
-
-	plan = append(
-		plan,
-		steps.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
-		steps.Mise(config.Machine.HomeDir, config.Mise.Tools, config.Mise.Settings),
-		steps.Fonts(config.GetNF),
-		steps.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
-	)
-
-	if !config.Env.CI {
-		plan = append(plan, steps.RcloneProton(ctx, config.Machine.HomeDir))
-	}
-
-	plan = append(plan, steps.User(
-		config.Machine.Username,
-		config.Machine.HomeDir,
-		config.Env.CI,
-	))
 
 	return plan
 }
 
-func verifyPlan(config config.Config) []setup.Check {
-	packages := append(append([]string{}, config.Pacman.Install...), config.Yay.Packages...)
-
-	planChecks := []setup.Check{
-		checks.Repo(config.Repo.SSH, config.Machine.RepoDir, revision.Commit),
-		checks.Stow(steps.StowMakepkg, config.Machine.RepoDir, config.Machine.HomeDir),
-		checks.Stow(steps.StowSystem, config.Machine.RepoDir, config.Machine.HomeDir),
-		checks.Yay(config.Yay.MirrorListPath, config.Yay.MirrorListCheck),
-		checks.InstalledPkg(packages),
-		checks.RemovedPkg(config.Pacman.Uninstall),
-		checks.Xdg(config.Xdg.MkDir, config.Xdg.RmRf, config.Machine.HomeDir),
-		checks.Stow(steps.StowUser, config.Machine.RepoDir, config.Machine.HomeDir),
-		checks.Mise(config.Machine.HomeDir),
+func verifyPlan(cfg *config.Config) []setup.Check {
+	return []setup.Check{
+		checks.Repo(cfg, revision.Commit),
+		checks.Stow(cfg, steps.StowMakepkg),
+		checks.Stow(cfg, steps.StowSystem),
+		checks.Yay(cfg),
+		checks.InstalledPkg(cfg),
+		checks.RemovedPkg(cfg),
+		checks.Xdg(cfg),
+		checks.Stow(cfg, steps.StowUser),
+		checks.Mise(cfg),
+		checks.Fonts(cfg),
+		checks.User(cfg),
 	}
-
-	return append(planChecks, checks.User(
-		config.Machine.Username,
-		config.Machine.HomeDir,
-		config.Env.CI,
-	))
 }

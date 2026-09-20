@@ -8,12 +8,15 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Repo returns the check for the cloned arch-setup repository.
-func Repo(repoSSH, repoDir, revision string) setup.Check {
+func Repo(cfg *config.Config, revision string) setup.Check {
+	repoSSH, repoDir := cfg.Repo.SSH, cfg.Machine.RepoDir
+
 	return setup.Check{
 		Name: "Verify cloned repository",
 		Run: func(ctx context.Context) error {

@@ -3,13 +3,14 @@ package steps
 import (
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Yay installs yay-bin and updates mirrors with reflector.
-func Yay(tempDir string, mirrorListPath string) setup.Step {
-	yaySrcDir := filepath.Join(tempDir, "yay-bin")
+func Yay(cfg *config.Config) setup.Step {
+	yaySrcDir := filepath.Join(cfg.Machine.TempDir, "yay-bin")
 
 	return setup.Step{
 		Name: "Install yay and update mirrors",
@@ -42,7 +43,7 @@ func Yay(tempDir string, mirrorListPath string) setup.Step {
 					"--latest", "20",
 					"--protocol", "https",
 					"--sort", "rate",
-					"--save", mirrorListPath,
+					"--save", cfg.Yay.MirrorListPath,
 				},
 				Sudo: true,
 			},

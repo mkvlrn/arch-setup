@@ -7,11 +7,14 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 )
 
 // Xdg returns the check for the configured XDG directories.
-func Xdg(mkdir []string, rmrf []string, homeDir string) setup.Check {
+func Xdg(cfg *config.Config) setup.Check {
+	mkdir, rmrf, homeDir := cfg.Xdg.MkDir, cfg.Xdg.RmRf, cfg.Machine.HomeDir
+
 	return setup.Check{
 		Name: "Verify XDG user directories",
 		Run: func(_ context.Context) error {

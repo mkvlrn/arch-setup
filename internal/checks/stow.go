@@ -9,18 +9,19 @@ import (
 	"path/filepath"
 	"slices"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
 // Stow returns the check for a stowed package.
-func Stow(pkg steps.StowPackage, repoDir string, homeDir string) setup.Check {
+func Stow(cfg *config.Config, pkg steps.StowPackage) setup.Check {
 	return setup.Check{
 		Name: fmt.Sprintf("Verify stowed %s files", pkg),
 		Run: func(_ context.Context) error {
-			sourceRoot := filepath.Join(repoDir, "stow", string(pkg))
+			sourceRoot := filepath.Join(cfg.Machine.RepoDir, "stow", string(pkg))
 
-			return verifyStowTree(sourceRoot, stowTarget(pkg, homeDir))
+			return verifyStowTree(sourceRoot, stowTarget(pkg, cfg.Machine.HomeDir))
 		},
 	}
 }

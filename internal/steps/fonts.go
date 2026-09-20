@@ -3,12 +3,14 @@ package steps
 import (
 	"fmt"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Fonts installs nerd fonts with getnf.
-func Fonts(fonts []string) setup.Step {
+func Fonts(cfg *config.Config) setup.Step {
+	fonts := cfg.GetNF
 	stepName := fmt.Sprintf("Installing %d fonts managed by getnf", len(fonts))
 	args := append([]string{"-i"}, fonts...)
 

@@ -6,12 +6,14 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
 // Mise returns a check for mise and all tools in its global manifest.
-func Mise(homeDir string) setup.Check {
+func Mise(cfg *config.Config) setup.Check {
+	homeDir := cfg.Machine.HomeDir
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 
 	return setup.Check{

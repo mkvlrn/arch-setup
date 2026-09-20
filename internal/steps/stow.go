@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
@@ -21,9 +22,9 @@ const (
 )
 
 // Stow symlink packages to the correct paths.
-func Stow(pkg StowPackage, repoDir string, homeDir string) setup.Step {
-	stowDir := filepath.Join(repoDir, "stow")
-	targetRoot := stowTarget(pkg, homeDir)
+func Stow(cfg *config.Config, pkg StowPackage) setup.Step {
+	stowDir := filepath.Join(cfg.Machine.RepoDir, "stow")
+	targetRoot := stowTarget(pkg, cfg.Machine.HomeDir)
 	args := []string{"--no-folding"}
 
 	if pkg != StowSystem {
@@ -56,7 +57,7 @@ func Stow(pkg StowPackage, repoDir string, homeDir string) setup.Step {
 	})
 
 	if pkg != StowSystem {
-		commands = append(commands, restoreRepo(repoDir)...)
+		commands = append(commands, restoreRepo(cfg.Machine.RepoDir)...)
 	}
 
 	return setup.Step{

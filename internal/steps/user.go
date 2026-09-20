@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
@@ -11,7 +12,8 @@ import (
 // User configures settings needed for normal usage after install.
 //
 //nolint:funlen // The function is long because it declaratively lists setup commands.
-func User(username string, homeDir string, ci bool) setup.Step {
+func User(cfg *config.Config) setup.Step {
+	username, homeDir, ci := cfg.Machine.Username, cfg.Machine.HomeDir, cfg.Env.CI
 	baseCompletion := filepath.Join(homeDir, ".config", "fish", "completions")
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	devKey := filepath.Join(homeDir, ".ssh", "dev")

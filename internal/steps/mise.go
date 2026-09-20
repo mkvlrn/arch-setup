@@ -14,6 +14,8 @@ func Mise(homeDir string, tools []string, settings [][]string) setup.Step {
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	settingsCmds := configSettings(settings, misePath)
 
+	installArgs := append([]string{"install"}, tools...)
+
 	commands := []shell.Command{
 		{
 			Name: "install mise",
@@ -21,13 +23,11 @@ func Mise(homeDir string, tools []string, settings [][]string) setup.Step {
 			Args: []string{"-c", "curl https://mise.run | sh"},
 		},
 	}
-
 	commands = append(commands, settingsCmds...)
-
 	commands = append(commands, shell.Command{
 		Name: "install tools managed by mise",
 		Path: misePath,
-		Args: []string{"install"},
+		Args: installArgs,
 		Env:  []string{"GOPATH=" + filepath.Join(homeDir, ".go")},
 	})
 

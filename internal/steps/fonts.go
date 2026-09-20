@@ -2,6 +2,7 @@ package steps
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/setup"
@@ -12,7 +13,7 @@ import (
 func Fonts(cfg *config.Config) setup.Step {
 	fonts := cfg.GetNF
 	stepName := fmt.Sprintf("Installing %d fonts managed by getnf", len(fonts))
-	args := append([]string{"-i"}, fonts...)
+	args := []string{"-i", strings.Join(fonts, ",")}
 
 	return setup.Step{
 		Name: stepName,

@@ -13,7 +13,7 @@ import (
 // Secrets decrypts the embedded secrets archive into the user's home directory.
 func Secrets(cfg *config.Config, secretsData []byte) setup.Step {
 	if cfg.Env.CI {
-		return setup.Step{Name: "Restore machine secrets"}
+		return setup.Step{Name: "Restore machine secrets (skipped in CI)"}
 	}
 
 	homeDir := cfg.Machine.HomeDir

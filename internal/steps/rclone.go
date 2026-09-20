@@ -22,7 +22,7 @@ type protonSecrets struct {
 // RcloneProton sets up the rclone configuration for the proton drive.
 func RcloneProton(ctx context.Context, cfg *config.Config) setup.Step {
 	if cfg.Env.CI {
-		return setup.Step{Name: "rclone-proton"}
+		return setup.Step{Name: "Configure rclone Proton Drive (skipped in CI)"}
 	}
 
 	homeDir := cfg.Machine.HomeDir

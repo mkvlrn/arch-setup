@@ -64,7 +64,7 @@
   "edit_predictions": {
     "allow_data_collection": "no",
     "mode": "subtle",
-    "provider": "zed"
+    "provider": "copilot"
   },
   "experimental.theme_overrides": {
     "editor.gutter.background": "#0b0b11",

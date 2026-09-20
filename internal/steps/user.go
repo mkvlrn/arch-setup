@@ -14,7 +14,6 @@ import (
 func User(username string, homeDir string) setup.Step {
 	baseCompletion := filepath.Join(homeDir, ".config", "fish", "completions")
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
-	ghPath := filepath.Join(homeDir, ".local", "share", "mise", "shims", "gh")
 	devKey := filepath.Join(homeDir, ".ssh", "dev")
 	cbKey := filepath.Join(homeDir, ".ssh", "cb")
 
@@ -78,7 +77,13 @@ func User(username string, homeDir string) setup.Step {
 			{
 				Name: "generate gh completions",
 				Path: "sh",
-				Args: []string{"-c", `"$1" completion -s fish > "$2"`, "sh", ghPath, filepath.Join(baseCompletion, "gh.fish")},
+				Args: []string{
+					"-c",
+					`"$1" exec -- gh completion -s fish > "$2"`,
+					"sh",
+					misePath,
+					filepath.Join(baseCompletion, "gh.fish"),
+				},
 			},
 		},
 	}

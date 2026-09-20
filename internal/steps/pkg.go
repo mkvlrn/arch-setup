@@ -42,13 +42,23 @@ func InstallPkg(pm packageManager, packages []string) setup.Step {
 
 // RemovePkg returns a package-removal step.
 func RemovePkg(packages []string) setup.Step {
-	args := append([]string{"-Rns", "--noconfirm"}, packages...)
+	args := []string{
+		"-c",
+		`set -eu
+for package do
+	if pacman -Q "$package" >/dev/null 2>&1; then
+		pacman -Rns --noconfirm "$package"
+	fi
+done`,
+		"remove-unused-packages",
+	}
+	args = append(args, packages...)
 
 	return setup.Step{
 		Name: fmt.Sprintf("Removing %d unused packages", len(packages)),
 		Commands: []shell.Command{{
 			Name: "remove unused packages",
-			Path: "pacman",
+			Path: "sh",
 			Args: args,
 			Sudo: true,
 		}},

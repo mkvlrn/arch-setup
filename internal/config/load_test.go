@@ -17,6 +17,7 @@ func TestLoadConfig(t *testing.T) {
 
 	t.Setenv("HOME", homeDir)
 	t.Setenv("TMPDIR", tempDir)
+	t.Setenv("CI", "false")
 
 	currentUser, err := user.Current()
 	if err != nil {
@@ -34,6 +35,7 @@ func TestLoadConfig(t *testing.T) {
 	}
 
 	want := config.Config{
+		Env: config.Env{CI: false},
 		Repo: config.Repo{
 			HTTP: "https://github.com/mkvlrn/arch-setup",
 			SSH:  "git@github.com:mkvlrn/arch-setup",

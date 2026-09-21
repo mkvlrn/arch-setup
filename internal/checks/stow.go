@@ -119,7 +119,7 @@ func stowTarget(dest steps.StowPackage, homeDir string) string {
 	switch dest {
 	case steps.StowSystem:
 		return "/"
-	case steps.StowUser, steps.StowMakepkg:
+	case steps.StowUser, steps.StowMakepkg, steps.StowSecrets:
 		return homeDir
 	default:
 		panic(fmt.Sprintf("unknown stow destination %q", dest))

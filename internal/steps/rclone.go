@@ -10,10 +10,6 @@ import (
 
 // RcloneProton sets up the rclone configuration for Proton Drive.
 func RcloneProton(cfg *config.Config) setup.Step {
-	if cfg.Env.CI {
-		return setup.Step{Name: "Configure rclone Proton Drive (skipped in CI)"}
-	}
-
 	secretsPath := filepath.Join(cfg.Machine.HomeDir, ".config", "rclone", "proton-secrets")
 	misePath := filepath.Join(cfg.Machine.HomeDir, ".local", "bin", "mise")
 

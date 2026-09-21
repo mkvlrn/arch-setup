@@ -18,6 +18,8 @@ const (
 	StowUser StowPackage = "user"
 	// StowMakepkg selects the makepkg Stow package.
 	StowMakepkg StowPackage = "makepkg"
+	// StowSecrets selects the secrets Stow package.
+	StowSecrets StowPackage = "secrets"
 )
 
 // Stow symlink packages to the correct paths.
@@ -69,7 +71,7 @@ func stowTarget(dest StowPackage, homeDir string) string {
 	switch dest {
 	case StowSystem:
 		return "/"
-	case StowUser, StowMakepkg:
+	case StowUser, StowMakepkg, StowSecrets:
 		return homeDir
 	default:
 		panic(fmt.Sprintf("unknown stow destination %q", dest))

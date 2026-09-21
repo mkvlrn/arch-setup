@@ -31,7 +31,22 @@ vm_step() {
   printf '\n🖥️  %s\n' "$1"
 }
 
-# Test the exact executable produced by the check-build job.
+# TOTP validation depends on accurate guest time. Enable time sync and wait
+# until the guest reports that it has synchronized before authenticating.
+vm_step "Synchronizing VM clock"
+ssh_vm '
+  printf "%s\n" arch | sudo -S timedatectl set-ntp true
+  for _ in $(seq 1 30); do
+    if [ "$(timedatectl show -p NTPSynchronized --value)" = yes ]; then
+      exit 0
+    fi
+    sleep 1
+  done
+  timedatectl status
+  exit 1
+'
+
+# Copy the exact executable produced by the check-build job.
 vm_step "Copying installer to VM"
 scp_vm \
   ./bin/arch-setup \

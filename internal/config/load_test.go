@@ -43,10 +43,11 @@ func TestLoadConfig(t *testing.T) {
 			SSH:  "git@github.com:mkvlrn/arch-setup",
 		},
 		Machine: config.Machine{
-			Username: currentUser.Username,
-			HomeDir:  homeDir,
-			RepoDir:  filepath.Join(homeDir, "repos", "arch-setup"),
-			TempDir:  tempDir,
+			Username:    currentUser.Username,
+			HomeDir:     homeDir,
+			RepoDir:     filepath.Join(homeDir, "repos", "arch-setup"),
+			StowRepoDir: filepath.Join(homeDir, "repos", "arch-stow"),
+			TempDir:     tempDir,
 		},
 		Mise: config.Mise{
 			Tools:    []string{"go", "bun"},

@@ -19,7 +19,7 @@ func Stow(cfg *config.Config, pkg steps.StowPackage) setup.Check {
 	return setup.Check{
 		Name: fmt.Sprintf("Verify stowed %s files", pkg),
 		Run: func(_ context.Context) error {
-			sourceRoot := filepath.Join(cfg.Machine.RepoDir, "stow", string(pkg))
+			sourceRoot := filepath.Join(cfg.Machine.StowRepoDir, string(pkg))
 
 			return verifyStowTree(sourceRoot, stowTarget(pkg, cfg.Machine.HomeDir))
 		},

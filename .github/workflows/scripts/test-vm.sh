@@ -51,6 +51,15 @@ vm_step "Copying candidate repository to VM"
     tar -C "$HOME/repos/arch-setup" -xf -
   '
 
+# Copy the private stow repository, including Git metadata used to restore
+# adopted files and verify the stow source paths.
+vm_step "Copying private stow repository to VM"
+tar -C arch-stow -cf - . |
+  ssh_vm '
+    mkdir -p "$HOME/repos/arch-stow"
+    tar -C "$HOME/repos/arch-stow" -xf -
+  '
+
 # MISE_GITHUB_TOKEN belongs to the runner environment, so explicitly forward it
 # to the installer process inside the VM.
 vm_step "Running arch-setup"

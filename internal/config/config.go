@@ -19,16 +19,18 @@ type Env struct {
 
 // Repo describes the repository configuration.
 type Repo struct {
-	HTTP string `json:"http"`
-	SSH  string `json:"ssh"`
+	HTTP    string `json:"http"`
+	SSH     string `json:"ssh"`
+	StowSSH string `json:"stowSSH"`
 }
 
 // Machine describes the machine configuration.
 type Machine struct {
-	Username string
-	HomeDir  string
-	RepoDir  string
-	TempDir  string
+	Username    string
+	HomeDir     string
+	RepoDir     string
+	StowRepoDir string
+	TempDir     string
 }
 
 // Mise describes the mise configuration.

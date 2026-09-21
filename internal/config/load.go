@@ -30,6 +30,7 @@ func Load(configData []byte) (Config, error) {
 	config.Machine.HomeDir = homeDir
 	config.Machine.Username = currentUser.Username
 	config.Machine.RepoDir = filepath.Join(homeDir, "repos", "arch-setup")
+	config.Machine.StowRepoDir = filepath.Join(homeDir, "repos", "arch-stow")
 	config.Machine.TempDir = os.TempDir()
 
 	return config, nil

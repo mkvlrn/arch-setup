@@ -46,13 +46,26 @@ func main() {
 }
 
 func readPassphrase() ([]byte, error) {
-	if err := exec.Command("stty", "-echo").Run(); err != nil {
+	terminal, err := os.Open("/dev/tty")
+	if err != nil {
+		return nil, fmt.Errorf("open controlling terminal: %w", err)
+	}
+	defer func() { _ = terminal.Close() }()
+
+	echoOff := exec.Command("stty", "-echo")
+
+	echoOff.Stdin = terminal
+	if err := echoOff.Run(); err != nil {
 		return nil, fmt.Errorf("disable terminal echo: %w", err)
 	}
-	defer func() { _ = exec.Command("stty", "echo").Run() }()
+	defer func() {
+		echoOn := exec.Command("stty", "echo")
+		echoOn.Stdin = terminal
+		_ = echoOn.Run()
+	}()
 
-	_, _ = fmt.Fprint(os.Stderr, "Enter arch-stow SSH key passphrase: ")
-	passphrase, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	_, _ = fmt.Fprint(terminal, "Enter arch-stow SSH key passphrase: ")
+	passphrase, err := bufio.NewReader(terminal).ReadString('\n')
 	_, _ = fmt.Fprintln(os.Stderr)
 
 	return []byte(strings.TrimSpace(passphrase)), err

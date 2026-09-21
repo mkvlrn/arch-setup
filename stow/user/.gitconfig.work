@@ -1,6 +1,0 @@
-[user]
-  name = "Mike Silva"
-  email = "mike.silva-ext@casasbahia.com.br"
-  signingkey = "~/.ssh/cb_signing"
-[core]
-  sshCommand = ssh -i ~/.ssh/cb -o IdentitiesOnly=yes

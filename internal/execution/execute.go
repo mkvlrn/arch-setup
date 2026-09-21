@@ -11,7 +11,7 @@ import (
 )
 
 // Run bootstraps the embedded configuration and performs setup or verification.
-func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly bool) error {
+func Run(ctx context.Context, configData []byte, verifyOnly bool) error {
 	if err := revision.Validate(revision.Commit); err != nil {
 		return err
 	}
@@ -31,5 +31,5 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	}
 	defer stopSudo()
 
-	return setup.Run(setupCtx, os.Stdout, runPlan(&config, secretsData))
+	return setup.Run(setupCtx, os.Stdout, runPlan(&config))
 }

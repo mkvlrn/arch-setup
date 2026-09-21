@@ -17,7 +17,7 @@ func Yay(cfg *config.Config) setup.Check {
 	mirrorListPath, mirrorListCheck := cfg.Yay.MirrorListPath, cfg.Yay.MirrorListCheck
 
 	return setup.Check{
-		Name: "Verify Yay and mirrors",
+		Name: "Verify yay and mirrors",
 		Run: func(ctx context.Context) error {
 			return errors.Join(
 				verifyYayInstalled(ctx),

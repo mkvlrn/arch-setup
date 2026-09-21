@@ -12,7 +12,7 @@ import (
 // Fonts installs nerd fonts with getnf.
 func Fonts(cfg *config.Config) setup.Step {
 	fonts := cfg.GetNF
-	stepName := fmt.Sprintf("Installing %d fonts managed by getnf", len(fonts))
+	stepName := fmt.Sprintf("Installing %d fonts with getnf", len(fonts))
 	args := []string{"-i", strings.Join(fonts, ",")}
 
 	return setup.Step{

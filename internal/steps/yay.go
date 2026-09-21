@@ -9,6 +9,8 @@ import (
 )
 
 // Yay installs yay-bin and updates mirrors with reflector.
+//
+//nolint:funlen // The function is long because it declaratively lists setup commands.
 func Yay(cfg *config.Config) setup.Step {
 	yaySrcDir := filepath.Join(cfg.Machine.TempDir, "yay-bin")
 
@@ -23,8 +25,20 @@ func Yay(cfg *config.Config) setup.Step {
 			{
 				Name: "build yay",
 				Path: "makepkg",
-				Args: []string{"-si", "--noconfirm"},
+				Args: []string{"--noconfirm"},
 				Dir:  yaySrcDir,
+			},
+			{
+				Name: "install yay",
+				Path: "sh",
+				Args: []string{
+					"-c",
+					`set -eu
+pacman -U --noconfirm "$1"/*.pkg.tar.zst`,
+					"install-yay",
+					yaySrcDir,
+				},
+				Sudo: true,
 			},
 			{
 				Name: "track git packages",

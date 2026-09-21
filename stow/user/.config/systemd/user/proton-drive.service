@@ -5,7 +5,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=/home/mkvlrn/.local/share/mise/shims/rclone mount proton: %h/proton --vfs-cache-mode full --vfs-cache-max-size 10G --rc --rc-no-auth
+ExecStart=/home/mkvlrn/.local/bin/mise exec -- rclone mount proton: %h/proton --vfs-cache-mode full --vfs-cache-max-size 10G --rc --rc-no-auth
 ExecStop=/bin/fusermount3 -u %h/proton
 Restart=on-failure
 RestartSec=5

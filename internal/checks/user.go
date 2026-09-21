@@ -16,7 +16,7 @@ import (
 
 // User returns the check for miscellaneous user settings.
 func User(cfg *config.Config) setup.Check {
-	username, homeDir, ci := cfg.Machine.Username, cfg.Machine.HomeDir, cfg.Env.CI
+	username, homeDir := cfg.Machine.Username, cfg.Machine.HomeDir
 
 	return setup.Check{
 		Name: "Verify miscellaneous user settings",
@@ -27,14 +27,8 @@ func User(cfg *config.Config) setup.Check {
 				verifyHomeTraversal(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "paccache.timer"),
-			}
-
-			if !ci {
-				failures = append(
-					failures,
-					verifySystemdUnit(ctx, "ssh-agent.service"),
-					verifySystemdUnit(ctx, "proton-drive.service"),
-				)
+				verifySystemdUnit(ctx, "ssh-agent.service"),
+				verifySystemdUnit(ctx, "proton-drive.service"),
 			}
 
 			failures = append(failures, verifyCompletions(homeDir))

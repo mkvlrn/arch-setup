@@ -42,6 +42,7 @@ func verifyPlan(cfg *config.Config) []setup.Check {
 		checks.Xdg(cfg),
 		checks.Stow(cfg, steps.StowUser),
 		checks.Mise(cfg),
+		checks.RcloneProton(cfg),
 		checks.Fonts(cfg),
 		checks.User(cfg),
 	}

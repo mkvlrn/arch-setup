@@ -31,12 +31,14 @@ read_secret() {
         sed "s/^['\"]//; s/['\"]$//"
 }
 username=$(read_secret username)
+password=$(read_secret password)
 totp=$(read_secret totp)
 test -n "$username"
 test -n "$totp"
 otp_secret=$("$2" exec -- rclone obscure "$totp")
 "$2" exec -- rclone config create proton protondrive \
     "username=$username" \
+    "password=$password" \
     "otp_secret=$otp_secret"`,
 				"configure-rclone-proton",
 				secretsPath,

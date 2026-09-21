@@ -8,10 +8,10 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-const refreshInterval = 30 * time.Second
+const refreshInterval = 10 * time.Second
 
 // KeepAlive validates sudo credentials and periodically refreshes them.
-func KeepAlive(ctx context.Context) (context.CancelFunc, error) {
+func KeepAlive(ctx context.Context) (context.Context, context.CancelFunc, error) {
 	if _, err := shell.Run(ctx, []shell.Command{
 		{
 			Name: "validate sudo credentials",
@@ -19,7 +19,7 @@ func KeepAlive(ctx context.Context) (context.CancelFunc, error) {
 			Args: []string{"-v"},
 		},
 	}); err != nil {
-		return nil, fmt.Errorf(
+		return nil, nil, fmt.Errorf(
 			"validate sudo credentials: %w",
 			err,
 		)
@@ -27,12 +27,12 @@ func KeepAlive(ctx context.Context) (context.CancelFunc, error) {
 
 	keepaliveCtx, cancel := context.WithCancel(ctx)
 
-	go refresh(keepaliveCtx)
+	go refresh(keepaliveCtx, cancel)
 
-	return cancel, nil
+	return keepaliveCtx, cancel, nil
 }
 
-func refresh(ctx context.Context) {
+func refresh(ctx context.Context, cancel context.CancelFunc) {
 	ticker := time.NewTicker(refreshInterval)
 	defer ticker.Stop()
 
@@ -49,6 +49,8 @@ func refresh(ctx context.Context) {
 					Args: []string{"-n", "-v"},
 				},
 			}); err != nil {
+				cancel()
+
 				return
 			}
 		}

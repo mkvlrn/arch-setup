@@ -22,7 +22,7 @@ func Run(ctx context.Context, commands []Command) ([]Result, error) {
 		if command.Sudo {
 			path = "sudo"
 
-			args = append([]string{command.Path}, command.Args...)
+			args = append([]string{"-n", command.Path}, command.Args...)
 		}
 
 		// #nosec G204 -- commands are defined internally, not derived from user input

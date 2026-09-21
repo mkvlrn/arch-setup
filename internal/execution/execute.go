@@ -2,10 +2,7 @@ package execution
 
 import (
 	"context"
-	"fmt"
 	"os"
-
-	"golang.org/x/term"
 
 	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/revision"
@@ -28,45 +25,11 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 		return setup.Verify(ctx, os.Stdout, verifyPlan(&config))
 	}
 
-	var passphrase []byte
-	if !config.Env.CI {
-		passphrase, err = readPassphrase()
-		if err != nil {
-			return fmt.Errorf("read secrets passphrase: %w", err)
-		}
-	}
-
-	stopSudo, err := sudo.KeepAlive(ctx)
+	setupCtx, stopSudo, err := sudo.KeepAlive(ctx)
 	if err != nil {
 		return err
 	}
 	defer stopSudo()
 
-	return setup.Run(ctx, os.Stdout, runPlan(&config, secretsData, passphrase))
-}
-
-func readPassphrase() ([]byte, error) {
-	terminal := os.Stdin
-	closeTerminal := func() {}
-
-	if !term.IsTerminal(int(terminal.Fd())) {
-		var err error
-
-		terminal, err = os.Open("/dev/tty")
-		if err != nil {
-			return nil, fmt.Errorf("open controlling terminal: %w", err)
-		}
-
-		closeTerminal = func() {
-			_ = terminal.Close()
-		}
-	}
-
-	defer closeTerminal()
-
-	_, _ = fmt.Fprint(terminal, "Enter secrets passphrase: ")
-	passphrase, err := term.ReadPassword(int(terminal.Fd()))
-	_, _ = fmt.Fprintln(terminal)
-
-	return passphrase, err
+	return setup.Run(setupCtx, os.Stdout, runPlan(&config, secretsData))
 }

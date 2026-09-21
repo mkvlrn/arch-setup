@@ -8,10 +8,10 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
-func runPlan(cfg *config.Config, secretsData []byte, passphrase []byte) []setup.Step {
+func runPlan(cfg *config.Config, secretsData []byte) []setup.Step {
 	plan := []setup.Step{
 		steps.InstallPkg(cfg, steps.UsePacman),
-		steps.Secrets(cfg, secretsData, passphrase),
+		steps.Secrets(cfg, secretsData),
 		steps.RemovePkg(cfg),
 		steps.Repo(cfg, revision.Commit),
 		steps.Stow(cfg, steps.StowMakepkg),

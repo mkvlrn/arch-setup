@@ -1,8 +1,8 @@
 package steps
 
 import (
-	"bytes"
 	"encoding/base64"
+	"os"
 	"path/filepath"
 
 	"github.com/mkvlrn/arch-setup/internal/config"
@@ -11,7 +11,7 @@ import (
 )
 
 // Secrets decrypts the embedded secrets archive into the user's home directory.
-func Secrets(cfg *config.Config, secretsData []byte, passphrase []byte) setup.Step {
+func Secrets(cfg *config.Config, secretsData []byte) setup.Step {
 	if cfg.Env.CI {
 		return setup.Step{Name: "Restore machine secrets (skipped in CI)"}
 	}
@@ -35,7 +35,7 @@ age -d "$archive" | tar -C "$2" -xf -`,
 				encodedSecrets,
 				filepath.Clean(homeDir),
 			},
-			Stdin: bytes.NewReader(append(append([]byte{}, passphrase...), '\n')),
+			Stdin: os.Stdin,
 		}},
 	}
 }

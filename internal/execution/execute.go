@@ -29,12 +29,8 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	}
 
 	var passphrase []byte
-
 	if !config.Env.CI {
-		_, _ = fmt.Fprint(os.Stderr, "Enter secrets passphrase: ")
-		passphrase, err = term.ReadPassword(int(os.Stdin.Fd()))
-		_, _ = fmt.Fprintln(os.Stderr)
-
+		passphrase, err = readPassphrase()
 		if err != nil {
 			return fmt.Errorf("read secrets passphrase: %w", err)
 		}
@@ -47,4 +43,30 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	defer stopSudo()
 
 	return setup.Run(ctx, os.Stdout, runPlan(&config, secretsData, passphrase))
+}
+
+func readPassphrase() ([]byte, error) {
+	terminal := os.Stdin
+	closeTerminal := func() {}
+
+	if !term.IsTerminal(int(terminal.Fd())) {
+		var err error
+
+		terminal, err = os.Open("/dev/tty")
+		if err != nil {
+			return nil, fmt.Errorf("open controlling terminal: %w", err)
+		}
+
+		closeTerminal = func() {
+			_ = terminal.Close()
+		}
+	}
+
+	defer closeTerminal()
+
+	_, _ = fmt.Fprint(terminal, "Enter secrets passphrase: ")
+	passphrase, err := term.ReadPassword(int(terminal.Fd()))
+	_, _ = fmt.Fprintln(terminal)
+
+	return passphrase, err
 }

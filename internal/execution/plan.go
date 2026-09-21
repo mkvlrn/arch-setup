@@ -1,8 +1,6 @@
 package execution
 
 import (
-	"context"
-
 	"github.com/mkvlrn/arch-setup/internal/checks"
 	"github.com/mkvlrn/arch-setup/internal/config"
 	"github.com/mkvlrn/arch-setup/internal/revision"
@@ -10,7 +8,7 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
-func runPlan(ctx context.Context, cfg *config.Config, secretsData []byte) []setup.Step {
+func runPlan(cfg *config.Config, secretsData []byte) []setup.Step {
 	plan := []setup.Step{
 		steps.InstallPkg(cfg, steps.UsePacman),
 		steps.RemovePkg(cfg),
@@ -24,7 +22,7 @@ func runPlan(ctx context.Context, cfg *config.Config, secretsData []byte) []setu
 		steps.Fonts(cfg),
 		steps.Xdg(cfg),
 		steps.Stow(cfg, steps.StowUser),
-		steps.RcloneProton(ctx, cfg),
+		steps.RcloneProton(cfg),
 		steps.User(cfg),
 	}
 

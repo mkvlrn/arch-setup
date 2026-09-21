@@ -31,5 +31,5 @@ func Run(ctx context.Context, configData []byte, secretsData []byte, verifyOnly 
 	}
 	defer stopSudo()
 
-	return setup.Run(ctx, os.Stdout, runPlan(ctx, &config, secretsData))
+	return setup.Run(ctx, os.Stdout, runPlan(&config, secretsData))
 }

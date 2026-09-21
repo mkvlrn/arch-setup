@@ -36,12 +36,10 @@ totp=$(read_secret totp)
 test -n "$username"
 test -n "$password"
 test -n "$totp"
-password_secret=$("$2" exec -- rclone obscure "$password")
-otp_secret_key=$("$2" exec -- rclone obscure "$totp")
 "$2" exec -- rclone config create proton protondrive \
     "username=$username" \
-    "password=$password_secret" \
-    "otp_secret_key=$otp_secret_key"`,
+    "password=$password" \
+    "otp_secret_key=$totp"`,
 				"configure-rclone-proton",
 				secretsPath,
 				misePath,

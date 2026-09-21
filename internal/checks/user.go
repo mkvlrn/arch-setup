@@ -145,11 +145,20 @@ func verifyUserSystemdUnit(ctx context.Context, unit string) error {
 			Args: []string{"--user", "is-active", "--quiet", unit},
 		},
 	})
-	if err != nil {
-		return fmt.Errorf("verify user systemd unit %q: %w", unit, err)
+	if err == nil {
+		return nil
 	}
 
-	return nil
+	status, statusErr := shell.Run(ctx, []shell.Command{{
+		Name: "get user " + unit + " status",
+		Path: "sh",
+		Args: []string{"-c", "systemctl --user status --no-pager --full \"$1\" || true", "get-user-unit-status", unit},
+	}})
+	if statusErr == nil {
+		return fmt.Errorf("verify user systemd unit %q: %w\n%s", unit, err, status[0].Stdout)
+	}
+
+	return fmt.Errorf("verify user systemd unit %q: %w", unit, err)
 }
 
 func verifyCompletions(homeDir string) error {

@@ -8,7 +8,7 @@ Type=simple
 ExecStart=/home/mkvlrn/.local/bin/mise exec -- rclone mount proton: %h/proton --vfs-cache-mode full --vfs-cache-max-size 10G --rc --rc-no-auth
 ExecStop=/bin/fusermount3 -u %h/proton
 Restart=on-failure
-RestartSec=5
+RestartSec=30min
 
 [Install]
 WantedBy=default.target

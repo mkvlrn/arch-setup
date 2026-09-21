@@ -34,6 +34,7 @@ username=$(read_secret username)
 password=$(read_secret password)
 totp=$(read_secret totp)
 test -n "$username"
+test -n "$password"
 test -n "$totp"
 otp_secret=$("$2" exec -- rclone obscure "$totp")
 "$2" exec -- rclone config create proton protondrive \

@@ -15,6 +15,7 @@ func RcloneProton(cfg *config.Config) setup.Step {
 	}
 
 	secretsPath := filepath.Join(cfg.Machine.HomeDir, ".config", "rclone", "proton-secrets")
+	misePath := filepath.Join(cfg.Machine.HomeDir, ".local", "bin", "mise")
 
 	return setup.Step{
 		Name: "Configure rclone Proton Drive",
@@ -33,12 +34,13 @@ username=$(read_secret username)
 totp=$(read_secret totp)
 test -n "$username"
 test -n "$totp"
-otp_secret=$(rclone obscure "$totp")
-exec rclone config create proton protondrive \
+otp_secret=$("$2" exec -- rclone obscure "$totp")
+"$2" exec -- rclone config create proton protondrive \
     "username=$username" \
     "otp_secret=$otp_secret"`,
 				"configure-rclone-proton",
 				secretsPath,
+				misePath,
 			},
 		}},
 	}

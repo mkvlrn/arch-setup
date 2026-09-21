@@ -10,8 +10,8 @@ import (
 
 func runPlan(cfg *config.Config, secretsData []byte) []setup.Step {
 	plan := []setup.Step{
-		steps.InstallPkg(cfg, steps.UsePacman),
 		steps.Secrets(cfg, secretsData),
+		steps.InstallPkg(cfg, steps.UsePacman),
 		steps.RemovePkg(cfg),
 		steps.Repo(cfg, revision.Commit),
 		steps.Stow(cfg, steps.StowMakepkg),

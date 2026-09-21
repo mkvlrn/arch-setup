@@ -1,6 +1,10 @@
 package setup
 
-import "github.com/mkvlrn/arch-setup/internal/shell"
+import (
+	"context"
+
+	"github.com/mkvlrn/arch-setup/internal/shell"
+)
 
 // Step groups the commands belonging to one stage of system setup.
 type Step struct {
@@ -9,4 +13,7 @@ type Step struct {
 
 	// Commands contains the external commands executed by the step.
 	Commands []shell.Command
+
+	// Run performs the step when it needs native application logic.
+	Run func(context.Context) error
 }

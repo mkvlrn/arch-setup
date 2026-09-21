@@ -8,12 +8,12 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/steps"
 )
 
-func runPlan(cfg *config.Config, archStowKey []byte) []setup.Step {
+func runPlan(cfg *config.Config, archStowKey, passphrase []byte) []setup.Step {
 	plan := []setup.Step{
 		steps.InstallPkg(cfg, steps.UsePacman),
 		steps.RemovePkg(cfg),
 		steps.Repo(cfg, revision.Commit),
-		steps.StowRepo(cfg, archStowKey),
+		steps.StowRepo(cfg, archStowKey, passphrase),
 		steps.Stow(cfg, steps.StowMakepkg),
 		steps.Stow(cfg, steps.StowSystem),
 		steps.Stow(cfg, steps.StowSecrets),

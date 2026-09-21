@@ -11,10 +11,13 @@ import (
 	"github.com/mkvlrn/arch-setup/internal/shell"
 )
 
-const bootstrapKeyMode os.FileMode = 0o600
+const (
+	bootstrapKeyMode  os.FileMode = 0o600
+	askPassScriptMode os.FileMode = 0o700
+)
 
 // StowRepo clones the private repository using the embedded, passphrase-protected key.
-func StowRepo(cfg *config.Config, key []byte) setup.Step {
+func StowRepo(cfg *config.Config, key, passphrase []byte) setup.Step {
 	if cfg.Env.CI {
 		return setup.Step{
 			Name: "Use existing stow repository",
@@ -37,14 +40,28 @@ func StowRepo(cfg *config.Config, key []byte) setup.Step {
 			}
 			defer os.Remove(keyPath) //nolint:errcheck // best-effort cleanup
 
-			sshCommand := fmt.Sprintf("ssh -i %s -o IdentitiesOnly=yes", keyPath)
+			askPassPath := filepath.Join(cfg.Machine.TempDir, "arch-stow-askpass")
+			askPassScript := []byte("#!/bin/sh\nprintf '%s\\n' \"$ARCH_STOW_PASSPHRASE\"\n")
+
+			// #nosec G306 -- SSH_ASKPASS requires an executable helper.
+			if err := os.WriteFile(askPassPath, askPassScript, askPassScriptMode); err != nil {
+				return fmt.Errorf("write SSH askpass helper: %w", err)
+			}
+			defer os.Remove(askPassPath) //nolint:errcheck // best-effort cleanup
+
+			sshCommand := fmt.Sprintf("ssh -i %s -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new", keyPath)
 
 			_, err := shell.Run(ctx, []shell.Command{{
-				Name:  "clone stow repository",
-				Path:  "git",
-				Args:  []string{"clone", cfg.Repo.StowSSH, cfg.Machine.StowRepoDir},
-				Env:   []string{"GIT_SSH_COMMAND=" + sshCommand},
-				Stdin: os.Stdin,
+				Name: "clone stow repository",
+				Path: "git",
+				Args: []string{"clone", cfg.Repo.StowSSH, cfg.Machine.StowRepoDir},
+				Env: []string{
+					"GIT_SSH_COMMAND=" + sshCommand,
+					"SSH_ASKPASS=" + askPassPath,
+					"SSH_ASKPASS_REQUIRE=force",
+					"DISPLAY=:0",
+					"ARCH_STOW_PASSPHRASE=" + string(passphrase),
+				},
 			}})
 			if err != nil {
 				return err

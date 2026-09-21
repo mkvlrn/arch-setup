@@ -27,8 +27,8 @@ func User(cfg *config.Config) setup.Check {
 				verifyHomeTraversal(homeDir),
 				verifySystemdUnit(ctx, "docker.socket"),
 				verifySystemdUnit(ctx, "paccache.timer"),
-				verifySystemdUnit(ctx, "ssh-agent.service"),
-				verifySystemdUnit(ctx, "proton-drive.service"),
+				verifyUserSystemdUnit(ctx, "ssh-agent.service"),
+				verifyUserSystemdUnit(ctx, "proton-drive.service"),
 			}
 
 			failures = append(failures, verifyCompletions(homeDir))
@@ -127,6 +127,26 @@ func verifySystemdUnit(ctx context.Context, unit string) error {
 	})
 	if err != nil {
 		return fmt.Errorf("verify systemd unit %q: %w", unit, err)
+	}
+
+	return nil
+}
+
+func verifyUserSystemdUnit(ctx context.Context, unit string) error {
+	_, err := shell.Run(ctx, []shell.Command{
+		{
+			Name: "check that user " + unit + " is enabled",
+			Path: "systemctl",
+			Args: []string{"--user", "is-enabled", "--quiet", unit},
+		},
+		{
+			Name: "check that user " + unit + " is active",
+			Path: "systemctl",
+			Args: []string{"--user", "is-active", "--quiet", unit},
+		},
+	})
+	if err != nil {
+		return fmt.Errorf("verify user systemd unit %q: %w", unit, err)
 	}
 
 	return nil

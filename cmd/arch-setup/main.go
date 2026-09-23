@@ -52,6 +52,8 @@ func readPassphrase() ([]byte, error) {
 	}
 	defer func() { _ = terminal.Close() }()
 
+	_, _ = fmt.Fprint(terminal, "Enter arch-stow SSH key passphrase: ")
+
 	echoOff := exec.Command("stty", "-echo")
 
 	echoOff.Stdin = terminal
@@ -64,7 +66,6 @@ func readPassphrase() ([]byte, error) {
 		_ = echoOn.Run()
 	}()
 
-	_, _ = fmt.Fprint(terminal, "Enter arch-stow SSH key passphrase: ")
 	passphrase, err := bufio.NewReader(terminal).ReadString('\n')
 	_, _ = fmt.Fprintln(os.Stderr)
 

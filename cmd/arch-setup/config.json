@@ -59,7 +59,6 @@
       "docker-compose",
       "dolphin",
       "ferdium-bin",
-      "fish",
       "fuse3",
       "getnf",
       "ghostty",
@@ -74,7 +73,8 @@
       "wl-clipboard",
       "xdg-user-dirs",
       "zed",
-      "zen-browser-bin"
+      "zen-browser-bin",
+      "zsh"
     ]
   },
   "xdg": {

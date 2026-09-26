@@ -14,7 +14,7 @@ import (
 //nolint:funlen // The function is long because it declaratively lists setup commands.
 func User(cfg *config.Config) setup.Step {
 	username, homeDir := cfg.Machine.Username, cfg.Machine.HomeDir
-	baseCompletion := filepath.Join(homeDir, ".config", "fish", "completions")
+	baseCompletion := filepath.Join(homeDir, ".config", "zsh", "completions")
 	misePath := filepath.Join(homeDir, ".local", "bin", "mise")
 	devKey := filepath.Join(homeDir, ".ssh", "dev")
 	cbKey := filepath.Join(homeDir, ".ssh", "cb")
@@ -25,7 +25,7 @@ func User(cfg *config.Config) setup.Step {
 			{
 				Name: "set user shell",
 				Path: "chsh",
-				Args: []string{"-s", "/usr/bin/fish", username},
+				Args: []string{"-s", "/usr/bin/zsh", username},
 				Sudo: true,
 			},
 			{
@@ -59,17 +59,14 @@ func User(cfg *config.Config) setup.Step {
 			{
 				Name: "generate mise completions",
 				Path: "sh",
-				Args: []string{"-c", `"$1" completion fish > "$2"`, "sh", misePath, filepath.Join(baseCompletion, "mise.fish")},
+				Args: []string{"-c", `"$1" completion zsh > "$2"`, "sh", misePath, filepath.Join(baseCompletion, "_mise")},
 			},
 			{
 				Name: "generate gh completions",
 				Path: "sh",
 				Args: []string{
-					"-c",
-					`"$1" exec -- gh completion -s fish > "$2"`,
-					"sh",
-					misePath,
-					filepath.Join(baseCompletion, "gh.fish"),
+					"-c", `"$1" exec -- gh completion -s zsh > "$2"`, "sh", misePath,
+					filepath.Join(baseCompletion, "_gh"),
 				},
 			},
 		},

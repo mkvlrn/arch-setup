@@ -1,0 +1,15 @@
+[commit-msg.commands]
+cog-lint = { run = "mise run cog-lint {1}" }
+
+[pre-commit.commands]
+lint = { run = "mise run lint" }
+
+[pre-push.commands]
+lint = { run = "mise run lint" }
+test = { run = "mise run test" }
+
+[post-checkout.commands]
+sync-branch = { run = "mise run sync-branch" }
+
+[post-merge.commands]
+sync-branch = { run = "mise run sync-branch" }

@@ -1,7 +1,7 @@
 [tools]
 golangci-lint = "2.14.0"
-go = "1.27.1"
-lefthook = "2.2.0"
+go = "1.27.2"
+lefthook = "2.2.1"
 cocogitto = "7.0.0"
 
 [hooks]

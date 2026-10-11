@@ -2,6 +2,7 @@ package steps
 
 import (
 	"fmt"
+	"path/filepath"
 	"strings"
 
 	"github.com/mkvlrn/arch-setup/internal/config"
@@ -12,6 +13,7 @@ import (
 // Fonts installs nerd fonts with getnf.
 func Fonts(cfg *config.Config) setup.Step {
 	fonts := cfg.GetNF
+	misePath := filepath.Join(cfg.Machine.HomeDir, ".local", "bin", "mise")
 	stepName := fmt.Sprintf("Installing %d fonts with getnf", len(fonts))
 	args := []string{"-i", strings.Join(fonts, ",")}
 
@@ -20,7 +22,7 @@ func Fonts(cfg *config.Config) setup.Step {
 		Commands: []shell.Command{
 			{
 				Name: "install fonts managed by getnf",
-				Path: "mise",
+				Path: misePath,
 				Args: append([]string{"exec", "--", "getnf"}, args...),
 				Env:  []string{"TERM=xterm-256color"},
 			},

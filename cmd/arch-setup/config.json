@@ -61,7 +61,7 @@
       "dolphin",
       "ferdium-bin",
       "fuse3",
-      "getnf",
+      "fish",
       "ghostty",
       "kate",
       "kcalc",
@@ -74,8 +74,7 @@
       "wl-clipboard",
       "xdg-user-dirs",
       "zed",
-      "zen-browser-bin",
-      "zsh"
+      "zen-browser-bin"
     ]
   },
   "xdg": {

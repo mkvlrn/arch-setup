@@ -46,12 +46,12 @@ func verifyUserShell(ctx context.Context, username string) error {
 
 	const shellField = 6
 
-	if entry[shellField] != "/usr/bin/zsh" {
+	if entry[shellField] != "/usr/bin/fish" {
 		return fmt.Errorf(
 			"user %q has shell %q instead of %q",
 			username,
 			entry[shellField],
-			"/usr/bin/zsh",
+			"/usr/bin/fish",
 		)
 	}
 
@@ -169,7 +169,7 @@ func verifyUserSystemdUnit(ctx context.Context, unit string) error {
 }
 
 func verifyCompletions(homeDir string) error {
-	base := filepath.Join(homeDir, ".config", "zsh", "completions")
+	base := filepath.Join(homeDir, ".config", "fish", "completions")
 
 	for _, file := range []string{"mise", "gh"} {
 		if _, err := os.Stat(filepath.Join(base, "_"+file)); err != nil {

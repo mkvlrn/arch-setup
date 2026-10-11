@@ -20,8 +20,8 @@ func Fonts(cfg *config.Config) setup.Check {
 			results, err := shell.Run(ctx, []shell.Command{
 				{
 					Name: "list installed Nerd Fonts",
-					Path: "getnf",
-					Args: []string{"-l"},
+					Path: "mise",
+					Args: []string{"exec", "--", "getnf", "-l"},
 				},
 			})
 			if err != nil {

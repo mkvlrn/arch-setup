@@ -20,8 +20,8 @@ func Fonts(cfg *config.Config) setup.Step {
 		Commands: []shell.Command{
 			{
 				Name: "install fonts managed by getnf",
-				Path: "getnf",
-				Args: args,
+				Path: "mise",
+				Args: append([]string{"exec", "--", "getnf"}, args...),
 				Env:  []string{"TERM=xterm-256color"},
 			},
 			{

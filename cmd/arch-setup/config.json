@@ -13,6 +13,7 @@
       "eza",
       "fastfetch",
       "github-cli",
+      "github:getnf/getnf",
       "github:o2sh/onefetch",
       "go",
       "go:github.com/go-delve/delve/cmd/dlv",

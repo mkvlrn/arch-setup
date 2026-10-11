@@ -172,7 +172,7 @@ func verifyCompletions(homeDir string) error {
 	base := filepath.Join(homeDir, ".config", "fish", "completions")
 
 	for _, file := range []string{"mise", "gh"} {
-		if _, err := os.Stat(filepath.Join(base, "_"+file)); err != nil {
+		if _, err := os.Stat(filepath.Join(base, file+".fish")); err != nil {
 			return fmt.Errorf("completion file for %s not generated", file)
 		}
 	}

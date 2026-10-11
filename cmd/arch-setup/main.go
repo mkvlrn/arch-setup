@@ -52,7 +52,7 @@ func readPassphrase() ([]byte, error) {
 	}
 	defer func() { _ = terminal.Close() }()
 
-	_, _ = fmt.Fprint(terminal, "Enter arch-stow SSH key passphrase: ")
+	_, _ = fmt.Fprint(os.Stderr, "Enter arch-stow SSH key passphrase: ")
 
 	echoOff := exec.Command("stty", "-echo")
 

@@ -13,7 +13,6 @@
       "eza",
       "fastfetch",
       "github-cli",
-
       "github:o2sh/onefetch",
       "go",
       "go:github.com/go-delve/delve/cmd/dlv",
@@ -74,6 +73,7 @@
       "unzip",
       "wl-clipboard",
       "xdg-user-dirs",
+      "yaak-bin",
       "zed",
       "zen-browser-bin"
     ]

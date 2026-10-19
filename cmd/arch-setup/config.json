@@ -7,7 +7,6 @@
   "mise": {
     "tools": [
       "aws-cli",
-      "biome",
       "bun",
       "devcontainer-cli",
       "eza",
@@ -30,8 +29,6 @@
       "yq"
     ],
     "settings": [
-      ["auto_update", "true"],
-      ["auto_update_check_duration", "3d"],
       ["color_theme", "catppuccin"],
       ["disable_backends", "[\"asdf\"]"],
       ["fetch_remote_versions_cache", "1h"],
